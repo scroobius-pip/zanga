@@ -17,7 +17,10 @@ classifieds for certified real estate agencies, normal users can post property l
 
 # Proposed Stack
 
-Node, Nextjs, Apollo client, GraphQL and MongoDB
+Node 
+Nextjs 
+Apollo Graphql 
+MongoDB
 
 
 
