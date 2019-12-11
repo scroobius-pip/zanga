@@ -1,0 +1,2 @@
+endpoint: http://172.105.149.215:4466/
+datamodel: datamodel.prisma

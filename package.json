@@ -1,0 +1,25 @@
+{
+  "name": "naija-hacks-realestate",
+  "version": "1.0.0",
+  "description": "- Chisimdiri Ejinkeonye - Frontend dev, backend dev, ui designer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scroobius-pip/naija-hacks-realestate.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scroobius-pip/naija-hacks-realestate/issues"
+  },
+  "homepage": "https://github.com/scroobius-pip/naija-hacks-realestate#readme",
+  "dependencies": {
+    "next": "^9.1.4",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  }
+}

@@ -1,0 +1,39 @@
+type User {
+  id: ID! @id
+  name: String!
+  email: String @unique
+  phone: String @unique
+  
+}
+
+type Agency {
+id: ID! @id
+email: String
+phone: String!
+name: String! @unique
+properties: [Property!]! @relation(link: INLINE)
+}
+
+type Property {
+  id: ID! @id
+  title: String!
+  location: Location!
+  cost: Cost!
+  images: [String!]!
+  description: String!
+}
+
+type Cost@embedded {
+  value:Int!
+  type: CostType!
+}
+
+enum CostType {
+  Rent
+  Sale
+}
+
+type Location@embedded {
+  city: String!
+  state: String!
+}
