@@ -2,7 +2,15 @@
     "compilerOptions": {
         "lib": [
             "es2016",
-            "esnext.asynciterable"
-        ]
-    }
+            "esnext.asynciterable",
+            "esnext"
+        ],
+        "outDir": "dist",
+        "rootDir": "src",
+        "esModuleInterop": true,
+        "strict": true
+    },
+    "include": [
+        "src/**/*"
+    ]
 }
