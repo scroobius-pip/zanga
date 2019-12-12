@@ -1,17 +1,10 @@
-type User {
-  id: ID! @id
-  name: String!
-  email: String @unique
-  phone: String @unique
-  
-}
 
-type Agency {
+type User {
 id: ID! @id
 email: String
 phone: String!
 name: String! @unique
-properties: [Property!]! @relation(link: INLINE)
+properties: [Property!] @relation(link: INLINE)
 }
 
 type Property {
@@ -19,6 +12,7 @@ type Property {
   title: String!
   location: Location!
   cost: Cost!
+  owner: User!
   images: [String!]!
   description: String!
 }
@@ -36,4 +30,9 @@ enum CostType {
 type Location@embedded {
   city: String!
   state: String!
+}
+
+enum UserType {
+Agency
+Individual
 }
