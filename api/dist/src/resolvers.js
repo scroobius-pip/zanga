@@ -1,30 +1,29 @@
-import { QueryResolvers, MutationResolvers } from '../generated/graphqlgen'
-import { AuthenticationError } from 'apollo-server-core'
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-
-const Query: QueryResolvers.Type = {
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const apollo_server_core_1 = require("apollo-server-core");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const Query = {
     me: (_, __, ctx) => {
         if (!ctx.userId) {
-            throw new AuthenticationError('Token Not Passed')
+            throw new apollo_server_core_1.AuthenticationError('Token Not Passed');
         }
-        return ctx.prisma.user({ id: ctx.userId })
-
-
+        return ctx.prisma.user({ id: ctx.userId });
     },
     properties: (_, args, ctx) => {
         // return args.type
-        return args.type ? ctx.prisma.properties({ where: { costType: args.type } }) : ctx.prisma.properties()
+        return args.type ? ctx.prisma.properties({ where: { costType: args.type } }) : ctx.prisma.properties();
     }
-}
-
-const Mutation: MutationResolvers.Type = {
+};
+const Mutation = {
     createProperty: (_, { input }, ctx) => {
         if (!ctx.userId) {
-            throw new AuthenticationError('Token Not Passed')
+            throw new apollo_server_core_1.AuthenticationError('Token Not Passed');
         }
-        const { description, images, location: { city, state }, title, costType, costValue } = input
+        const { description, images, location: { city, state }, title, costType, costValue } = input;
         return ctx.prisma.createProperty({
             costType,
             costValue,
@@ -38,13 +37,12 @@ const Mutation: MutationResolvers.Type = {
             owner: {
                 connect: { id: ctx.userId }
             }
-        })
+        });
     },
     deleteProperty: async (_, args, ctx) => {
         if (!ctx.userId) {
-            throw new AuthenticationError('Token Not Passed')
+            throw new apollo_server_core_1.AuthenticationError('Token Not Passed');
         }
-
         try {
             await ctx.prisma.updateUser({
                 where: { id: ctx.userId },
@@ -53,74 +51,64 @@ const Mutation: MutationResolvers.Type = {
                         delete: { id: args.id }
                     }
                 }
-            })
-            return true
-        } catch (error) {
-            return false
+            });
+            return true;
         }
-
+        catch (error) {
+            return false;
+        }
     },
     login: async (_, { input: { email, password } }, ctx) => {
-        const user = await ctx.prisma.user({ email })
+        const user = await ctx.prisma.user({ email });
         if (!user) {
             return {
                 token: '',
                 message: 'Email Not Found'
-            }
+            };
         }
-
         return {
-            token: bcrypt.compareSync(password, user.password) ? createToken(user.id) : '',
+            token: bcryptjs_1.default.compareSync(password, user.password) ? createToken(user.id) : '',
             message: ''
-        }
-
-
-
-
+        };
     },
     register: async (_, { input }, ctx) => {
-
         if (await ctx.prisma.user({ email: input.email })) {
             return {
                 token: '',
                 message: 'User Exists'
-            }
+            };
         }
-
         try {
-
             const userId = await ctx.prisma.createUser({
                 email: input.email,
                 name: input.name,
-                password: await bcrypt.hash(input.password, 2),
+                password: await bcryptjs_1.default.hash(input.password, 2),
                 phone: input.phone,
                 type: input.type
-            }).id()
-
+            }).id();
             return {
                 token: createToken(userId),
                 message: ''
-            }
-        } catch (error) {
-            console.log(error)
+            };
+        }
+        catch (error) {
+            console.log(error);
             return {
                 token: '',
                 message: error.message
-            }
+            };
         }
-
     }
-}
-
-export default {
+};
+exports.default = {
     Query,
     Mutation
-}
-function createToken(userId: string) {
-    return jwt.sign({
+};
+function createToken(userId) {
+    return jsonwebtoken_1.default.sign({
         userId,
     }, 'test', {
         expiresIn: '30d',
     });
 }
-
+//# sourceMappingURL=resolvers.js.map

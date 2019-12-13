@@ -1,25 +1,24 @@
 
 type User {
 id: ID! @id
-email: String
+email: String! @unique
 phone: String!
 name: String! @unique
+password: String!
 properties: [Property!] @relation(link: INLINE)
+type:UserType!
 }
 
 type Property {
   id: ID! @id
   title: String!
-  location: Location!
-  cost: Cost!
+  city: String!
+  state: String!
+  costValue: Int!
+  costType:CostType!
   owner: User!
   images: [String!]!
   description: String!
-}
-
-type Cost@embedded {
-  value:Int!
-  type: CostType!
 }
 
 enum CostType {
@@ -27,10 +26,6 @@ enum CostType {
   Sale
 }
 
-type Location@embedded {
-  city: String!
-  state: String!
-}
 
 enum UserType {
 Agency

@@ -1,0 +1,20 @@
+{
+    "name": "zanga-api",
+    "alias": "zanga-api.now.sh",
+    "version": 2,
+    "builds": [
+        {
+            "src": "public/index.js",
+            "use": "@now/node",
+            "config": {
+                "maxLambdaSize": "50mb"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/.*",
+            "dest": "dist/src/index.js"
+        }
+    ]
+}
