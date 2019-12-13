@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  contact: (where?: ContactWhereInput) => Promise<boolean>;
   property: (where?: PropertyWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
@@ -39,6 +40,25 @@ export interface Prisma {
    * Queries
    */
 
+  contact: (where: ContactWhereUniqueInput) => ContactNullablePromise;
+  contacts: (args?: {
+    where?: ContactWhereInput;
+    orderBy?: ContactOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Contact>;
+  contactsConnection: (args?: {
+    where?: ContactWhereInput;
+    orderBy?: ContactOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ContactConnectionPromise;
   property: (where: PropertyWhereUniqueInput) => PropertyNullablePromise;
   properties: (args?: {
     where?: PropertyWhereInput;
@@ -83,6 +103,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createContact: (data: ContactCreateInput) => ContactPromise;
+  updateContact: (args: {
+    data: ContactUpdateInput;
+    where: ContactWhereUniqueInput;
+  }) => ContactPromise;
+  updateManyContacts: (args: {
+    data: ContactUpdateManyMutationInput;
+    where?: ContactWhereInput;
+  }) => BatchPayloadPromise;
+  upsertContact: (args: {
+    where: ContactWhereUniqueInput;
+    create: ContactCreateInput;
+    update: ContactUpdateInput;
+  }) => ContactPromise;
+  deleteContact: (where: ContactWhereUniqueInput) => ContactPromise;
+  deleteManyContacts: (where?: ContactWhereInput) => BatchPayloadPromise;
   createProperty: (data: PropertyCreateInput) => PropertyPromise;
   updateProperty: (args: {
     data: PropertyUpdateInput;
@@ -124,6 +160,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  contact: (
+    where?: ContactSubscriptionWhereInput
+  ) => ContactSubscriptionPayloadSubscription;
   property: (
     where?: PropertySubscriptionWhereInput
   ) => PropertySubscriptionPayloadSubscription;
@@ -142,7 +181,13 @@ export interface ClientConstructor<T> {
 
 export type CostType = "Rent" | "Sale";
 
-export type UserType = "Agency" | "Individual";
+export type ContactOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "number_ASC"
+  | "number_DESC";
 
 export type PropertyOrderByInput =
   | "id_ASC"
@@ -157,8 +202,14 @@ export type PropertyOrderByInput =
   | "costValue_DESC"
   | "costType_ASC"
   | "costType_DESC"
+  | "ownerId_ASC"
+  | "ownerId_DESC"
+  | "ownerName_ASC"
+  | "ownerName_DESC"
   | "description_ASC"
   | "description_DESC";
+
+export type UserType = "Agency" | "Individual";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -176,9 +227,58 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type PropertyWhereUniqueInput = AtLeastOne<{
+export type ContactWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
+
+export interface ContactWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  number?: Maybe<String>;
+  number_not?: Maybe<String>;
+  number_in?: Maybe<String[] | String>;
+  number_not_in?: Maybe<String[] | String>;
+  number_lt?: Maybe<String>;
+  number_lte?: Maybe<String>;
+  number_gt?: Maybe<String>;
+  number_gte?: Maybe<String>;
+  number_contains?: Maybe<String>;
+  number_not_contains?: Maybe<String>;
+  number_starts_with?: Maybe<String>;
+  number_not_starts_with?: Maybe<String>;
+  number_ends_with?: Maybe<String>;
+  number_not_ends_with?: Maybe<String>;
+  property?: Maybe<PropertyWhereInput>;
+  AND?: Maybe<ContactWhereInput[] | ContactWhereInput>;
+  OR?: Maybe<ContactWhereInput[] | ContactWhereInput>;
+  NOT?: Maybe<ContactWhereInput[] | ContactWhereInput>;
+}
 
 export interface PropertyWhereInput {
   id?: Maybe<ID_Input>;
@@ -249,7 +349,34 @@ export interface PropertyWhereInput {
   costType_not?: Maybe<CostType>;
   costType_in?: Maybe<CostType[] | CostType>;
   costType_not_in?: Maybe<CostType[] | CostType>;
-  owner?: Maybe<UserWhereInput>;
+  ownerId?: Maybe<ID_Input>;
+  ownerId_not?: Maybe<ID_Input>;
+  ownerId_in?: Maybe<ID_Input[] | ID_Input>;
+  ownerId_not_in?: Maybe<ID_Input[] | ID_Input>;
+  ownerId_lt?: Maybe<ID_Input>;
+  ownerId_lte?: Maybe<ID_Input>;
+  ownerId_gt?: Maybe<ID_Input>;
+  ownerId_gte?: Maybe<ID_Input>;
+  ownerId_contains?: Maybe<ID_Input>;
+  ownerId_not_contains?: Maybe<ID_Input>;
+  ownerId_starts_with?: Maybe<ID_Input>;
+  ownerId_not_starts_with?: Maybe<ID_Input>;
+  ownerId_ends_with?: Maybe<ID_Input>;
+  ownerId_not_ends_with?: Maybe<ID_Input>;
+  ownerName?: Maybe<String>;
+  ownerName_not?: Maybe<String>;
+  ownerName_in?: Maybe<String[] | String>;
+  ownerName_not_in?: Maybe<String[] | String>;
+  ownerName_lt?: Maybe<String>;
+  ownerName_lte?: Maybe<String>;
+  ownerName_gt?: Maybe<String>;
+  ownerName_gte?: Maybe<String>;
+  ownerName_contains?: Maybe<String>;
+  ownerName_not_contains?: Maybe<String>;
+  ownerName_starts_with?: Maybe<String>;
+  ownerName_not_starts_with?: Maybe<String>;
+  ownerName_ends_with?: Maybe<String>;
+  ownerName_not_ends_with?: Maybe<String>;
   description?: Maybe<String>;
   description_not?: Maybe<String>;
   description_in?: Maybe<String[] | String>;
@@ -268,6 +395,16 @@ export interface PropertyWhereInput {
   OR?: Maybe<PropertyWhereInput[] | PropertyWhereInput>;
   NOT?: Maybe<PropertyWhereInput[] | PropertyWhereInput>;
 }
+
+export type PropertyWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+  name?: Maybe<String>;
+}>;
 
 export interface UserWhereInput {
   id?: Maybe<ID_Input>;
@@ -347,16 +484,25 @@ export interface UserWhereInput {
   type_not?: Maybe<UserType>;
   type_in?: Maybe<UserType[] | UserType>;
   type_not_in?: Maybe<UserType[] | UserType>;
+  contacts_every?: Maybe<ContactWhereInput>;
+  contacts_some?: Maybe<ContactWhereInput>;
+  contacts_none?: Maybe<ContactWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-  name?: Maybe<String>;
-}>;
+export interface ContactCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  number: String;
+  property: PropertyCreateOneInput;
+}
+
+export interface PropertyCreateOneInput {
+  create?: Maybe<PropertyCreateInput>;
+  connect?: Maybe<PropertyWhereUniqueInput>;
+}
 
 export interface PropertyCreateInput {
   id?: Maybe<ID_Input>;
@@ -365,27 +511,53 @@ export interface PropertyCreateInput {
   state: String;
   costValue: Int;
   costType: CostType;
-  owner: UserCreateOneWithoutPropertiesInput;
+  ownerId: ID_Input;
+  ownerName: String;
   images?: Maybe<PropertyCreateimagesInput>;
   description: String;
 }
 
-export interface UserCreateOneWithoutPropertiesInput {
-  create?: Maybe<UserCreateWithoutPropertiesInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserCreateWithoutPropertiesInput {
-  id?: Maybe<ID_Input>;
-  email: String;
-  phone: String;
-  name: String;
-  password: String;
-  type: UserType;
-}
-
 export interface PropertyCreateimagesInput {
   set?: Maybe<String[] | String>;
+}
+
+export interface ContactUpdateInput {
+  name?: Maybe<String>;
+  number?: Maybe<String>;
+  property?: Maybe<PropertyUpdateOneRequiredInput>;
+}
+
+export interface PropertyUpdateOneRequiredInput {
+  create?: Maybe<PropertyCreateInput>;
+  update?: Maybe<PropertyUpdateDataInput>;
+  upsert?: Maybe<PropertyUpsertNestedInput>;
+  connect?: Maybe<PropertyWhereUniqueInput>;
+}
+
+export interface PropertyUpdateDataInput {
+  title?: Maybe<String>;
+  city?: Maybe<String>;
+  state?: Maybe<String>;
+  costValue?: Maybe<Int>;
+  costType?: Maybe<CostType>;
+  ownerId?: Maybe<ID_Input>;
+  ownerName?: Maybe<String>;
+  images?: Maybe<PropertyUpdateimagesInput>;
+  description?: Maybe<String>;
+}
+
+export interface PropertyUpdateimagesInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface PropertyUpsertNestedInput {
+  update: PropertyUpdateDataInput;
+  create: PropertyCreateInput;
+}
+
+export interface ContactUpdateManyMutationInput {
+  name?: Maybe<String>;
+  number?: Maybe<String>;
 }
 
 export interface PropertyUpdateInput {
@@ -394,33 +566,10 @@ export interface PropertyUpdateInput {
   state?: Maybe<String>;
   costValue?: Maybe<Int>;
   costType?: Maybe<CostType>;
-  owner?: Maybe<UserUpdateOneRequiredWithoutPropertiesInput>;
+  ownerId?: Maybe<ID_Input>;
+  ownerName?: Maybe<String>;
   images?: Maybe<PropertyUpdateimagesInput>;
   description?: Maybe<String>;
-}
-
-export interface UserUpdateOneRequiredWithoutPropertiesInput {
-  create?: Maybe<UserCreateWithoutPropertiesInput>;
-  update?: Maybe<UserUpdateWithoutPropertiesDataInput>;
-  upsert?: Maybe<UserUpsertWithoutPropertiesInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserUpdateWithoutPropertiesDataInput {
-  email?: Maybe<String>;
-  phone?: Maybe<String>;
-  name?: Maybe<String>;
-  password?: Maybe<String>;
-  type?: Maybe<UserType>;
-}
-
-export interface UserUpsertWithoutPropertiesInput {
-  update: UserUpdateWithoutPropertiesDataInput;
-  create: UserCreateWithoutPropertiesInput;
-}
-
-export interface PropertyUpdateimagesInput {
-  set?: Maybe<String[] | String>;
 }
 
 export interface PropertyUpdateManyMutationInput {
@@ -429,6 +578,8 @@ export interface PropertyUpdateManyMutationInput {
   state?: Maybe<String>;
   costValue?: Maybe<Int>;
   costType?: Maybe<CostType>;
+  ownerId?: Maybe<ID_Input>;
+  ownerName?: Maybe<String>;
   images?: Maybe<PropertyUpdateimagesInput>;
   description?: Maybe<String>;
 }
@@ -439,26 +590,19 @@ export interface UserCreateInput {
   phone: String;
   name: String;
   password: String;
-  properties?: Maybe<PropertyCreateManyWithoutOwnerInput>;
+  properties?: Maybe<PropertyCreateManyInput>;
   type: UserType;
+  contacts?: Maybe<ContactCreateManyInput>;
 }
 
-export interface PropertyCreateManyWithoutOwnerInput {
-  create?: Maybe<
-    PropertyCreateWithoutOwnerInput[] | PropertyCreateWithoutOwnerInput
-  >;
+export interface PropertyCreateManyInput {
+  create?: Maybe<PropertyCreateInput[] | PropertyCreateInput>;
   connect?: Maybe<PropertyWhereUniqueInput[] | PropertyWhereUniqueInput>;
 }
 
-export interface PropertyCreateWithoutOwnerInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  city: String;
-  state: String;
-  costValue: Int;
-  costType: CostType;
-  images?: Maybe<PropertyCreateimagesInput>;
-  description: String;
+export interface ContactCreateManyInput {
+  create?: Maybe<ContactCreateInput[] | ContactCreateInput>;
+  connect?: Maybe<ContactWhereUniqueInput[] | ContactWhereUniqueInput>;
 }
 
 export interface UserUpdateInput {
@@ -466,26 +610,25 @@ export interface UserUpdateInput {
   phone?: Maybe<String>;
   name?: Maybe<String>;
   password?: Maybe<String>;
-  properties?: Maybe<PropertyUpdateManyWithoutOwnerInput>;
+  properties?: Maybe<PropertyUpdateManyInput>;
   type?: Maybe<UserType>;
+  contacts?: Maybe<ContactUpdateManyInput>;
 }
 
-export interface PropertyUpdateManyWithoutOwnerInput {
-  create?: Maybe<
-    PropertyCreateWithoutOwnerInput[] | PropertyCreateWithoutOwnerInput
+export interface PropertyUpdateManyInput {
+  create?: Maybe<PropertyCreateInput[] | PropertyCreateInput>;
+  update?: Maybe<
+    | PropertyUpdateWithWhereUniqueNestedInput[]
+    | PropertyUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | PropertyUpsertWithWhereUniqueNestedInput[]
+    | PropertyUpsertWithWhereUniqueNestedInput
   >;
   delete?: Maybe<PropertyWhereUniqueInput[] | PropertyWhereUniqueInput>;
   connect?: Maybe<PropertyWhereUniqueInput[] | PropertyWhereUniqueInput>;
   set?: Maybe<PropertyWhereUniqueInput[] | PropertyWhereUniqueInput>;
   disconnect?: Maybe<PropertyWhereUniqueInput[] | PropertyWhereUniqueInput>;
-  update?: Maybe<
-    | PropertyUpdateWithWhereUniqueWithoutOwnerInput[]
-    | PropertyUpdateWithWhereUniqueWithoutOwnerInput
-  >;
-  upsert?: Maybe<
-    | PropertyUpsertWithWhereUniqueWithoutOwnerInput[]
-    | PropertyUpsertWithWhereUniqueWithoutOwnerInput
-  >;
   deleteMany?: Maybe<PropertyScalarWhereInput[] | PropertyScalarWhereInput>;
   updateMany?: Maybe<
     | PropertyUpdateManyWithWhereNestedInput[]
@@ -493,25 +636,15 @@ export interface PropertyUpdateManyWithoutOwnerInput {
   >;
 }
 
-export interface PropertyUpdateWithWhereUniqueWithoutOwnerInput {
+export interface PropertyUpdateWithWhereUniqueNestedInput {
   where: PropertyWhereUniqueInput;
-  data: PropertyUpdateWithoutOwnerDataInput;
+  data: PropertyUpdateDataInput;
 }
 
-export interface PropertyUpdateWithoutOwnerDataInput {
-  title?: Maybe<String>;
-  city?: Maybe<String>;
-  state?: Maybe<String>;
-  costValue?: Maybe<Int>;
-  costType?: Maybe<CostType>;
-  images?: Maybe<PropertyUpdateimagesInput>;
-  description?: Maybe<String>;
-}
-
-export interface PropertyUpsertWithWhereUniqueWithoutOwnerInput {
+export interface PropertyUpsertWithWhereUniqueNestedInput {
   where: PropertyWhereUniqueInput;
-  update: PropertyUpdateWithoutOwnerDataInput;
-  create: PropertyCreateWithoutOwnerInput;
+  update: PropertyUpdateDataInput;
+  create: PropertyCreateInput;
 }
 
 export interface PropertyScalarWhereInput {
@@ -583,6 +716,34 @@ export interface PropertyScalarWhereInput {
   costType_not?: Maybe<CostType>;
   costType_in?: Maybe<CostType[] | CostType>;
   costType_not_in?: Maybe<CostType[] | CostType>;
+  ownerId?: Maybe<ID_Input>;
+  ownerId_not?: Maybe<ID_Input>;
+  ownerId_in?: Maybe<ID_Input[] | ID_Input>;
+  ownerId_not_in?: Maybe<ID_Input[] | ID_Input>;
+  ownerId_lt?: Maybe<ID_Input>;
+  ownerId_lte?: Maybe<ID_Input>;
+  ownerId_gt?: Maybe<ID_Input>;
+  ownerId_gte?: Maybe<ID_Input>;
+  ownerId_contains?: Maybe<ID_Input>;
+  ownerId_not_contains?: Maybe<ID_Input>;
+  ownerId_starts_with?: Maybe<ID_Input>;
+  ownerId_not_starts_with?: Maybe<ID_Input>;
+  ownerId_ends_with?: Maybe<ID_Input>;
+  ownerId_not_ends_with?: Maybe<ID_Input>;
+  ownerName?: Maybe<String>;
+  ownerName_not?: Maybe<String>;
+  ownerName_in?: Maybe<String[] | String>;
+  ownerName_not_in?: Maybe<String[] | String>;
+  ownerName_lt?: Maybe<String>;
+  ownerName_lte?: Maybe<String>;
+  ownerName_gt?: Maybe<String>;
+  ownerName_gte?: Maybe<String>;
+  ownerName_contains?: Maybe<String>;
+  ownerName_not_contains?: Maybe<String>;
+  ownerName_starts_with?: Maybe<String>;
+  ownerName_not_starts_with?: Maybe<String>;
+  ownerName_ends_with?: Maybe<String>;
+  ownerName_not_ends_with?: Maybe<String>;
   description?: Maybe<String>;
   description_not?: Maybe<String>;
   description_in?: Maybe<String[] | String>;
@@ -613,8 +774,106 @@ export interface PropertyUpdateManyDataInput {
   state?: Maybe<String>;
   costValue?: Maybe<Int>;
   costType?: Maybe<CostType>;
+  ownerId?: Maybe<ID_Input>;
+  ownerName?: Maybe<String>;
   images?: Maybe<PropertyUpdateimagesInput>;
   description?: Maybe<String>;
+}
+
+export interface ContactUpdateManyInput {
+  create?: Maybe<ContactCreateInput[] | ContactCreateInput>;
+  update?: Maybe<
+    | ContactUpdateWithWhereUniqueNestedInput[]
+    | ContactUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | ContactUpsertWithWhereUniqueNestedInput[]
+    | ContactUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<ContactWhereUniqueInput[] | ContactWhereUniqueInput>;
+  connect?: Maybe<ContactWhereUniqueInput[] | ContactWhereUniqueInput>;
+  set?: Maybe<ContactWhereUniqueInput[] | ContactWhereUniqueInput>;
+  disconnect?: Maybe<ContactWhereUniqueInput[] | ContactWhereUniqueInput>;
+  deleteMany?: Maybe<ContactScalarWhereInput[] | ContactScalarWhereInput>;
+  updateMany?: Maybe<
+    | ContactUpdateManyWithWhereNestedInput[]
+    | ContactUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ContactUpdateWithWhereUniqueNestedInput {
+  where: ContactWhereUniqueInput;
+  data: ContactUpdateDataInput;
+}
+
+export interface ContactUpdateDataInput {
+  name?: Maybe<String>;
+  number?: Maybe<String>;
+  property?: Maybe<PropertyUpdateOneRequiredInput>;
+}
+
+export interface ContactUpsertWithWhereUniqueNestedInput {
+  where: ContactWhereUniqueInput;
+  update: ContactUpdateDataInput;
+  create: ContactCreateInput;
+}
+
+export interface ContactScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  number?: Maybe<String>;
+  number_not?: Maybe<String>;
+  number_in?: Maybe<String[] | String>;
+  number_not_in?: Maybe<String[] | String>;
+  number_lt?: Maybe<String>;
+  number_lte?: Maybe<String>;
+  number_gt?: Maybe<String>;
+  number_gte?: Maybe<String>;
+  number_contains?: Maybe<String>;
+  number_not_contains?: Maybe<String>;
+  number_starts_with?: Maybe<String>;
+  number_not_starts_with?: Maybe<String>;
+  number_ends_with?: Maybe<String>;
+  number_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ContactScalarWhereInput[] | ContactScalarWhereInput>;
+  OR?: Maybe<ContactScalarWhereInput[] | ContactScalarWhereInput>;
+  NOT?: Maybe<ContactScalarWhereInput[] | ContactScalarWhereInput>;
+}
+
+export interface ContactUpdateManyWithWhereNestedInput {
+  where: ContactScalarWhereInput;
+  data: ContactUpdateManyDataInput;
+}
+
+export interface ContactUpdateManyDataInput {
+  name?: Maybe<String>;
+  number?: Maybe<String>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -623,6 +882,17 @@ export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   password?: Maybe<String>;
   type?: Maybe<UserType>;
+}
+
+export interface ContactSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ContactWhereInput>;
+  AND?: Maybe<ContactSubscriptionWhereInput[] | ContactSubscriptionWhereInput>;
+  OR?: Maybe<ContactSubscriptionWhereInput[] | ContactSubscriptionWhereInput>;
+  NOT?: Maybe<ContactSubscriptionWhereInput[] | ContactSubscriptionWhereInput>;
 }
 
 export interface PropertySubscriptionWhereInput {
@@ -655,6 +925,37 @@ export interface NodeNode {
   id: ID_Output;
 }
 
+export interface Contact {
+  id: ID_Output;
+  name: String;
+  number: String;
+}
+
+export interface ContactPromise extends Promise<Contact>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  number: () => Promise<String>;
+  property: <T = PropertyPromise>() => T;
+}
+
+export interface ContactSubscription
+  extends Promise<AsyncIterator<Contact>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  number: () => Promise<AsyncIterator<String>>;
+  property: <T = PropertySubscription>() => T;
+}
+
+export interface ContactNullablePromise
+  extends Promise<Contact | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  number: () => Promise<String>;
+  property: <T = PropertyPromise>() => T;
+}
+
 export interface Property {
   id: ID_Output;
   title: String;
@@ -662,6 +963,8 @@ export interface Property {
   state: String;
   costValue: Int;
   costType: CostType;
+  ownerId: ID_Output;
+  ownerName: String;
   images: String[];
   description: String;
 }
@@ -673,7 +976,8 @@ export interface PropertyPromise extends Promise<Property>, Fragmentable {
   state: () => Promise<String>;
   costValue: () => Promise<Int>;
   costType: () => Promise<CostType>;
-  owner: <T = UserPromise>() => T;
+  ownerId: () => Promise<ID_Output>;
+  ownerName: () => Promise<String>;
   images: () => Promise<String[]>;
   description: () => Promise<String>;
 }
@@ -687,7 +991,8 @@ export interface PropertySubscription
   state: () => Promise<AsyncIterator<String>>;
   costValue: () => Promise<AsyncIterator<Int>>;
   costType: () => Promise<AsyncIterator<CostType>>;
-  owner: <T = UserSubscription>() => T;
+  ownerId: () => Promise<AsyncIterator<ID_Output>>;
+  ownerName: () => Promise<AsyncIterator<String>>;
   images: () => Promise<AsyncIterator<String[]>>;
   description: () => Promise<AsyncIterator<String>>;
 }
@@ -701,97 +1006,31 @@ export interface PropertyNullablePromise
   state: () => Promise<String>;
   costValue: () => Promise<Int>;
   costType: () => Promise<CostType>;
-  owner: <T = UserPromise>() => T;
+  ownerId: () => Promise<ID_Output>;
+  ownerName: () => Promise<String>;
   images: () => Promise<String[]>;
   description: () => Promise<String>;
 }
 
-export interface User {
-  id: ID_Output;
-  email: String;
-  phone: String;
-  name: String;
-  password: String;
-  type: UserType;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  email: () => Promise<String>;
-  phone: () => Promise<String>;
-  name: () => Promise<String>;
-  password: () => Promise<String>;
-  properties: <T = FragmentableArray<Property>>(args?: {
-    where?: PropertyWhereInput;
-    orderBy?: PropertyOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  type: () => Promise<UserType>;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  email: () => Promise<AsyncIterator<String>>;
-  phone: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
-  properties: <T = Promise<AsyncIterator<PropertySubscription>>>(args?: {
-    where?: PropertyWhereInput;
-    orderBy?: PropertyOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  type: () => Promise<AsyncIterator<UserType>>;
-}
-
-export interface UserNullablePromise
-  extends Promise<User | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  email: () => Promise<String>;
-  phone: () => Promise<String>;
-  name: () => Promise<String>;
-  password: () => Promise<String>;
-  properties: <T = FragmentableArray<Property>>(args?: {
-    where?: PropertyWhereInput;
-    orderBy?: PropertyOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  type: () => Promise<UserType>;
-}
-
-export interface PropertyConnection {
+export interface ContactConnection {
   pageInfo: PageInfo;
-  edges: PropertyEdge[];
+  edges: ContactEdge[];
 }
 
-export interface PropertyConnectionPromise
-  extends Promise<PropertyConnection>,
+export interface ContactConnectionPromise
+  extends Promise<ContactConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PropertyEdge>>() => T;
-  aggregate: <T = AggregatePropertyPromise>() => T;
+  edges: <T = FragmentableArray<ContactEdge>>() => T;
+  aggregate: <T = AggregateContactPromise>() => T;
 }
 
-export interface PropertyConnectionSubscription
-  extends Promise<AsyncIterator<PropertyConnection>>,
+export interface ContactConnectionSubscription
+  extends Promise<AsyncIterator<ContactConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PropertyEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePropertySubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ContactEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateContactSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -815,6 +1054,60 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ContactEdge {
+  node: Contact;
+  cursor: String;
+}
+
+export interface ContactEdgePromise extends Promise<ContactEdge>, Fragmentable {
+  node: <T = ContactPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ContactEdgeSubscription
+  extends Promise<AsyncIterator<ContactEdge>>,
+    Fragmentable {
+  node: <T = ContactSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateContact {
+  count: Int;
+}
+
+export interface AggregateContactPromise
+  extends Promise<AggregateContact>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateContactSubscription
+  extends Promise<AsyncIterator<AggregateContact>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PropertyConnection {
+  pageInfo: PageInfo;
+  edges: PropertyEdge[];
+}
+
+export interface PropertyConnectionPromise
+  extends Promise<PropertyConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PropertyEdge>>() => T;
+  aggregate: <T = AggregatePropertyPromise>() => T;
+}
+
+export interface PropertyConnectionSubscription
+  extends Promise<AsyncIterator<PropertyConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PropertyEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePropertySubscription>() => T;
 }
 
 export interface PropertyEdge {
@@ -850,6 +1143,100 @@ export interface AggregatePropertySubscription
   extends Promise<AsyncIterator<AggregateProperty>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface User {
+  id: ID_Output;
+  email: String;
+  phone: String;
+  name: String;
+  password: String;
+  type: UserType;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  phone: () => Promise<String>;
+  name: () => Promise<String>;
+  password: () => Promise<String>;
+  properties: <T = FragmentableArray<Property>>(args?: {
+    where?: PropertyWhereInput;
+    orderBy?: PropertyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  type: () => Promise<UserType>;
+  contacts: <T = FragmentableArray<Contact>>(args?: {
+    where?: ContactWhereInput;
+    orderBy?: ContactOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  phone: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  properties: <T = Promise<AsyncIterator<PropertySubscription>>>(args?: {
+    where?: PropertyWhereInput;
+    orderBy?: PropertyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  type: () => Promise<AsyncIterator<UserType>>;
+  contacts: <T = Promise<AsyncIterator<ContactSubscription>>>(args?: {
+    where?: ContactWhereInput;
+    orderBy?: ContactOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  phone: () => Promise<String>;
+  name: () => Promise<String>;
+  password: () => Promise<String>;
+  properties: <T = FragmentableArray<Property>>(args?: {
+    where?: PropertyWhereInput;
+    orderBy?: PropertyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  type: () => Promise<UserType>;
+  contacts: <T = FragmentableArray<Contact>>(args?: {
+    where?: ContactWhereInput;
+    orderBy?: ContactOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface UserConnection {
@@ -922,6 +1309,53 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
+export interface ContactSubscriptionPayload {
+  mutation: MutationType;
+  node: Contact;
+  updatedFields: String[];
+  previousValues: ContactPreviousValues;
+}
+
+export interface ContactSubscriptionPayloadPromise
+  extends Promise<ContactSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ContactPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ContactPreviousValuesPromise>() => T;
+}
+
+export interface ContactSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ContactSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ContactSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ContactPreviousValuesSubscription>() => T;
+}
+
+export interface ContactPreviousValues {
+  id: ID_Output;
+  name: String;
+  number: String;
+}
+
+export interface ContactPreviousValuesPromise
+  extends Promise<ContactPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  number: () => Promise<String>;
+}
+
+export interface ContactPreviousValuesSubscription
+  extends Promise<AsyncIterator<ContactPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  number: () => Promise<AsyncIterator<String>>;
+}
+
 export interface PropertySubscriptionPayload {
   mutation: MutationType;
   node: Property;
@@ -954,6 +1388,8 @@ export interface PropertyPreviousValues {
   state: String;
   costValue: Int;
   costType: CostType;
+  ownerId: ID_Output;
+  ownerName: String;
   images: String[];
   description: String;
 }
@@ -967,6 +1403,8 @@ export interface PropertyPreviousValuesPromise
   state: () => Promise<String>;
   costValue: () => Promise<Int>;
   costType: () => Promise<CostType>;
+  ownerId: () => Promise<ID_Output>;
+  ownerName: () => Promise<String>;
   images: () => Promise<String[]>;
   description: () => Promise<String>;
 }
@@ -980,6 +1418,8 @@ export interface PropertyPreviousValuesSubscription
   state: () => Promise<AsyncIterator<String>>;
   costValue: () => Promise<AsyncIterator<Int>>;
   costType: () => Promise<AsyncIterator<CostType>>;
+  ownerId: () => Promise<AsyncIterator<ID_Output>>;
+  ownerName: () => Promise<AsyncIterator<String>>;
   images: () => Promise<AsyncIterator<String[]>>;
   description: () => Promise<AsyncIterator<String>>;
 }
@@ -1070,6 +1510,10 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Contact",
     embedded: false
   },
   {

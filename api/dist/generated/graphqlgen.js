@@ -11,7 +11,8 @@ var UserResolvers;
         id: (parent) => parent.id,
         email: (parent) => (parent.email === undefined ? null : parent.email),
         phone: (parent) => parent.phone,
-        name: (parent) => parent.name
+        name: (parent) => parent.name,
+        type: (parent) => parent.type
     };
 })(UserResolvers = exports.UserResolvers || (exports.UserResolvers = {}));
 var PropertyResolvers;
@@ -19,23 +20,15 @@ var PropertyResolvers;
     PropertyResolvers.defaultResolvers = {
         id: (parent) => parent.id,
         title: (parent) => parent.title,
+        city: (parent) => parent.city,
+        state: (parent) => parent.state,
+        costValue: (parent) => parent.costValue,
+        ownerId: (parent) => parent.ownerId,
+        ownerName: (parent) => parent.ownerName,
         images: (parent) => parent.images,
         description: (parent) => parent.description
     };
 })(PropertyResolvers = exports.PropertyResolvers || (exports.PropertyResolvers = {}));
-var LocationResolvers;
-(function (LocationResolvers) {
-    LocationResolvers.defaultResolvers = {
-        city: (parent) => parent.city,
-        state: (parent) => parent.state
-    };
-})(LocationResolvers = exports.LocationResolvers || (exports.LocationResolvers = {}));
-var CostResolvers;
-(function (CostResolvers) {
-    CostResolvers.defaultResolvers = {
-        value: (parent) => parent.value
-    };
-})(CostResolvers = exports.CostResolvers || (exports.CostResolvers = {}));
 var MutationResolvers;
 (function (MutationResolvers) {
     MutationResolvers.defaultResolvers = {};
@@ -54,4 +47,17 @@ var LoginResultResolvers;
         message: (parent) => parent.message
     };
 })(LoginResultResolvers = exports.LoginResultResolvers || (exports.LoginResultResolvers = {}));
+var LocationResolvers;
+(function (LocationResolvers) {
+    LocationResolvers.defaultResolvers = {
+        city: (parent) => parent.city,
+        state: (parent) => parent.state
+    };
+})(LocationResolvers = exports.LocationResolvers || (exports.LocationResolvers = {}));
+var CostResolvers;
+(function (CostResolvers) {
+    CostResolvers.defaultResolvers = {
+        value: (parent) => parent.value
+    };
+})(CostResolvers = exports.CostResolvers || (exports.CostResolvers = {}));
 //# sourceMappingURL=graphqlgen.js.map

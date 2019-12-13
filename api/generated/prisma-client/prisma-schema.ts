@@ -2,7 +2,11 @@
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-export const typeDefs = /* GraphQL */ `type AggregateProperty {
+export const typeDefs = /* GraphQL */ `type AggregateContact {
+  count: Int!
+}
+
+type AggregateProperty {
   count: Int!
 }
 
@@ -14,6 +18,220 @@ type BatchPayload {
   count: Long!
 }
 
+type Contact {
+  id: ID!
+  name: String!
+  number: String!
+  property: Property!
+}
+
+type ContactConnection {
+  pageInfo: PageInfo!
+  edges: [ContactEdge]!
+  aggregate: AggregateContact!
+}
+
+input ContactCreateInput {
+  id: ID
+  name: String!
+  number: String!
+  property: PropertyCreateOneInput!
+}
+
+input ContactCreateManyInput {
+  create: [ContactCreateInput!]
+  connect: [ContactWhereUniqueInput!]
+}
+
+type ContactEdge {
+  node: Contact!
+  cursor: String!
+}
+
+enum ContactOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  number_ASC
+  number_DESC
+}
+
+type ContactPreviousValues {
+  id: ID!
+  name: String!
+  number: String!
+}
+
+input ContactScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  number: String
+  number_not: String
+  number_in: [String!]
+  number_not_in: [String!]
+  number_lt: String
+  number_lte: String
+  number_gt: String
+  number_gte: String
+  number_contains: String
+  number_not_contains: String
+  number_starts_with: String
+  number_not_starts_with: String
+  number_ends_with: String
+  number_not_ends_with: String
+  AND: [ContactScalarWhereInput!]
+  OR: [ContactScalarWhereInput!]
+  NOT: [ContactScalarWhereInput!]
+}
+
+type ContactSubscriptionPayload {
+  mutation: MutationType!
+  node: Contact
+  updatedFields: [String!]
+  previousValues: ContactPreviousValues
+}
+
+input ContactSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ContactWhereInput
+  AND: [ContactSubscriptionWhereInput!]
+  OR: [ContactSubscriptionWhereInput!]
+  NOT: [ContactSubscriptionWhereInput!]
+}
+
+input ContactUpdateDataInput {
+  name: String
+  number: String
+  property: PropertyUpdateOneRequiredInput
+}
+
+input ContactUpdateInput {
+  name: String
+  number: String
+  property: PropertyUpdateOneRequiredInput
+}
+
+input ContactUpdateManyDataInput {
+  name: String
+  number: String
+}
+
+input ContactUpdateManyInput {
+  create: [ContactCreateInput!]
+  update: [ContactUpdateWithWhereUniqueNestedInput!]
+  upsert: [ContactUpsertWithWhereUniqueNestedInput!]
+  delete: [ContactWhereUniqueInput!]
+  connect: [ContactWhereUniqueInput!]
+  set: [ContactWhereUniqueInput!]
+  disconnect: [ContactWhereUniqueInput!]
+  deleteMany: [ContactScalarWhereInput!]
+  updateMany: [ContactUpdateManyWithWhereNestedInput!]
+}
+
+input ContactUpdateManyMutationInput {
+  name: String
+  number: String
+}
+
+input ContactUpdateManyWithWhereNestedInput {
+  where: ContactScalarWhereInput!
+  data: ContactUpdateManyDataInput!
+}
+
+input ContactUpdateWithWhereUniqueNestedInput {
+  where: ContactWhereUniqueInput!
+  data: ContactUpdateDataInput!
+}
+
+input ContactUpsertWithWhereUniqueNestedInput {
+  where: ContactWhereUniqueInput!
+  update: ContactUpdateDataInput!
+  create: ContactCreateInput!
+}
+
+input ContactWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  number: String
+  number_not: String
+  number_in: [String!]
+  number_not_in: [String!]
+  number_lt: String
+  number_lte: String
+  number_gt: String
+  number_gte: String
+  number_contains: String
+  number_not_contains: String
+  number_starts_with: String
+  number_not_starts_with: String
+  number_ends_with: String
+  number_not_ends_with: String
+  property: PropertyWhereInput
+  AND: [ContactWhereInput!]
+  OR: [ContactWhereInput!]
+  NOT: [ContactWhereInput!]
+}
+
+input ContactWhereUniqueInput {
+  id: ID
+}
+
 enum CostType {
   Rent
   Sale
@@ -22,6 +240,12 @@ enum CostType {
 scalar Long
 
 type Mutation {
+  createContact(data: ContactCreateInput!): Contact!
+  updateContact(data: ContactUpdateInput!, where: ContactWhereUniqueInput!): Contact
+  updateManyContacts(data: ContactUpdateManyMutationInput!, where: ContactWhereInput): BatchPayload!
+  upsertContact(where: ContactWhereUniqueInput!, create: ContactCreateInput!, update: ContactUpdateInput!): Contact!
+  deleteContact(where: ContactWhereUniqueInput!): Contact
+  deleteManyContacts(where: ContactWhereInput): BatchPayload!
   createProperty(data: PropertyCreateInput!): Property!
   updateProperty(data: PropertyUpdateInput!, where: PropertyWhereUniqueInput!): Property
   updateManyProperties(data: PropertyUpdateManyMutationInput!, where: PropertyWhereInput): BatchPayload!
@@ -60,7 +284,8 @@ type Property {
   state: String!
   costValue: Int!
   costType: CostType!
-  owner: User!
+  ownerId: ID!
+  ownerName: String!
   images: [String!]!
   description: String!
 }
@@ -82,25 +307,20 @@ input PropertyCreateInput {
   state: String!
   costValue: Int!
   costType: CostType!
-  owner: UserCreateOneWithoutPropertiesInput!
+  ownerId: ID!
+  ownerName: String!
   images: PropertyCreateimagesInput
   description: String!
 }
 
-input PropertyCreateManyWithoutOwnerInput {
-  create: [PropertyCreateWithoutOwnerInput!]
+input PropertyCreateManyInput {
+  create: [PropertyCreateInput!]
   connect: [PropertyWhereUniqueInput!]
 }
 
-input PropertyCreateWithoutOwnerInput {
-  id: ID
-  title: String!
-  city: String!
-  state: String!
-  costValue: Int!
-  costType: CostType!
-  images: PropertyCreateimagesInput
-  description: String!
+input PropertyCreateOneInput {
+  create: PropertyCreateInput
+  connect: PropertyWhereUniqueInput
 }
 
 type PropertyEdge {
@@ -121,6 +341,10 @@ enum PropertyOrderByInput {
   costValue_DESC
   costType_ASC
   costType_DESC
+  ownerId_ASC
+  ownerId_DESC
+  ownerName_ASC
+  ownerName_DESC
   description_ASC
   description_DESC
 }
@@ -132,6 +356,8 @@ type PropertyPreviousValues {
   state: String!
   costValue: Int!
   costType: CostType!
+  ownerId: ID!
+  ownerName: String!
   images: [String!]!
   description: String!
 }
@@ -205,6 +431,34 @@ input PropertyScalarWhereInput {
   costType_not: CostType
   costType_in: [CostType!]
   costType_not_in: [CostType!]
+  ownerId: ID
+  ownerId_not: ID
+  ownerId_in: [ID!]
+  ownerId_not_in: [ID!]
+  ownerId_lt: ID
+  ownerId_lte: ID
+  ownerId_gt: ID
+  ownerId_gte: ID
+  ownerId_contains: ID
+  ownerId_not_contains: ID
+  ownerId_starts_with: ID
+  ownerId_not_starts_with: ID
+  ownerId_ends_with: ID
+  ownerId_not_ends_with: ID
+  ownerName: String
+  ownerName_not: String
+  ownerName_in: [String!]
+  ownerName_not_in: [String!]
+  ownerName_lt: String
+  ownerName_lte: String
+  ownerName_gt: String
+  ownerName_gte: String
+  ownerName_contains: String
+  ownerName_not_contains: String
+  ownerName_starts_with: String
+  ownerName_not_starts_with: String
+  ownerName_ends_with: String
+  ownerName_not_ends_with: String
   description: String
   description_not: String
   description_in: [String!]
@@ -242,6 +496,18 @@ input PropertySubscriptionWhereInput {
   NOT: [PropertySubscriptionWhereInput!]
 }
 
+input PropertyUpdateDataInput {
+  title: String
+  city: String
+  state: String
+  costValue: Int
+  costType: CostType
+  ownerId: ID
+  ownerName: String
+  images: PropertyUpdateimagesInput
+  description: String
+}
+
 input PropertyUpdateimagesInput {
   set: [String!]
 }
@@ -252,7 +518,8 @@ input PropertyUpdateInput {
   state: String
   costValue: Int
   costType: CostType
-  owner: UserUpdateOneRequiredWithoutPropertiesInput
+  ownerId: ID
+  ownerName: String
   images: PropertyUpdateimagesInput
   description: String
 }
@@ -263,8 +530,22 @@ input PropertyUpdateManyDataInput {
   state: String
   costValue: Int
   costType: CostType
+  ownerId: ID
+  ownerName: String
   images: PropertyUpdateimagesInput
   description: String
+}
+
+input PropertyUpdateManyInput {
+  create: [PropertyCreateInput!]
+  update: [PropertyUpdateWithWhereUniqueNestedInput!]
+  upsert: [PropertyUpsertWithWhereUniqueNestedInput!]
+  delete: [PropertyWhereUniqueInput!]
+  connect: [PropertyWhereUniqueInput!]
+  set: [PropertyWhereUniqueInput!]
+  disconnect: [PropertyWhereUniqueInput!]
+  deleteMany: [PropertyScalarWhereInput!]
+  updateMany: [PropertyUpdateManyWithWhereNestedInput!]
 }
 
 input PropertyUpdateManyMutationInput {
@@ -273,20 +554,10 @@ input PropertyUpdateManyMutationInput {
   state: String
   costValue: Int
   costType: CostType
+  ownerId: ID
+  ownerName: String
   images: PropertyUpdateimagesInput
   description: String
-}
-
-input PropertyUpdateManyWithoutOwnerInput {
-  create: [PropertyCreateWithoutOwnerInput!]
-  delete: [PropertyWhereUniqueInput!]
-  connect: [PropertyWhereUniqueInput!]
-  set: [PropertyWhereUniqueInput!]
-  disconnect: [PropertyWhereUniqueInput!]
-  update: [PropertyUpdateWithWhereUniqueWithoutOwnerInput!]
-  upsert: [PropertyUpsertWithWhereUniqueWithoutOwnerInput!]
-  deleteMany: [PropertyScalarWhereInput!]
-  updateMany: [PropertyUpdateManyWithWhereNestedInput!]
 }
 
 input PropertyUpdateManyWithWhereNestedInput {
@@ -294,25 +565,27 @@ input PropertyUpdateManyWithWhereNestedInput {
   data: PropertyUpdateManyDataInput!
 }
 
-input PropertyUpdateWithoutOwnerDataInput {
-  title: String
-  city: String
-  state: String
-  costValue: Int
-  costType: CostType
-  images: PropertyUpdateimagesInput
-  description: String
+input PropertyUpdateOneRequiredInput {
+  create: PropertyCreateInput
+  update: PropertyUpdateDataInput
+  upsert: PropertyUpsertNestedInput
+  connect: PropertyWhereUniqueInput
 }
 
-input PropertyUpdateWithWhereUniqueWithoutOwnerInput {
+input PropertyUpdateWithWhereUniqueNestedInput {
   where: PropertyWhereUniqueInput!
-  data: PropertyUpdateWithoutOwnerDataInput!
+  data: PropertyUpdateDataInput!
 }
 
-input PropertyUpsertWithWhereUniqueWithoutOwnerInput {
+input PropertyUpsertNestedInput {
+  update: PropertyUpdateDataInput!
+  create: PropertyCreateInput!
+}
+
+input PropertyUpsertWithWhereUniqueNestedInput {
   where: PropertyWhereUniqueInput!
-  update: PropertyUpdateWithoutOwnerDataInput!
-  create: PropertyCreateWithoutOwnerInput!
+  update: PropertyUpdateDataInput!
+  create: PropertyCreateInput!
 }
 
 input PropertyWhereInput {
@@ -384,7 +657,34 @@ input PropertyWhereInput {
   costType_not: CostType
   costType_in: [CostType!]
   costType_not_in: [CostType!]
-  owner: UserWhereInput
+  ownerId: ID
+  ownerId_not: ID
+  ownerId_in: [ID!]
+  ownerId_not_in: [ID!]
+  ownerId_lt: ID
+  ownerId_lte: ID
+  ownerId_gt: ID
+  ownerId_gte: ID
+  ownerId_contains: ID
+  ownerId_not_contains: ID
+  ownerId_starts_with: ID
+  ownerId_not_starts_with: ID
+  ownerId_ends_with: ID
+  ownerId_not_ends_with: ID
+  ownerName: String
+  ownerName_not: String
+  ownerName_in: [String!]
+  ownerName_not_in: [String!]
+  ownerName_lt: String
+  ownerName_lte: String
+  ownerName_gt: String
+  ownerName_gte: String
+  ownerName_contains: String
+  ownerName_not_contains: String
+  ownerName_starts_with: String
+  ownerName_not_starts_with: String
+  ownerName_ends_with: String
+  ownerName_not_ends_with: String
   description: String
   description_not: String
   description_in: [String!]
@@ -409,6 +709,9 @@ input PropertyWhereUniqueInput {
 }
 
 type Query {
+  contact(where: ContactWhereUniqueInput!): Contact
+  contacts(where: ContactWhereInput, orderBy: ContactOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Contact]!
+  contactsConnection(where: ContactWhereInput, orderBy: ContactOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ContactConnection!
   property(where: PropertyWhereUniqueInput!): Property
   properties(where: PropertyWhereInput, orderBy: PropertyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Property]!
   propertiesConnection(where: PropertyWhereInput, orderBy: PropertyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PropertyConnection!
@@ -419,6 +722,7 @@ type Query {
 }
 
 type Subscription {
+  contact(where: ContactSubscriptionWhereInput): ContactSubscriptionPayload
   property(where: PropertySubscriptionWhereInput): PropertySubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
@@ -431,6 +735,7 @@ type User {
   password: String!
   properties(where: PropertyWhereInput, orderBy: PropertyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Property!]
   type: UserType!
+  contacts(where: ContactWhereInput, orderBy: ContactOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Contact!]
 }
 
 type UserConnection {
@@ -445,22 +750,9 @@ input UserCreateInput {
   phone: String!
   name: String!
   password: String!
-  properties: PropertyCreateManyWithoutOwnerInput
+  properties: PropertyCreateManyInput
   type: UserType!
-}
-
-input UserCreateOneWithoutPropertiesInput {
-  create: UserCreateWithoutPropertiesInput
-  connect: UserWhereUniqueInput
-}
-
-input UserCreateWithoutPropertiesInput {
-  id: ID
-  email: String!
-  phone: String!
-  name: String!
-  password: String!
-  type: UserType!
+  contacts: ContactCreateManyInput
 }
 
 type UserEdge {
@@ -520,8 +812,9 @@ input UserUpdateInput {
   phone: String
   name: String
   password: String
-  properties: PropertyUpdateManyWithoutOwnerInput
+  properties: PropertyUpdateManyInput
   type: UserType
+  contacts: ContactUpdateManyInput
 }
 
 input UserUpdateManyMutationInput {
@@ -530,26 +823,6 @@ input UserUpdateManyMutationInput {
   name: String
   password: String
   type: UserType
-}
-
-input UserUpdateOneRequiredWithoutPropertiesInput {
-  create: UserCreateWithoutPropertiesInput
-  update: UserUpdateWithoutPropertiesDataInput
-  upsert: UserUpsertWithoutPropertiesInput
-  connect: UserWhereUniqueInput
-}
-
-input UserUpdateWithoutPropertiesDataInput {
-  email: String
-  phone: String
-  name: String
-  password: String
-  type: UserType
-}
-
-input UserUpsertWithoutPropertiesInput {
-  update: UserUpdateWithoutPropertiesDataInput!
-  create: UserCreateWithoutPropertiesInput!
 }
 
 input UserWhereInput {
@@ -630,6 +903,9 @@ input UserWhereInput {
   type_not: UserType
   type_in: [UserType!]
   type_not_in: [UserType!]
+  contacts_every: ContactWhereInput
+  contacts_some: ContactWhereInput
+  contacts_none: ContactWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

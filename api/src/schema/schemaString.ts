@@ -7,16 +7,20 @@ const data = `type Query {
 type Mutation {
   register(input: RegisterInput!): RegisterResult!
   login(input: LoginInput!): LoginResult!
-  createProperty(input: CreatePropertyInput!): Property!
+  createProperty(input: CreatePropertyInput!): ID!
   deleteProperty(id: ID!): Boolean!
+  contactAgent(input: ContactAgentInput!): Boolean!
 }
 
 type Property {
-  id: ID!
+  id: String!
   title: String!
-  location: Location!
-  cost: Cost!
-  owner: User!
+  city: String!
+  state: String!
+  costValue: Int!
+  costType: CostType!
+  ownerId: String!
+  ownerName: String!
   images: [String!]!
   description: String!
 }
@@ -24,6 +28,11 @@ type Property {
 enum CostType {
   Rent
   Sale
+}
+
+enum UserType {
+  Agency
+  Individual
 }
 
 type Location {
@@ -50,17 +59,19 @@ type User {
   properties: [Property!]!
 }
 
+input ContactAgentInput {
+  propertyId: String!
+  name: String!
+  number: String!
+  referrerId: String!
+}
+
 input RegisterInput {
   email: String!
   password: String!
   name: String!
   phone: String!
   type: UserType!
-}
-
-enum UserType {
-  Agency
-  Individual
 }
 
 type RegisterResult {

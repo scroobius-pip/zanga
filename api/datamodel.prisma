@@ -7,6 +7,14 @@ name: String! @unique
 password: String!
 properties: [Property!] @relation(link: INLINE)
 type:UserType!
+contacts: [Contact!] @relation(link: INLINE) 
+}
+
+type Contact {
+  id: ID! @id
+  name: String!
+  number: String!
+  property: Property! @relation(link: INLINE)
 }
 
 type Property {
@@ -16,7 +24,8 @@ type Property {
   state: String!
   costValue: Int!
   costType:CostType!
-  owner: User!
+  ownerId: ID!
+  ownerName: String!
   images: [String!]!
   description: String!
 }

@@ -1,18 +1,30 @@
-import { QueryResolvers, MutationResolvers } from '../generated/graphqlgen'
+import { QueryResolvers, MutationResolvers, UserResolvers } from '../generated/graphqlgen'
 import { AuthenticationError } from 'apollo-server-core'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import { UserType } from './types/models'
+
+
+const User: UserResolvers.Type = {
+    properties: async (parent, args, ctx) => await ctx.prisma.user({ id: parent.id }).properties(),
+    email: p => p.email,
+    id: p => p.id,
+    name: p => p.name,
+    phone: p => p.phone,
+    type: p => p.type
+}
 
 const Query: QueryResolvers.Type = {
 
-    me: (_, __, ctx) => {
+    me: async (_, __, ctx) => {
         if (!ctx.userId) {
             throw new AuthenticationError('Token Not Passed')
         }
-        return ctx.prisma.user({ id: ctx.userId })
-
+        const user = await ctx.prisma.user({ id: ctx.userId })
+        return user
 
     },
+
     properties: (_, args, ctx) => {
         // return args.type
         return args.type ? ctx.prisma.properties({ where: { costType: args.type } }) : ctx.prisma.properties()
@@ -20,7 +32,27 @@ const Query: QueryResolvers.Type = {
 }
 
 const Mutation: MutationResolvers.Type = {
-    createProperty: (_, { input }, ctx) => {
+    contactAgent: async (_, { input }, ctx) => {
+
+        try {
+            await ctx.prisma.createContact({
+                name: input.name,
+                number: input.number,
+                property: {
+                    connect: { id: input.propertyId }
+                }
+            })
+            const referrerNumber = await ctx.prisma.user({ id: input.referrerId }).phone()
+            //TWILIO HERE
+            return true
+        } catch (error) {
+            return false
+        }
+    },
+
+
+    createProperty: async (_, { input }, ctx) => {
+
         if (!ctx.userId) {
             throw new AuthenticationError('Token Not Passed')
         }
@@ -35,10 +67,10 @@ const Mutation: MutationResolvers.Type = {
             city,
             state,
             title,
-            owner: {
-                connect: { id: ctx.userId }
-            }
-        })
+            ownerId: ctx.userId,
+            ownerName: await ctx.prisma.user({ id: ctx.userId }).name()
+        }).id()
+
     },
     deleteProperty: async (_, args, ctx) => {
         if (!ctx.userId) {
@@ -114,7 +146,8 @@ const Mutation: MutationResolvers.Type = {
 
 export default {
     Query,
-    Mutation
+    Mutation,
+    User
 }
 function createToken(userId: string) {
     return jwt.sign({

@@ -6,12 +6,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const apollo_server_core_1 = require("apollo-server-core");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const User = {
+    properties: async (parent, args, ctx) => await ctx.prisma.user({ id: parent.id }).properties(),
+    email: p => p.email,
+    id: p => p.id,
+    name: p => p.name,
+    phone: p => p.phone,
+    type: p => p.type
+};
 const Query = {
-    me: (_, __, ctx) => {
+    me: async (_, __, ctx) => {
         if (!ctx.userId) {
             throw new apollo_server_core_1.AuthenticationError('Token Not Passed');
         }
-        return ctx.prisma.user({ id: ctx.userId });
+        const user = await ctx.prisma.user({ id: ctx.userId });
+        return user;
     },
     properties: (_, args, ctx) => {
         // return args.type
@@ -19,7 +28,24 @@ const Query = {
     }
 };
 const Mutation = {
-    createProperty: (_, { input }, ctx) => {
+    contactAgent: async (_, { input }, ctx) => {
+        try {
+            await ctx.prisma.createContact({
+                name: input.name,
+                number: input.number,
+                property: {
+                    connect: { id: input.propertyId }
+                }
+            });
+            const referrerNumber = await ctx.prisma.user({ id: input.referrerId }).phone();
+            //TWILIO HERE
+            return true;
+        }
+        catch (error) {
+            return false;
+        }
+    },
+    createProperty: async (_, { input }, ctx) => {
         if (!ctx.userId) {
             throw new apollo_server_core_1.AuthenticationError('Token Not Passed');
         }
@@ -34,10 +60,9 @@ const Mutation = {
             city,
             state,
             title,
-            owner: {
-                connect: { id: ctx.userId }
-            }
-        });
+            ownerId: ctx.userId,
+            ownerName: await ctx.prisma.user({ id: ctx.userId }).name()
+        }).id();
     },
     deleteProperty: async (_, args, ctx) => {
         if (!ctx.userId) {
@@ -102,7 +127,8 @@ const Mutation = {
 };
 exports.default = {
     Query,
-    Mutation
+    Mutation,
+    User
 };
 function createToken(userId) {
     return jsonwebtoken_1.default.sign({

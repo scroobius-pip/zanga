@@ -16,5 +16,8 @@ export const Mutation: MutationResolvers.Type = {
   },
   deleteProperty: (parent, args, ctx) => {
     throw new Error("Resolver not implemented");
+  },
+  contactAgent: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
   }
 };

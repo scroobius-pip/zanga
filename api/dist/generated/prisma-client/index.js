@@ -14,6 +14,10 @@ exports.models = [
         embedded: false
     },
     {
+        name: "Contact",
+        embedded: false
+    },
+    {
         name: "Property",
         embedded: false
     },

@@ -4,7 +4,7 @@
     "version": 2,
     "builds": [
         {
-            "src": "public/index.js",
+            "src": "dist/src/index.js",
             "use": "@now/node",
             "config": {
                 "maxLambdaSize": "50mb"
