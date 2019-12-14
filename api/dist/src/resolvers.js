@@ -43,11 +43,14 @@ const Mutation = {
                     connect: { id: input.propertyId }
                 }
             });
-            const referrerNumber = await ctx.prisma.user({ id: input.referrerId }).phone();
-            //TWILIO HERE
+            if (input.referrerId) {
+                const referrerNumber = await ctx.prisma.user({ id: input.referrerId }).phone();
+                //TWILIO HERE
+            }
             return true;
         }
         catch (error) {
+            console.log(error);
             return false;
         }
     },
