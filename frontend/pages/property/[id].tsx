@@ -12,6 +12,7 @@ import getToken from '../../functions/getToken';
 import AgentContactForm from '../../components/AgentContactForm';
 import { AddPropertyFormState } from '../../components/AddPropertyForm';
 import Router from 'next/router'
+import Head from 'next/head'
 
 interface InitialProps {
     property: IProperty
@@ -26,7 +27,24 @@ const Page = ({ property, user, referrerId }: InitialProps) => {
 
 
     return <Layout userName={user?.name}>
+        <Head>
+            <title>Zanga - {property.title}</title>
+            <meta name="title" content={property.title} />
+            <meta name="description" content={property.description} />
 
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content={"https://zanga.now.sh/property/" + property} />
+            <meta property="og:title" content={property.title} />
+            <meta property="og:description" content={property.description} />
+            <meta property="og:image" content={property.images[0]} />
+
+
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:url" content={"https://zanga.now.sh/property/" + property} />
+            <meta property="twitter:title" content={property.title} />
+            <meta property="twitter:description" content={property.description} />
+            <meta property="twitter:image" content={property.images[0]} />
+        </Head>
         <Pane background='white' elevation={2} padding={50} height='100%' textAlign='center' display='flex' flexDirection='column'>
             <Pane>
                 <Gallery images={property.images.map(image => {

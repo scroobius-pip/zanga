@@ -10,6 +10,7 @@ import { getSdk, CostType, User } from '../generated/graphql'
 import { parseProperties } from '../functions/parseProperties'
 import getToken from '../functions/getToken'
 import { AvatarPopover } from '../components/NavBar'
+import Head from 'next/head'
 
 interface InitialProps {
     rentProperties: Property[]
@@ -28,7 +29,9 @@ const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
         title: 'For Rent'
     }]
     return <Layout userName={user?.name} noNav>
-
+        <Head>
+            <title>Zanga - Share Realestate and Earn Commissions</title>
+        </Head>
         <Pane
             height={'100%'}
             width={'100%'}
