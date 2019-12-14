@@ -6,8 +6,12 @@ import { Context } from './types/types'
 import resolvers from './resolvers'
 const gqlSchema = gql(schema)
 
-const cors = require('micro-cors')()
-
+const microCors = require('micro-cors')
+const cors = microCors({
+    allowHeaders: ['X-Requested-With', 'Access-Control-Allow-Origin',
+        'X-HTTP-Method-Override', 'Content-Type',
+        'Authorization', 'Accept', 'token']
+})
 const getIdFromToken = (token: string) => {
     try {
         if (token) {
@@ -37,4 +41,11 @@ const server = new ApolloServer({
     }
 })
 
-module.exports = cors(server.createHandler())
+// @ts-ignore
+export default cors((req, res) => {
+    if (req.method === 'OPTIONS') {
+        res.end()
+        return
+    }
+    return server.createHandler()(req, res)
+})

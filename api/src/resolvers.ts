@@ -6,7 +6,7 @@ import { UserType } from './types/models'
 
 
 const User: UserResolvers.Type = {
-    properties: async (parent, args, ctx) => await ctx.prisma.user({ id: parent.id }).properties(),
+    properties: async (parent, args, ctx) => await ctx.prisma.properties({ where: { ownerId: parent.id } }),
     email: p => p.email,
     id: p => p.id,
     name: p => p.name,

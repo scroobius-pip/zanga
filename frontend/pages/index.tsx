@@ -5,14 +5,19 @@ import TabsContainer, { TabContainerProps } from '../components/TabsContainer'
 import PropertyCard, { Property } from '../components/PropertyCard'
 import PropertiesContainer from '../components/PropertiesContainer'
 import Router from 'next/router'
+import { GraphQLClient } from 'graphql-request'
+import { getSdk, CostType, User } from '../generated/graphql'
+import { parseProperties } from '../functions/parseProperties'
+import getToken from '../functions/getToken'
+import { AvatarPopover } from '../components/NavBar'
 
 interface InitialProps {
     rentProperties: Property[]
     saleProperties: Property[]
-
+    user?: Pick<User, 'id' | 'name'>
 }
 
-const Page = ({ rentProperties, saleProperties }: InitialProps) => {
+const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
 
     const tabs: TabContainerProps['tabs'] = [{
         body: <PropertiesContainer properties={saleProperties} />,
@@ -22,7 +27,7 @@ const Page = ({ rentProperties, saleProperties }: InitialProps) => {
         body: <PropertiesContainer properties={rentProperties} />,
         title: 'For Rent'
     }]
-    return <Layout noNav>
+    return <Layout userName={user?.name} noNav>
 
         <Pane
             height={'100%'}
@@ -37,8 +42,14 @@ const Page = ({ rentProperties, saleProperties }: InitialProps) => {
                         <img src='/zanga-logo.svg' height={40} />
                     </Pane>
                     <Pane>
-                        <Button onClick={() => Router.push('/login')} height={40} appearance="primary">Login</Button>
-                        <Button onClick={() => Router.push('/register')} height={40} appearance="minimal">Register</Button>
+                        {
+                            user ? <AvatarPopover userName={user.name} /> :
+                                <>
+                                    <Button onClick={() => Router.push('/login')} height={40} appearance="primary">Login</Button>
+                                    <Button onClick={() => Router.push('/register')} height={40} appearance="minimal">Register</Button>
+                                </>
+                        }
+
                     </Pane>
                 </Pane>
                 <Pane marginTop={35}>
@@ -69,48 +80,21 @@ const Page = ({ rentProperties, saleProperties }: InitialProps) => {
 }
 
 
-Page.getInitialProps = async ({ req }) => {
-    const properties: Property[] = [
-        {
-            id: '1',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-        {
-            id: '2',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-        {
-            id: '3',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-        {
-            id: '4',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-        {
-            id: '5',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-    ]
-
+Page.getInitialProps = async ({ query, ...ctx }): Promise<InitialProps> => {
+    const token = getToken(ctx)
+    const client = new GraphQLClient('https://zanga-api.now.sh/graphql', {
+        headers: token.length ? {
+            authorization: 'Bearer ' + token
+        } : null
+    })
+    const sdk = getSdk(client)
+    const { properties: rentProperties } = await sdk.properties({ type: CostType.Rent })
+    const { properties: saleProperties } = await sdk.properties({ type: CostType.Sale })
+    // rentProperties[0]
     return {
-        rentProperties: properties,
-        saleProperties: properties
+        rentProperties: parseProperties(rentProperties),
+        saleProperties: parseProperties(saleProperties),
+        user: !!token.length ? (await sdk.me()).me : null
     }
 
 

@@ -1,0 +1,60 @@
+query properties($type:CostType) {
+  properties(type:$type){
+    id
+    title
+    city
+    state
+    costValue
+    costType
+    images
+    ownerName
+  }
+
+}
+
+query property($id:ID!){
+    property(id:$id){
+    id
+    title
+    city
+    state
+    costValue
+    costType
+    images
+    description
+    ownerName
+    }
+}
+
+query me{
+me{
+    id
+    email
+    phone
+    name
+    type
+    
+  }
+}
+
+query dashboard{
+    me{
+   id
+    email
+    phone
+    name
+    type
+    
+      
+        properties{
+            id
+            title
+            city
+            state
+            costValue
+            costType
+            images
+            ownerName
+        }
+    }
+}

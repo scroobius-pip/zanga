@@ -5,10 +5,16 @@ import TabsContainer, { TabContainerProps } from '../components/TabsContainer'
 import PropertiesContainer from '../components/PropertiesContainer'
 import AddPropertyForm from '../components/AddPropertyForm'
 import { useState } from 'react'
+import getToken from '../functions/getToken'
+import redirect from '../functions/redirect'
+import { GraphQLClient } from 'graphql-request'
+import { getSdk, User } from '../generated/graphql'
+import { parseProperties } from '../functions/parseProperties'
 
 interface InitialProps {
     properties: Property[]
     userName: string
+    userType: User['type']
 }
 
 const Page = ({ properties, userName }: InitialProps) => {
@@ -54,52 +60,26 @@ const Page = ({ properties, userName }: InitialProps) => {
     </Layout>
 }
 
-Page.getInitialProps = async ({ }) => {
-    const properties: Property[] = [
-        {
-            id: '1',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-        {
-            id: '2',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-        {
-            id: '3',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-        {
-            id: '4',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-        {
-            id: '5',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-    ]
+Page.getInitialProps = async ({ query, ...ctx }): Promise<InitialProps> => {
+    const token = getToken(ctx)
 
-    return {
-        properties,
-        userName: 'Chisimdiri Ejinkeonye'
+    if (!token) {
+        redirect(ctx, '/login')
     }
 
 
-
+    const client = new GraphQLClient('https://zanga-api.now.sh/graphql', {
+        headers: token.length ? {
+            authorization: 'Bearer ' + token
+        } : null
+    })
+    const sdk = getSdk(client)
+    const { me } = await sdk.dashboard()
+    return {
+        userName: me.name,
+        properties: parseProperties(me.properties),
+        userType: me.type
+    }
 
 }
 

@@ -35,6 +35,7 @@ const AvatarPopover = ({ userName = '' }) => {
         <Avatar name={userName} size={40} />
     </Popover>
 }
+export { AvatarPopover }
 
 export default ({ userName }: Props) => {
     return <Card marginBottom={25} padding={15} background='white' elevation={3} width={'100%'} display='flex' justifyContent='space-between'>

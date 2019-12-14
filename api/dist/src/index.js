@@ -9,7 +9,12 @@ const schemaString_1 = __importDefault(require("./schema/schemaString"));
 const prisma_client_1 = require("../generated/prisma-client");
 const resolvers_1 = __importDefault(require("./resolvers"));
 const gqlSchema = apollo_server_micro_1.gql(schemaString_1.default);
-const cors = require('micro-cors')();
+const microCors = require('micro-cors');
+const cors = microCors({
+    allowHeaders: ['X-Requested-With', 'Access-Control-Allow-Origin',
+        'X-HTTP-Method-Override', 'Content-Type',
+        'Authorization', 'Accept', 'token']
+});
 const getIdFromToken = (token) => {
     try {
         if (token) {
@@ -38,5 +43,12 @@ const server = new apollo_server_micro_1.ApolloServer({
         };
     }
 });
-module.exports = cors(server.createHandler());
+// @ts-ignore
+exports.default = cors((req, res) => {
+    if (req.method === 'OPTIONS') {
+        res.end();
+        return;
+    }
+    return server.createHandler()(req, res);
+});
 //# sourceMappingURL=index.js.map
