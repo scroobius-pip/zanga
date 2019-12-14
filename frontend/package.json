@@ -1,0 +1,24 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "evergreen-ui": "^4.21.5",
+    "next": "^9.1.5",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.17",
+    "typescript": "^3.7.3"
+  }
+}
