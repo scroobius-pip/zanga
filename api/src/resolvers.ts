@@ -86,14 +86,7 @@ const Mutation: MutationResolvers.Type = {
         }
 
         try {
-            await ctx.prisma.updateUser({
-                where: { id: ctx.userId },
-                data: {
-                    properties: {
-                        delete: { id: args.id }
-                    }
-                }
-            })
+            await ctx.prisma.deleteProperty({ id: args.id })
             return true
         } catch (error) {
             return false
