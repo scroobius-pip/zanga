@@ -2,6 +2,9 @@ import { QueryResolvers, MutationResolvers, UserResolvers } from '../generated/g
 import { AuthenticationError } from 'apollo-server-core'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import client from 'twilio'
+
+
 import { UserType } from './types/models'
 
 
@@ -48,6 +51,16 @@ const Mutation: MutationResolvers.Type = {
             })
             if (input.referrerId) {
                 const referrerNumber = await ctx.prisma.user({ id: input.referrerId }).phone()
+                try {
+                    await client('', '').messages.create({
+                        body: "Someone has shown interest in the property you shared: " + "zanga.now.sh/property/" + input.propertyId,
+                        from: '+234' + '',
+                        to: '+234' + referrerNumber
+                    })
+
+                } catch (error) {
+
+                }
                 //TWILIO HERE
             }
 
@@ -136,6 +149,19 @@ const Mutation: MutationResolvers.Type = {
                 phone: input.phone,
                 type: input.type
             }).id()
+
+            if (userId) {
+                try {
+                    await client('', '').messages.create({
+                        body: input.name[0] + " thank you for registering at zanga, start sharing links now!",
+                        from: '+234' + '',
+                        to: '+234' + input.phone
+                    })
+
+                } catch (error) {
+                    console.log(error)
+                }
+            }
 
             return {
                 token: createToken(userId),

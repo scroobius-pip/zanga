@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const apollo_server_core_1 = require("apollo-server-core");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const twilio_1 = __importDefault(require("twilio"));
 const User = {
     properties: async (parent, args, ctx) => await ctx.prisma.properties({ where: { ownerId: parent.id } }),
     email: p => p.email,
@@ -45,6 +46,15 @@ const Mutation = {
             });
             if (input.referrerId) {
                 const referrerNumber = await ctx.prisma.user({ id: input.referrerId }).phone();
+                try {
+                    await twilio_1.default('', '').messages.create({
+                        body: "Someone has shown interest in the property you shared: " + "zanga.now.sh/property/" + input.propertyId,
+                        from: '+234' + '',
+                        to: '+234' + referrerNumber
+                    });
+                }
+                catch (error) {
+                }
                 //TWILIO HERE
             }
             return true;
@@ -121,6 +131,18 @@ const Mutation = {
                 phone: input.phone,
                 type: input.type
             }).id();
+            if (userId) {
+                try {
+                    await twilio_1.default('', '').messages.create({
+                        body: input.name[0] + " thank you for registering at zanga, start sharing links now!",
+                        from: '+234' + '',
+                        to: '+234' + input.phone
+                    });
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            }
             return {
                 token: createToken(userId),
                 message: ''
