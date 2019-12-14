@@ -1,5 +1,5 @@
 import Layout from '../components/Layout'
-import { Pane, Card, Heading, TextInput, Button, TextInputField, toaster } from 'evergreen-ui'
+import { Pane, Card, Heading, TextInput, Button, TextInputField, toaster, Text, Paragraph } from 'evergreen-ui'
 import { colors } from '../styles'
 import TabsContainer, { TabContainerProps } from '../components/TabsContainer'
 import { useState, useEffect } from 'react'
@@ -10,12 +10,13 @@ import Router from 'next/router'
 
 const tabs: TabContainerProps['tabs'] = [
     {
-        body: <AgentForm />,
-        title: 'Agency'
-    }, {
         body: <MarketerForm />,
         title: 'Marketer'
-    }
+    },
+    {
+        body: <AgentForm />,
+        title: 'Agency'
+    },
 
 ]
 
@@ -27,7 +28,10 @@ function validateEmail(email) {
 
 export default () => {
     return <Layout>
-        <Heading marginBotton={50} textAlign='center' size={900}>Register</Heading>
+        <Pane justifyContent='center' marginBotton='50'>
+            <Heading marginBotton={50} textAlign='center' size={900}>Register</Heading>
+            <Paragraph textAlign='center' size={500}>Register To Start Sharing Links!</Paragraph>
+        </Pane>
         <Card marginTop={50} background='tint1' maxWidth={400} elevation={3} margin='auto' padding={25}>
             <TabsContainer tabs={tabs} />
         </Card>

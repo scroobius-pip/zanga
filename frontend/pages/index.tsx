@@ -20,11 +20,11 @@ interface InitialProps {
 const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
 
     const tabs: TabContainerProps['tabs'] = [{
-        body: <PropertiesContainer refId={user.id} properties={saleProperties} />,
+        body: <PropertiesContainer refId={user?.id} properties={saleProperties} />,
         title: 'For Sale'
     }, {
 
-        body: <PropertiesContainer refId={user.id} properties={rentProperties} />,
+        body: <PropertiesContainer refId={user?.id} properties={rentProperties} />,
         title: 'For Rent'
     }]
     return <Layout userName={user?.name} noNav>
@@ -64,8 +64,11 @@ const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
                 <Pane>
                     <Pane>
                         <Paragraph fontWeight={500} size={500} marginTop="default">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, ullam beatae! Ad voluptate suscipit corrupti natus fugit quaerat iure iste.
-                </Paragraph>
+                            Share properties on social media and making commissions from property sales.
+                        </Paragraph>
+                        <Paragraph size={400} >
+                            You'll be contacted once it's sold
+                        </Paragraph>
                     </Pane>
 
                 </Pane>

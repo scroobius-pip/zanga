@@ -1,6 +1,7 @@
 import { Card, Text, Pane, Heading, IconButton, Icon, Button } from 'evergreen-ui';
 import { colors } from '../styles';
 import copyPropertyLink from '../functions/copyPropertyLink';
+import Router from 'next/router'
 
 export interface Property {
     id: string
@@ -59,6 +60,9 @@ export default ({ active, property: { imageUrl, title, location, price, id }, on
             <IconButton
                 onClick={(e) => {
                     e.stopPropagation()
+                    if (!refId) {
+                        Router.push('/login')
+                    }
                     copyPropertyLink(`zanga.now.sh/property/${id}?ref=${refId}`)
                 }}
                 iconColor={colors.primary} appearance="minimal" icon='social-media' height={56} />}

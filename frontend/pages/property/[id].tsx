@@ -11,6 +11,7 @@ import { parseProperties } from '../../functions/parseProperties';
 import getToken from '../../functions/getToken';
 import AgentContactForm from '../../components/AgentContactForm';
 import { AddPropertyFormState } from '../../components/AddPropertyForm';
+import Router from 'next/router'
 
 interface InitialProps {
     property: IProperty
@@ -57,7 +58,13 @@ const Page = ({ property, user, referrerId }: InitialProps) => {
                     </Paragraph>
                 </Card>
                 <Heading marginTop={20} size={900}>{}</Heading>
-                <Button onClick={() => copyPropertyLink(`zanga.now.sh/property/${property.id}?ref=${user.id}`)} marginTop={20} height={40} appearance="primary" marginRight={12} iconAfter="link">
+                <Button onClick={() => {
+                    if (!user) {
+                        Router.push('/register')
+                        return
+                    }
+                    copyPropertyLink(`zanga.now.sh/property/${property.id}?ref=${user?.id}`)
+                }} marginTop={20} height={40} appearance="primary" marginRight={12} iconAfter="link">
                     Get Commission Link
                 </Button>
 

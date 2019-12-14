@@ -78,14 +78,7 @@ const Mutation = {
             throw new apollo_server_core_1.AuthenticationError('Token Not Passed');
         }
         try {
-            await ctx.prisma.updateUser({
-                where: { id: ctx.userId },
-                data: {
-                    properties: {
-                        delete: { id: args.id }
-                    }
-                }
-            });
+            await ctx.prisma.deleteProperty({ id: args.id });
             return true;
         }
         catch (error) {
