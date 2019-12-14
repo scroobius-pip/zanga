@@ -21,6 +21,10 @@ export namespace QueryResolvers {
     type?: CostType | null;
   }
 
+  export interface ArgsProperty {
+    id: string;
+  }
+
   export type MeResolver =
     | ((
         parent: undefined,
@@ -53,6 +57,23 @@ export namespace QueryResolvers {
           ctx: Context,
           info: GraphQLResolveInfo
         ) => Property[] | Promise<Property[]>;
+      };
+
+  export type PropertyResolver =
+    | ((
+        parent: undefined,
+        args: ArgsProperty,
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => Property | null | Promise<Property | null>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: undefined,
+          args: ArgsProperty,
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Property | null | Promise<Property | null>;
       };
 
   export interface Type {
@@ -88,6 +109,23 @@ export namespace QueryResolvers {
             ctx: Context,
             info: GraphQLResolveInfo
           ) => Property[] | Promise<Property[]>;
+        };
+
+    property:
+      | ((
+          parent: undefined,
+          args: ArgsProperty,
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Property | null | Promise<Property | null>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: undefined,
+            args: ArgsProperty,
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => Property | null | Promise<Property | null>;
         };
   }
 }
@@ -672,6 +710,8 @@ export namespace MutationResolvers {
     password: string;
     name: string;
     phone: string;
+    cac?: string | null;
+    tin?: string | null;
     type: UserType;
   }
   export interface LoginInput {

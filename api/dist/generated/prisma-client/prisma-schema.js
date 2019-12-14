@@ -736,6 +736,8 @@ type User {
   password: String!
   properties(where: PropertyWhereInput, orderBy: PropertyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Property!]
   type: UserType!
+  cac: String
+  tin: String
   contacts(where: ContactWhereInput, orderBy: ContactOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Contact!]
 }
 
@@ -753,6 +755,8 @@ input UserCreateInput {
   password: String!
   properties: PropertyCreateManyInput
   type: UserType!
+  cac: String
+  tin: String
   contacts: ContactCreateManyInput
 }
 
@@ -774,6 +778,10 @@ enum UserOrderByInput {
   password_DESC
   type_ASC
   type_DESC
+  cac_ASC
+  cac_DESC
+  tin_ASC
+  tin_DESC
 }
 
 type UserPreviousValues {
@@ -783,6 +791,8 @@ type UserPreviousValues {
   name: String!
   password: String!
   type: UserType!
+  cac: String
+  tin: String
 }
 
 type UserSubscriptionPayload {
@@ -815,6 +825,8 @@ input UserUpdateInput {
   password: String
   properties: PropertyUpdateManyInput
   type: UserType
+  cac: String
+  tin: String
   contacts: ContactUpdateManyInput
 }
 
@@ -824,6 +836,8 @@ input UserUpdateManyMutationInput {
   name: String
   password: String
   type: UserType
+  cac: String
+  tin: String
 }
 
 input UserWhereInput {
@@ -904,6 +918,34 @@ input UserWhereInput {
   type_not: UserType
   type_in: [UserType!]
   type_not_in: [UserType!]
+  cac: String
+  cac_not: String
+  cac_in: [String!]
+  cac_not_in: [String!]
+  cac_lt: String
+  cac_lte: String
+  cac_gt: String
+  cac_gte: String
+  cac_contains: String
+  cac_not_contains: String
+  cac_starts_with: String
+  cac_not_starts_with: String
+  cac_ends_with: String
+  cac_not_ends_with: String
+  tin: String
+  tin_not: String
+  tin_in: [String!]
+  tin_not_in: [String!]
+  tin_lt: String
+  tin_lte: String
+  tin_gt: String
+  tin_gte: String
+  tin_contains: String
+  tin_not_contains: String
+  tin_starts_with: String
+  tin_not_starts_with: String
+  tin_ends_with: String
+  tin_not_ends_with: String
   contacts_every: ContactWhereInput
   contacts_some: ContactWhereInput
   contacts_none: ContactWhereInput
@@ -916,6 +958,8 @@ input UserWhereUniqueInput {
   id: ID
   email: String
   name: String
+  cac: String
+  tin: String
 }
 `;
 //# sourceMappingURL=prisma-schema.js.map

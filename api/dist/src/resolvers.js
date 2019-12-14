@@ -25,6 +25,12 @@ const Query = {
     properties: (_, args, ctx) => {
         // return args.type
         return args.type ? ctx.prisma.properties({ where: { costType: args.type } }) : ctx.prisma.properties();
+    },
+    property: (_, args, ctx) => {
+        if (!args.id.length) {
+            throw new Error('Id Not Passed');
+        }
+        return ctx.prisma.property({ id: args.id });
     }
 };
 const Mutation = {
@@ -97,6 +103,14 @@ const Mutation = {
         };
     },
     register: async (_, { input }, ctx) => {
+        if (input.type === 'Agency') {
+            if (!(input.cac && input.tin)) {
+                return {
+                    token: '',
+                    message: 'Invalid Cac or Tin number'
+                };
+            }
+        }
         if (await ctx.prisma.user({ email: input.email })) {
             return {
                 token: '',

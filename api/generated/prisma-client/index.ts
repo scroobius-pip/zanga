@@ -223,7 +223,11 @@ export type UserOrderByInput =
   | "password_ASC"
   | "password_DESC"
   | "type_ASC"
-  | "type_DESC";
+  | "type_DESC"
+  | "cac_ASC"
+  | "cac_DESC"
+  | "tin_ASC"
+  | "tin_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -404,6 +408,8 @@ export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   email?: Maybe<String>;
   name?: Maybe<String>;
+  cac?: Maybe<String>;
+  tin?: Maybe<String>;
 }>;
 
 export interface UserWhereInput {
@@ -484,6 +490,34 @@ export interface UserWhereInput {
   type_not?: Maybe<UserType>;
   type_in?: Maybe<UserType[] | UserType>;
   type_not_in?: Maybe<UserType[] | UserType>;
+  cac?: Maybe<String>;
+  cac_not?: Maybe<String>;
+  cac_in?: Maybe<String[] | String>;
+  cac_not_in?: Maybe<String[] | String>;
+  cac_lt?: Maybe<String>;
+  cac_lte?: Maybe<String>;
+  cac_gt?: Maybe<String>;
+  cac_gte?: Maybe<String>;
+  cac_contains?: Maybe<String>;
+  cac_not_contains?: Maybe<String>;
+  cac_starts_with?: Maybe<String>;
+  cac_not_starts_with?: Maybe<String>;
+  cac_ends_with?: Maybe<String>;
+  cac_not_ends_with?: Maybe<String>;
+  tin?: Maybe<String>;
+  tin_not?: Maybe<String>;
+  tin_in?: Maybe<String[] | String>;
+  tin_not_in?: Maybe<String[] | String>;
+  tin_lt?: Maybe<String>;
+  tin_lte?: Maybe<String>;
+  tin_gt?: Maybe<String>;
+  tin_gte?: Maybe<String>;
+  tin_contains?: Maybe<String>;
+  tin_not_contains?: Maybe<String>;
+  tin_starts_with?: Maybe<String>;
+  tin_not_starts_with?: Maybe<String>;
+  tin_ends_with?: Maybe<String>;
+  tin_not_ends_with?: Maybe<String>;
   contacts_every?: Maybe<ContactWhereInput>;
   contacts_some?: Maybe<ContactWhereInput>;
   contacts_none?: Maybe<ContactWhereInput>;
@@ -592,6 +626,8 @@ export interface UserCreateInput {
   password: String;
   properties?: Maybe<PropertyCreateManyInput>;
   type: UserType;
+  cac?: Maybe<String>;
+  tin?: Maybe<String>;
   contacts?: Maybe<ContactCreateManyInput>;
 }
 
@@ -612,6 +648,8 @@ export interface UserUpdateInput {
   password?: Maybe<String>;
   properties?: Maybe<PropertyUpdateManyInput>;
   type?: Maybe<UserType>;
+  cac?: Maybe<String>;
+  tin?: Maybe<String>;
   contacts?: Maybe<ContactUpdateManyInput>;
 }
 
@@ -882,6 +920,8 @@ export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   password?: Maybe<String>;
   type?: Maybe<UserType>;
+  cac?: Maybe<String>;
+  tin?: Maybe<String>;
 }
 
 export interface ContactSubscriptionWhereInput {
@@ -1152,6 +1192,8 @@ export interface User {
   name: String;
   password: String;
   type: UserType;
+  cac?: String;
+  tin?: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -1170,6 +1212,8 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     last?: Int;
   }) => T;
   type: () => Promise<UserType>;
+  cac: () => Promise<String>;
+  tin: () => Promise<String>;
   contacts: <T = FragmentableArray<Contact>>(args?: {
     where?: ContactWhereInput;
     orderBy?: ContactOrderByInput;
@@ -1199,6 +1243,8 @@ export interface UserSubscription
     last?: Int;
   }) => T;
   type: () => Promise<AsyncIterator<UserType>>;
+  cac: () => Promise<AsyncIterator<String>>;
+  tin: () => Promise<AsyncIterator<String>>;
   contacts: <T = Promise<AsyncIterator<ContactSubscription>>>(args?: {
     where?: ContactWhereInput;
     orderBy?: ContactOrderByInput;
@@ -1228,6 +1274,8 @@ export interface UserNullablePromise
     last?: Int;
   }) => T;
   type: () => Promise<UserType>;
+  cac: () => Promise<String>;
+  tin: () => Promise<String>;
   contacts: <T = FragmentableArray<Contact>>(args?: {
     where?: ContactWhereInput;
     orderBy?: ContactOrderByInput;
@@ -1456,6 +1504,8 @@ export interface UserPreviousValues {
   name: String;
   password: String;
   type: UserType;
+  cac?: String;
+  tin?: String;
 }
 
 export interface UserPreviousValuesPromise
@@ -1467,6 +1517,8 @@ export interface UserPreviousValuesPromise
   name: () => Promise<String>;
   password: () => Promise<String>;
   type: () => Promise<UserType>;
+  cac: () => Promise<String>;
+  tin: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -1478,6 +1530,8 @@ export interface UserPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   type: () => Promise<AsyncIterator<UserType>>;
+  cac: () => Promise<AsyncIterator<String>>;
+  tin: () => Promise<AsyncIterator<String>>;
 }
 
 /*

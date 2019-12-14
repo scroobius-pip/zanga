@@ -10,5 +10,8 @@ export const Query: QueryResolvers.Type = {
   },
   properties: (parent, args, ctx) => {
     throw new Error("Resolver not implemented");
+  },
+  property: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
   }
 };

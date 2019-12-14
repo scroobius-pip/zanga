@@ -1,0 +1,13 @@
+mutation {
+  createProperty(input:{
+    title:"1 bedroom self contained (single rooms) for rent",
+    location:{
+      city:"",
+      state:""
+    },
+    costValue:100000,
+    costType:Rent,
+    images:[""],
+    description:""
+  })
+}

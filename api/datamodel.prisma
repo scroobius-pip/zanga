@@ -7,6 +7,8 @@ name: String! @unique
 password: String!
 properties: [Property!] @relation(link: INLINE)
 type:UserType!
+cac: String @unique
+tin: String @unique
 contacts: [Contact!] @relation(link: INLINE) 
 }
 

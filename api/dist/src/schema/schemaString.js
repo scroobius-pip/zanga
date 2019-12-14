@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const data = `type Query {
   me: User
   properties(type: CostType): [Property!]!
+  property(id: ID!): Property
 }
 
 type Mutation {
@@ -72,6 +73,8 @@ input RegisterInput {
   password: String!
   name: String!
   phone: String!
+  cac: String
+  tin: String
   type: UserType!
 }
 
