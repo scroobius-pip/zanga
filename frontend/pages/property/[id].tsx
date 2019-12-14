@@ -4,51 +4,52 @@ import { Pane, Heading, Icon, Text, Paragraph, Button, Card, TextInput, TextInpu
 import { colors } from '../../styles'
 import Gallery from 'react-grid-gallery';
 import copyPropertyLink from '../../functions/copyPropertyLink';
+import { Property } from '../../components/PropertyCard';
 
-export default () => {
+interface InitialProps {
+    property: IProperty
+    userName: string
+}
+
+
+const Page = ({ property, userName }: InitialProps) => {
     // const router = useRouter()
     // const { id } = router.query
-    const IMAGES =
-        [{
-            src: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
-            thumbnail: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_n.jpg",
-            thumbnailWidth: 320,
-            thumbnailHeight: 174,
-
-        },
-        {
-            src: "https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg",
-            thumbnail: "https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_n.jpg",
-            thumbnailWidth: 320,
-            thumbnailHeight: 212,
-
-        },
-
-        {
-            src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-            thumbnail: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
-            thumbnailWidth: 320,
-            thumbnailHeight: 212
-        }]
 
 
-    return <Layout>
+
+    return <Layout userName={userName}>
         <Pane background='white' elevation={2} padding={50} height='100%' textAlign='center' display='flex' flexDirection='column'>
             <Pane>
-                <Gallery images={IMAGES} />
+                <Gallery images={property.images.map(image => {
+                    return {
+                        src: image,
+                        thumbnail: image,
+                        thumbnailWidth: 200,
+                        thumbnailHeight: 200,
+                    }
+                })} />
             </Pane>
             <Pane>
-                <Heading size={700} color={colors.primary}>4 bedroom terraced duplex for sale</Heading>
+                <Heading marginTop={20} size={700} color={colors.primary}>{property.title}</Heading>
             </Pane>
-            <Pane display='flex' alignSelf='center' flexDirection='row' alignItems='center' marginTop={5}>
+            <Pane marginTop={10} display='flex' alignSelf='center' flexDirection='row' alignItems='center' >
                 <Icon icon="map-marker" marginRight={5} size={16} />
-                <Text size={500}>Lekki Phase 1, Lekki, Lago</Text>
+                <Text size={500}>{property.location}</Text>
             </Pane>
-            <Pane marginBottom={30}>
-                <Paragraph marginTop={20} size={500} >
-                    A spacious newly built spacious 5 bedroom bungalow on 550sqm of land at peace land estate Giwa via iju Ishaga in a serene and conducive environment
-                </Paragraph>
-                <Heading marginTop={20} size={900}>₦ 80,000,000/yr</Heading>
+            <Pane marginTop={20} marginBottom={30}>
+
+                <Card background="tint1"
+                    padding={20}
+                    border="muted" >
+                    <Heading size={600} textAlign='center'>
+                        Property Description
+                </Heading>
+                    <Paragraph marginTop={20} size={500} textAlign='center'>
+                        {property.description}
+                    </Paragraph>
+                </Card>
+                <Heading marginTop={20} size={900}>{}</Heading>
                 <Button onClick={() => copyPropertyLink('')} marginTop={20} height={40} appearance="primary" marginRight={12} iconAfter="link">
                     Get Commission Link
                 </Button>
@@ -56,6 +57,7 @@ export default () => {
             </Pane>
             <Card marginTop={50} background='tint1' maxWidth={450} elevation={3} margin='auto' padding={25}>
                 <Heading marginTop={10} size={700}>Interested in this property ?</Heading>
+                <Text>Agent - {property.ownerName}</Text>
                 <Pane marginTop={20}>
                     <TextInputField
                         textAlign='left'
@@ -89,3 +91,31 @@ export default () => {
         </Pane>
     </Layout>
 }
+
+Page.getInitialProps = async ({ req }): Promise<InitialProps> => {
+    const IMAGES = [
+        'https://images.nigeriapropertycentre.com/properties/images/547078/05df485e695a17-a-room-self-contain-at-alagboke-self-contained-for-rent-alagbole-ifo-ogun.jpg',
+        'https://images.nigeriapropertycentre.com/properties/images/547078/05df485e695a17-a-room-self-contain-at-alagboke-self-contained-for-rent-alagbole-ifo-ogun.jpg',
+        'https://images.nigeriapropertycentre.com/properties/images/547078/05df485e695a17-a-room-self-contain-at-alagboke-self-contained-for-rent-alagbole-ifo-ogun.jpg',
+        'https://images.nigeriapropertycentre.com/properties/images/547078/05df485e695a17-a-room-self-contain-at-alagboke-self-contained-for-rent-alagbole-ifo-ogun.jpg',
+        'https://images.nigeriapropertycentre.com/properties/images/547078/05df485e695a17-a-room-self-contain-at-alagboke-self-contained-for-rent-alagbole-ifo-ogun.jpg',
+        'https://images.nigeriapropertycentre.com/properties/images/547078/05df485e695a17-a-room-self-contain-at-alagboke-self-contained-for-rent-alagbole-ifo-ogun.jpg',
+
+    ]
+
+    return {
+        property: {
+            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui voluptates nemo minus molestiae. Explicabo quasi cumque fugiat autem eos. Quidem?",
+            id: '1',
+            images: IMAGES,
+            location: ' 79/81, Ojodu Akute Road, Via Berger, Akute, Ojodu, Lagos, Nigeria',
+            price: '₦200,000',
+            title: "1 Bedroom Self Contained (Single Rooms) For Rent",
+            ownerName: 'Anadimma Properties'
+
+        },
+        userName: null
+    }
+}
+
+export default Page

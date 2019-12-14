@@ -42,7 +42,7 @@ export default ({ userName }: Props) => {
             <img style={{ cursor: 'grab' }} src='/zanga-logo.svg' height={40} />
         </Link>
 
-        {userName ? <AvatarPopover userName={userName} /> : <Button height={40} appearance="minimal">Register</Button>}
+        {userName ? <AvatarPopover userName={userName} /> : <Button height={40} onClick={() => Router.push('/register')} appearance="minimal">Register</Button>}
 
     </Card>
 }

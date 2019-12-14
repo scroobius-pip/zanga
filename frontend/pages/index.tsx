@@ -6,51 +6,20 @@ import PropertyCard, { Property } from '../components/PropertyCard'
 import PropertiesContainer from '../components/PropertiesContainer'
 import Router from 'next/router'
 
-const page = () => {
-    const properties: Property[] = [
-        {
-            id: '1',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-        {
-            id: '2',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-        {
-            id: '3',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-        {
-            id: '4',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-        {
-            id: '5',
-            title: 'DETACHED HOUSE FOR SALE',
-            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
-            location: '01, Airport Road Abuja, Nigeria',
-            price: '₦5,000,000/yr'
-        },
-    ]
+interface InitialProps {
+    rentProperties: Property[]
+    saleProperties: Property[]
+
+}
+
+const Page = ({ rentProperties, saleProperties }: InitialProps) => {
 
     const tabs: TabContainerProps['tabs'] = [{
-        body: <PropertiesContainer properties={properties} />,
+        body: <PropertiesContainer properties={saleProperties} />,
         title: 'For Sale'
     }, {
 
-        body: <PropertiesContainer properties={properties} />,
+        body: <PropertiesContainer properties={rentProperties} />,
         title: 'For Rent'
     }]
     return <Layout noNav>
@@ -93,12 +62,58 @@ const page = () => {
 
         </Pane>
 
-        <Pane marginTop={20}>
+        <Pane marginTop={25} background='tint1' padding={15}>
             <TabsContainer tabs={tabs} />
         </Pane>
     </Layout>
 }
 
 
+Page.getInitialProps = async ({ req }) => {
+    const properties: Property[] = [
+        {
+            id: '1',
+            title: 'DETACHED HOUSE FOR SALE',
+            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
+            location: '01, Airport Road Abuja, Nigeria',
+            price: '₦5,000,000/yr'
+        },
+        {
+            id: '2',
+            title: 'DETACHED HOUSE FOR SALE',
+            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
+            location: '01, Airport Road Abuja, Nigeria',
+            price: '₦5,000,000/yr'
+        },
+        {
+            id: '3',
+            title: 'DETACHED HOUSE FOR SALE',
+            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
+            location: '01, Airport Road Abuja, Nigeria',
+            price: '₦5,000,000/yr'
+        },
+        {
+            id: '4',
+            title: 'DETACHED HOUSE FOR SALE',
+            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
+            location: '01, Airport Road Abuja, Nigeria',
+            price: '₦5,000,000/yr'
+        },
+        {
+            id: '5',
+            title: 'DETACHED HOUSE FOR SALE',
+            imageUrl: 'https://lid.zoocdn.com/645/430/69714189686fe41a16d81304bccbc4dbfe3de8f9.jpg',
+            location: '01, Airport Road Abuja, Nigeria',
+            price: '₦5,000,000/yr'
+        },
+    ]
 
-export default page
+    return {
+        rentProperties: properties,
+        saleProperties: properties
+    }
+
+
+}
+
+export default Page
