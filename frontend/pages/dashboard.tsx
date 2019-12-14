@@ -1,28 +1,82 @@
 import Layout from '../components/Layout'
-import { Heading, Pane, Button, SideSheet, Position, Paragraph, Alert } from 'evergreen-ui'
+import { Heading, Pane, Button, SideSheet, Position, Paragraph, Alert, toaster } from 'evergreen-ui'
 import { Property } from '../components/PropertyCard'
 import TabsContainer, { TabContainerProps } from '../components/TabsContainer'
 import PropertiesContainer from '../components/PropertiesContainer'
-import AddPropertyForm from '../components/AddPropertyForm'
+import AddPropertyForm, { AddPropertyFormState } from '../components/AddPropertyForm'
 import { useState } from 'react'
 import getToken from '../functions/getToken'
 import redirect from '../functions/redirect'
 import { GraphQLClient } from 'graphql-request'
-import { getSdk, User } from '../generated/graphql'
+import { getSdk, User, CostType } from '../generated/graphql'
 import { parseProperties } from '../functions/parseProperties'
 
 interface InitialProps {
     properties: Property[]
     userName: string
     userType: User['type']
+    token: string
 }
 
-const Page = ({ properties, userName }: InitialProps) => {
+const Page = ({ properties: initialProperties, userName, token }: InitialProps) => {
     const [addFormVisible, setAddFormVisible] = useState(false)
+    const [properties, setProperties] = useState(initialProperties)
 
+    const addProperty = async (fields: AddPropertyFormState) => {
+        try {
+            console.log('token' + token)
+            const client = new GraphQLClient('https://zanga-api.now.sh/graphql', {
+                headers: token.length ? {
+                    authorization: 'Bearer ' + token
+                } : null
+            })
+
+
+            const sdk = getSdk(client)
+            const { createProperty: result } = await sdk.addProperty({
+                input: {
+                    costType: CostType[fields.costType],
+                    costValue: fields.costValue,
+                    description: fields.description,
+                    images: fields.images,
+                    location: fields.location,
+                    title: fields.title
+                }
+            })
+            return !!result.length
+        } catch (error) {
+            console.log(error)
+            return false
+        }
+    }
+
+    const deleteProperty = async (id: string) => {
+        setProperties([...properties.filter(property => property.id !== id)])
+        try {
+            console.log('token' + token)
+            const client = new GraphQLClient('https://zanga-api.now.sh/graphql', {
+                headers: token.length ? {
+                    authorization: 'Bearer ' + token
+                } : null
+            })
+
+
+            const sdk = getSdk(client)
+            console.log('id' + id)
+            const { deleteProperty: result } = await sdk.deleteProperty({ id })
+            if (result) {
+                toaster.success('Deleted Property')
+                // document.location.reload()
+            }
+
+        } catch (error) {
+            console.log(error)
+            return false
+        }
+    }
 
     const tabs: TabContainerProps['tabs'] = [{
-        body: <PropertiesContainer deletable properties={properties} />,
+        body: <PropertiesContainer deletable onDelete={deleteProperty} properties={properties} />,
 
         title: 'Properties'
     },
@@ -54,7 +108,7 @@ const Page = ({ properties, userName }: InitialProps) => {
             onCloseComplete={() => setAddFormVisible(false)}
         >
             <Pane display='flex' justifyContent='center' flexDirection='column' padding={25}>
-                <AddPropertyForm />
+                <AddPropertyForm submit={addProperty.bind(this)} />
             </Pane>
         </SideSheet>
     </Layout>
@@ -73,12 +127,16 @@ Page.getInitialProps = async ({ query, ...ctx }): Promise<InitialProps> => {
             authorization: 'Bearer ' + token
         } : null
     })
+
     const sdk = getSdk(client)
     const { me } = await sdk.dashboard()
+
+    console.log('tokne' + token)
     return {
         userName: me.name,
         properties: parseProperties(me.properties),
-        userType: me.type
+        userType: me.type,
+        token
     }
 
 }

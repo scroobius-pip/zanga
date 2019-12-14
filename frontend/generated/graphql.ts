@@ -175,6 +175,52 @@ export type ContactAgentMutation = (
   & Pick<Mutation, 'contactAgent'>
 );
 
+export type AddPropertyMutationVariables = {
+  input: CreatePropertyInput
+};
+
+
+export type AddPropertyMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'createProperty'>
+);
+
+export type DeletePropertyMutationVariables = {
+  id: Scalars['ID']
+};
+
+
+export type DeletePropertyMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteProperty'>
+);
+
+export type LoginMutationVariables = {
+  input: LoginInput
+};
+
+
+export type LoginMutation = (
+  { __typename?: 'Mutation' }
+  & { login: (
+    { __typename?: 'LoginResult' }
+    & Pick<LoginResult, 'token' | 'message'>
+  ) }
+);
+
+export type RegisterMutationVariables = {
+  input: RegisterInput
+};
+
+
+export type RegisterMutation = (
+  { __typename?: 'Mutation' }
+  & { register: (
+    { __typename?: 'RegisterResult' }
+    & Pick<RegisterResult, 'token' | 'message'>
+  ) }
+);
+
 export type PropertiesQueryVariables = {
   type?: Maybe<CostType>
 };
@@ -231,6 +277,32 @@ export type DashboardQuery = (
 export const ContactAgentDocument = gql`
     mutation contactAgent($input: ContactAgentInput!) {
   contactAgent(input: $input)
+}
+    `;
+export const AddPropertyDocument = gql`
+    mutation addProperty($input: CreatePropertyInput!) {
+  createProperty(input: $input)
+}
+    `;
+export const DeletePropertyDocument = gql`
+    mutation deleteProperty($id: ID!) {
+  deleteProperty(id: $id)
+}
+    `;
+export const LoginDocument = gql`
+    mutation login($input: LoginInput!) {
+  login(input: $input) {
+    token
+    message
+  }
+}
+    `;
+export const RegisterDocument = gql`
+    mutation register($input: RegisterInput!) {
+  register(input: $input) {
+    token
+    message
+  }
 }
     `;
 export const PropertiesDocument = gql`
@@ -298,6 +370,18 @@ export function getSdk(client: GraphQLClient) {
   return {
     contactAgent(variables: ContactAgentMutationVariables): Promise<ContactAgentMutation> {
       return client.request<ContactAgentMutation>(print(ContactAgentDocument), variables);
+    },
+    addProperty(variables: AddPropertyMutationVariables): Promise<AddPropertyMutation> {
+      return client.request<AddPropertyMutation>(print(AddPropertyDocument), variables);
+    },
+    deleteProperty(variables: DeletePropertyMutationVariables): Promise<DeletePropertyMutation> {
+      return client.request<DeletePropertyMutation>(print(DeletePropertyDocument), variables);
+    },
+    login(variables: LoginMutationVariables): Promise<LoginMutation> {
+      return client.request<LoginMutation>(print(LoginDocument), variables);
+    },
+    register(variables: RegisterMutationVariables): Promise<RegisterMutation> {
+      return client.request<RegisterMutation>(print(RegisterDocument), variables);
     },
     properties(variables?: PropertiesQueryVariables): Promise<PropertiesQuery> {
       return client.request<PropertiesQuery>(print(PropertiesDocument), variables);

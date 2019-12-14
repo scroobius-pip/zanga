@@ -1,3 +1,25 @@
 mutation contactAgent ($input:ContactAgentInput!){
     contactAgent(input:$input)
 }
+
+mutation addProperty ($input:CreatePropertyInput!){
+createProperty(input:$input)
+}
+
+mutation deleteProperty($id:ID!){
+    deleteProperty(id:$id)
+}
+
+mutation login($input:LoginInput!){
+    login(input:$input){
+        token
+        message
+    }
+}
+
+mutation register($input:RegisterInput!){
+      register(input:$input){
+        token
+        message
+    }
+}

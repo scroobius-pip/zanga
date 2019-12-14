@@ -1,6 +1,7 @@
 import { Pane, Avatar, Card, Button, Popover, Text, Position, Menu, toaster } from 'evergreen-ui'
 import Router from 'next/router'
 import Link from 'next/link'
+import logout from '../functions/logout'
 
 interface Props {
     userName?: string
@@ -22,7 +23,8 @@ const AvatarPopover = ({ userName = '' }) => {
                     <Menu.Item
                         icon='log-out' intent="danger"
                         onSelect={() => {
-                            Router.push('/dashboard')
+                            logout()
+                            Router.push('/login')
                         }}
                     >
                         Logout

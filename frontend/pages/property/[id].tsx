@@ -10,15 +10,18 @@ import { getSdk, CostType, User } from '../../generated/graphql';
 import { parseProperties } from '../../functions/parseProperties';
 import getToken from '../../functions/getToken';
 import AgentContactForm from '../../components/AgentContactForm';
+import { AddPropertyFormState } from '../../components/AddPropertyForm';
 
 interface InitialProps {
     property: IProperty
     user?: Pick<User, 'id' | 'name'>
     referrerId?: string
+
 }
 
-
 const Page = ({ property, user, referrerId }: InitialProps) => {
+
+
 
 
     return <Layout userName={user?.name}>
@@ -96,7 +99,8 @@ Page.getInitialProps = async ({ query, ...ctx }): Promise<InitialProps> => {
             title
         },
         user: !!token.length ? (await sdk.me()).me : null,
-        referrerId: query.ref
+        referrerId: query.ref,
+
     }
 
 

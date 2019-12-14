@@ -20,11 +20,11 @@ interface InitialProps {
 const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
 
     const tabs: TabContainerProps['tabs'] = [{
-        body: <PropertiesContainer properties={saleProperties} />,
+        body: <PropertiesContainer refId={user.id} properties={saleProperties} />,
         title: 'For Sale'
     }, {
 
-        body: <PropertiesContainer properties={rentProperties} />,
+        body: <PropertiesContainer refId={user.id} properties={rentProperties} />,
         title: 'For Rent'
     }]
     return <Layout userName={user?.name} noNav>

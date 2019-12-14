@@ -9,6 +9,7 @@ export interface Property {
     location: string
     price: string
 
+
 }
 
 interface Props {
@@ -16,9 +17,10 @@ interface Props {
     property: Property
     onClick: () => any
     onDelete?: () => any
+    refId?: string
 }
 
-export default ({ active, property: { imageUrl, title, location, price }, onClick, onDelete }: Props) => <Card
+export default ({ active, property: { imageUrl, title, location, price, id }, onClick, onDelete, refId }: Props) => <Card
     display='flex'
     flexDirection='row'
     hoverElevation={3}
@@ -57,7 +59,7 @@ export default ({ active, property: { imageUrl, title, location, price }, onClic
             <IconButton
                 onClick={(e) => {
                     e.stopPropagation()
-                    copyPropertyLink('http://localhost:3000/')
+                    copyPropertyLink(`zanga.now.sh/property/${id}?ref=${refId}`)
                 }}
                 iconColor={colors.primary} appearance="minimal" icon='social-media' height={56} />}
     </Pane>

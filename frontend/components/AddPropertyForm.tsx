@@ -1,9 +1,10 @@
-import { Heading, Pane, TextInputField, SelectMenu, Button, Select, Textarea, FilePicker } from 'evergreen-ui'
+import { Heading, Pane, TextInputField, SelectMenu, Button, Select, Textarea, FilePicker, toaster, TagInput } from 'evergreen-ui'
 import { colors } from '../styles'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import states from './states'
-
-interface FormState {
+// import AWS from 'aws-sdk'
+// const Upload = require('s3-uploader')
+export interface AddPropertyFormState {
     title: string
     location: {
         city: string
@@ -12,15 +13,20 @@ interface FormState {
     costValue: number
     costType: 'Rent' | 'Sale'
     images: string[]
+    // imageFiles:string[]
     description: string
 }
 
-export default () => {
-    const [formState, setFormState] = useState<FormState>({
+interface Props {
+    submit: (fields: AddPropertyFormState) => Promise<Boolean>
+}
+
+export default ({ submit }: Props) => {
+    const [formState, setFormState] = useState<AddPropertyFormState>({
         costType: 'Sale',
         costValue: 0,
         description: '',
-        images: [],
+        images: [''],
         location: {
             city: '',
             state: ''
@@ -28,6 +34,37 @@ export default () => {
         title: ''
     })
 
+    const [valid, setValid] = useState(false)
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        console.log(formState)
+        setValid(isValid())
+    }, [JSON.stringify(formState)])
+
+    const isValid = () => {
+        const { costType, costValue, description, images, location: { city, state }, title } = formState
+
+        return !!(costType.length && description.length && images.length && city.length && state.length && title.length)
+
+    }
+
+
+
+    const onSubmit = async () => {
+        setLoading(true)
+
+        console.log(formState)
+        const result = await submit(formState)
+
+        if (result) {
+            toaster.notify('Created Property')
+            document.location.reload()
+        } else {
+            toaster.danger('Retry Request Later')
+        }
+        setLoading(false)
+    }
 
     return <>
         <Pane>
@@ -40,6 +77,8 @@ export default () => {
                 label='Title'
                 color={colors.primary}
                 height={40}
+                value={formState.title}
+                onChange={e => setFormState({ ...formState, title: e.target.value })}
                 // marginTop={10}
                 name="property-title"
                 placeholder="Title"
@@ -52,8 +91,13 @@ export default () => {
                         textAlign='left'
                         label='City'
                         color={colors.primary}
-
-                        // marginTop={10}
+                        value={formState.location.city}
+                        onChange={e => setFormState({
+                            ...formState, location: {
+                                ...formState.location,
+                                city: e.target.value
+                            }
+                        })}
                         name="property-city"
                         placeholder="City"
                     />
@@ -79,6 +123,8 @@ export default () => {
                 <Heading marginBottom={10} alignItems='center' size={600}>Price</Heading>
                 <Pane display='flex' alignItems='center' >
                     <TextInputField
+                        value={formState.costValue}
+                        onChange={e => setFormState({ ...formState, costValue: parseInt(e.target.value) })}
                         required
                         paddingRight={10}
                         flex={3}
@@ -90,7 +136,7 @@ export default () => {
                         type='number'
                     />
 
-                    <Select flex={1} onChange={event => alert(event.target.value)} >
+                    <Select value={formState.costType} flex={1} onChange={event => setFormState({ ...formState, costType: (event.target.value as 'Rent' | 'Sale') })} >
                         <option value="Sale" selected>Sale</option>
                         <option value="Rent">Rent</option>
                     </Select>
@@ -101,6 +147,8 @@ export default () => {
             <Pane>
                 <Heading marginBottom={10} alignItems='center' size={600}>Description</Heading>
                 <Textarea
+                    value={formState.description}
+                    onChange={e => setFormState({ ...formState, description: e.target.value })}
                     required
                     name="Description"
                     placeholder="Description"
@@ -108,16 +156,17 @@ export default () => {
             </Pane>
             <Pane>
                 <Heading marginBottom={10} alignItems='center' size={600}>Images</Heading>
-                <FilePicker
-                    accept="image/*"
-                    multiple
-                    width={250}
-                    marginBottom={32}
-                    onChange={files => console.log(files)}
-                    placeholder="Select the images here!"
+                <TagInput
+                    width='100%'
+                    inputProps={{ placeholder: 'Add Image Urls' }}
+                    values={formState.images}
+                    onChange={values => {
+                        setFormState({ ...formState, images: values.filter(v => !!v.length) })
+                    }}
                 />
+
             </Pane>
-            <Button float='right' isLoading iconAfter='add' marginTop={10} height={40} appearance="primary" marginRight={12} >
+            <Button float='right' isLoading={loading} onClick={onSubmit} disabled={!valid} iconAfter='add' marginTop={10} height={40} appearance="primary" marginRight={12} >
                 Create Property
                 </Button>
         </Pane>
