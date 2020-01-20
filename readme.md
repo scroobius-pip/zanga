@@ -49,4 +49,6 @@ To startup the react frontend run the following commands
 
 
 # Contribution Notes
-Please don't push code to the master branch, create a new git branch called "staging" where the code would be inspected before it is merged to master.
+1. Please don't push code to the master branch, create a new git branch called "staging" where the code would be inspected before it is merged to master.
+
+2. If you've already cloned the repository, you can run the ```git pull``` in the repository folder to get the latest changes.
