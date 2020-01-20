@@ -1,5 +1,5 @@
 import Layout from '../components/Layout'
-import { Heading, Pane, Button, SideSheet, Position, Paragraph, Alert, toaster } from 'evergreen-ui'
+import { Heading, Pane, Button, SideSheet, Position, Paragraph, Alert, toaster, IconButton } from 'evergreen-ui'
 import { Property } from '../components/PropertyCard'
 import TabsContainer, { TabContainerProps } from '../components/TabsContainer'
 import PropertiesContainer from '../components/PropertiesContainer'
@@ -10,7 +10,9 @@ import redirect from '../functions/redirect'
 import { GraphQLClient } from 'graphql-request'
 import { getSdk, User, CostType } from '../generated/graphql'
 import { parseProperties } from '../functions/parseProperties'
-
+import {
+    isMobile
+} from 'react-device-detect'
 interface InitialProps {
     properties: Property[]
     userName: string
@@ -92,22 +94,30 @@ const Page = ({ properties: initialProperties, userName, token }: InitialProps) 
 
     return <Layout userName={userName}>
 
-        <Pane display='flex' justifyContent='space-between'>
+        <Pane display='flex' justifyContent='space-between' alignItems='flex-end'>
             <Heading size={900}>Dashboard</Heading>
             <Button iconAfter='add' onClick={() => setAddFormVisible(true)} marginTop={10} height={40} appearance="primary" marginRight={12} >
                 Create Property
                 </Button>
         </Pane>
-        <Pane marginTop={25} background='tint1' padding={15}>
+        <Pane marginTop={25} background='tint1' padding={'2vw'}>
 
             <TabsContainer tabs={tabs} />
         </Pane>
         <SideSheet
 
+            preventBodyScrolling
+            width={isMobile ? '100%' : undefined}
             isShown={addFormVisible}
             onCloseComplete={() => setAddFormVisible(false)}
         >
             <Pane display='flex' justifyContent='center' flexDirection='column' padding={25}>
+                <IconButton
+                    // appearance='minimal'
+                    marginLeft='auto'
+                    onClick={() => setAddFormVisible(false)}
+                    icon='cross'
+                />
                 <AddPropertyForm submit={addProperty.bind(this)} />
             </Pane>
         </SideSheet>

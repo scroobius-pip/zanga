@@ -45,8 +45,8 @@ const Page = ({ property, user, referrerId }: InitialProps) => {
             <meta property="twitter:description" content={property.description} />
             <meta property="twitter:image" content={property.images[0]} />
         </Head>
-        <Pane background='white' elevation={2} padding={50} height='100%' textAlign='center' display='flex' flexDirection='column'>
-            <Pane>
+        <Pane background='white' elevation={2} padding={'5vmin'} height='100%' textAlign='center' display='flex' flexDirection='column'>
+            <Pane width='100%' margin='auto'>
                 <Gallery images={property.images.map(image => {
                     return {
                         src: image,
@@ -57,7 +57,7 @@ const Page = ({ property, user, referrerId }: InitialProps) => {
                 })} />
             </Pane>
             <Pane>
-                <Heading marginTop={20} size={700} color={colors.primary}>{property.title}</Heading>
+                <Heading marginTop={20} size={600} color={colors.primary}>{property.title}</Heading>
             </Pane>
             <Pane marginTop={10} display='flex' alignSelf='center' flexDirection='row' alignItems='center' >
                 <Icon icon="map-marker" marginRight={5} size={16} />
@@ -81,15 +81,17 @@ const Page = ({ property, user, referrerId }: InitialProps) => {
                         Router.push('/register')
                         return
                     }
-                    copyPropertyLink(`zanga.now.sh/property/${property.id}?ref=${user?.id}`)
+                    copyPropertyLink(`https://zanga.now.sh/property/${property.id}?ref=${user?.id}`)
                 }} marginTop={20} height={40} appearance="primary" marginRight={12} iconAfter="link">
                     Get Commission Link
                 </Button>
 
             </Pane>
             <Card marginTop={50} background='tint1' maxWidth={450} elevation={3} margin='auto' padding={25}>
-                <Heading marginTop={10} size={700}>Interested in this property ?</Heading>
-                <Text>Agent - {property.ownerName}</Text>
+                <Pane >
+                    <Heading marginTop={10} size={700}>Interested in this property ?</Heading>
+                    <Text>Agent - {property.ownerName}</Text>
+                </Pane>
                 <Pane marginTop={20}>
                     <AgentContactForm propertyId={property.id} referrer={referrerId} />
                 </Pane>

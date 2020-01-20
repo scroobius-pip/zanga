@@ -59,19 +59,19 @@ const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
                     <Heading className='f-wght_900' fontWeight={600} size={900}>
                         <span style={{ color: colors.primary }}>Share</span> Property &
             </Heading>
-                    <Heading size={900}>
-                        <span style={{ color: colors.primary }}>Earn</span> money from  <span style={{ color: colors.primary }}>commissions</span>
+                    <Heading className='f-wght_900' fontWeight={600} size={900}>
+                        <span style={{ color: colors.primary }}>Earn</span> Money from  <span style={{ color: colors.primary }}>Commissions</span>
                     </Heading>
 
                 </Pane>
                 <Pane>
                     <Pane>
                         <Paragraph fontWeight={500} size={500} marginTop="default">
-                            Share properties on social media and making commissions from property sales.
+                            Share properties on social media and make commissions from property sales.
                         </Paragraph>
-                        <Paragraph size={400} >
+                        {/* <Paragraph size={400} >
                             You'll be contacted once it's sold
-                        </Paragraph>
+                        </Paragraph> */}
                     </Pane>
 
                 </Pane>
@@ -79,7 +79,7 @@ const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
 
         </Pane>
 
-        <Pane marginTop={25} background='tint1' padding={15}>
+        <Pane marginTop={25} background='tint1' padding={'2vw'}>
             <TabsContainer tabs={tabs} />
         </Pane>
     </Layout>
