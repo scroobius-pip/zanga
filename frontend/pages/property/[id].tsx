@@ -45,7 +45,7 @@ const Page = ({ property, user, referrerId }: InitialProps) => {
             <meta property="twitter:description" content={property.description} />
             <meta property="twitter:image" content={property.images[0]} />
         </Head>
-        <Pane background='white' elevation={2} padding={'5vmin'} height='100%' textAlign='center' display='flex' flexDirection='column'>
+        <Pane maxWidth={800} margin='auto' background='white' elevation={2} padding={'5vmin'} height='100%' textAlign='center' display='flex' flexDirection='column'>
             <Pane width='100%' margin='auto'>
                 <Gallery images={property.images.map(image => {
                     return {

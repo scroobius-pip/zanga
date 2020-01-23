@@ -35,10 +35,6 @@ export default ({ active, property: { imageUrl, title, location, price, id }, on
     borderRightWidth={4}
     borderRightColor={index % 2 !== 0 ? colors.primary : colors.primary}
     elevation={2}
-    // elevation={active ? 1 : 0}
-    // border='default'
-    // borderWidth={active ? 2 : 0}
-    // borderColor={colors.primary}
     activeElevation={1}
     onClick={onClick}
 ><Pane display='flex'
