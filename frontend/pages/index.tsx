@@ -35,51 +35,53 @@ const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
         <Pane
             height={'100%'}
             width={'100%'}
-
         >
-            <Card elevation={3} width='100%' padding={20}
+            <Card margin='auto' maxWidth={800} elevation={3} width='100%' padding={20}
                 background='white'
             >
-                <Pane display='flex' justifyContent='space-between'>
-                    <Pane>
-                        <img src='/zanga-logo.svg' height={40} />
-                    </Pane>
-                    <Pane>
-                        {
-                            user ? <AvatarPopover userName={user.name} /> :
-                                <>
-                                    <Button onClick={() => Router.push('/login')} height={40} appearance="primary">Login</Button>
-                                    <Button onClick={() => Router.push('/register')} height={40} appearance="minimal">Register</Button>
-                                </>
-                        }
-
-                    </Pane>
-                </Pane>
-                <Pane marginTop={35}>
-                    <Heading className='f-wght_900' fontWeight={600} size={900}>
-                        <span style={{ color: colors.primary }}>Share</span> Property &
-            </Heading>
-                    <Heading className='f-wght_900' fontWeight={600} size={900}>
-                        <span style={{ color: colors.primary }}>Earn</span> Money from  <span style={{ color: colors.primary }}>Commissions</span>
-                    </Heading>
-
-                </Pane>
                 <Pane>
+                    <Pane display='flex' justifyContent='space-between'>
+                        <Pane>
+                            <img src='/zanga-logo.svg' height={40} />
+                        </Pane>
+                        <Pane>
+                            {
+                                user ? <AvatarPopover userName={user.name} /> :
+                                    <>
+                                        <Button onClick={() => Router.push('/login')} height={40} appearance="primary">Login</Button>
+                                        <Button onClick={() => Router.push('/register')} height={40} appearance="minimal">Register</Button>
+                                    </>
+                            }
+
+                        </Pane>
+                    </Pane>
+                    <Pane marginTop={35}>
+                        <Heading className='f-wght_900' fontWeight={600} size={900}>
+                            <span style={{ color: colors.primary }}>Share</span> Property &
+            </Heading>
+                        <Heading className='f-wght_900' fontWeight={600} size={900}>
+                            <span style={{ color: colors.primary }}>Earn</span> Money from  <span style={{ color: colors.primary }}>Commissions</span>
+                        </Heading>
+
+                    </Pane>
                     <Pane>
-                        <Paragraph fontWeight={500} size={500} marginTop="default">
-                            Share properties on social media and make commissions from property sales.
+                        <Pane>
+                            <Paragraph fontWeight={500} size={500} marginTop="default">
+                                Share properties on social media and make commissions from property sales.
                         </Paragraph>
-                        {/* <Paragraph size={400} >
+                            {/* <Paragraph size={400} >
                             You'll be contacted once it's sold
                         </Paragraph> */}
-                    </Pane>
+                        </Pane>
 
+                    </Pane>
                 </Pane>
+
             </Card>
 
         </Pane>
 
-        <Pane marginTop={25} background='tint1' padding={'2vw'}>
+        <Pane maxWidth={800} margin='auto' marginTop={25} background='tint1' padding={'2vw'}>
             <TabsContainer tabs={tabs} />
         </Pane>
     </Layout>
