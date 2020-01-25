@@ -49,6 +49,19 @@ To startup the react frontend run the following commands
 
 
 # Contribution Notes
-1. Please don't push code to the master branch, create a new git branch called "staging" where the code would be inspected before it is merged to master.
 
-2. If you've already cloned the repository, you can run the ```git pull``` in the repository folder to get the latest changes.
+Changes to the code should be made through pull requests.
+
+To start contributing:
+1. Fork the repo on github
+2. Clone the forked repo to your computer
+3. run command in the folder: ```git remote add upstream https://github.com/scroobius-pip/zanga.git ```
+4. Make any changes to the code. And commit the code.
+5. Create a pull request on github
+6. Wait for the pull request to be accepted
+
+To sync latest changes from the origin repo, run the following commands in the project folder:
+
+1. ```git fetch upstream```
+2. ```git checkout master```
+3. ```git merge upstream/master```
