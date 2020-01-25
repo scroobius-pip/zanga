@@ -4,4 +4,4 @@ const colors = {
     grey: '#2b2e32'
 }
 
-export { colors }
+export { colors: colors }
