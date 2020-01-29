@@ -187,7 +187,11 @@ export type ContactOrderByInput =
   | "name_ASC"
   | "name_DESC"
   | "number_ASC"
-  | "number_DESC";
+  | "number_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "notes_ASC"
+  | "notes_DESC";
 
 export type PropertyOrderByInput =
   | "id_ASC"
@@ -279,6 +283,34 @@ export interface ContactWhereInput {
   number_ends_with?: Maybe<String>;
   number_not_ends_with?: Maybe<String>;
   property?: Maybe<PropertyWhereInput>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  notes?: Maybe<String>;
+  notes_not?: Maybe<String>;
+  notes_in?: Maybe<String[] | String>;
+  notes_not_in?: Maybe<String[] | String>;
+  notes_lt?: Maybe<String>;
+  notes_lte?: Maybe<String>;
+  notes_gt?: Maybe<String>;
+  notes_gte?: Maybe<String>;
+  notes_contains?: Maybe<String>;
+  notes_not_contains?: Maybe<String>;
+  notes_starts_with?: Maybe<String>;
+  notes_not_starts_with?: Maybe<String>;
+  notes_ends_with?: Maybe<String>;
+  notes_not_ends_with?: Maybe<String>;
   AND?: Maybe<ContactWhereInput[] | ContactWhereInput>;
   OR?: Maybe<ContactWhereInput[] | ContactWhereInput>;
   NOT?: Maybe<ContactWhereInput[] | ContactWhereInput>;
@@ -531,6 +563,8 @@ export interface ContactCreateInput {
   name: String;
   number: String;
   property: PropertyCreateOneInput;
+  email?: Maybe<String>;
+  notes?: Maybe<String>;
 }
 
 export interface PropertyCreateOneInput {
@@ -559,6 +593,8 @@ export interface ContactUpdateInput {
   name?: Maybe<String>;
   number?: Maybe<String>;
   property?: Maybe<PropertyUpdateOneRequiredInput>;
+  email?: Maybe<String>;
+  notes?: Maybe<String>;
 }
 
 export interface PropertyUpdateOneRequiredInput {
@@ -592,6 +628,8 @@ export interface PropertyUpsertNestedInput {
 export interface ContactUpdateManyMutationInput {
   name?: Maybe<String>;
   number?: Maybe<String>;
+  email?: Maybe<String>;
+  notes?: Maybe<String>;
 }
 
 export interface PropertyUpdateInput {
@@ -848,6 +886,8 @@ export interface ContactUpdateDataInput {
   name?: Maybe<String>;
   number?: Maybe<String>;
   property?: Maybe<PropertyUpdateOneRequiredInput>;
+  email?: Maybe<String>;
+  notes?: Maybe<String>;
 }
 
 export interface ContactUpsertWithWhereUniqueNestedInput {
@@ -899,6 +939,34 @@ export interface ContactScalarWhereInput {
   number_not_starts_with?: Maybe<String>;
   number_ends_with?: Maybe<String>;
   number_not_ends_with?: Maybe<String>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  notes?: Maybe<String>;
+  notes_not?: Maybe<String>;
+  notes_in?: Maybe<String[] | String>;
+  notes_not_in?: Maybe<String[] | String>;
+  notes_lt?: Maybe<String>;
+  notes_lte?: Maybe<String>;
+  notes_gt?: Maybe<String>;
+  notes_gte?: Maybe<String>;
+  notes_contains?: Maybe<String>;
+  notes_not_contains?: Maybe<String>;
+  notes_starts_with?: Maybe<String>;
+  notes_not_starts_with?: Maybe<String>;
+  notes_ends_with?: Maybe<String>;
+  notes_not_ends_with?: Maybe<String>;
   AND?: Maybe<ContactScalarWhereInput[] | ContactScalarWhereInput>;
   OR?: Maybe<ContactScalarWhereInput[] | ContactScalarWhereInput>;
   NOT?: Maybe<ContactScalarWhereInput[] | ContactScalarWhereInput>;
@@ -912,6 +980,8 @@ export interface ContactUpdateManyWithWhereNestedInput {
 export interface ContactUpdateManyDataInput {
   name?: Maybe<String>;
   number?: Maybe<String>;
+  email?: Maybe<String>;
+  notes?: Maybe<String>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -969,6 +1039,8 @@ export interface Contact {
   id: ID_Output;
   name: String;
   number: String;
+  email?: String;
+  notes?: String;
 }
 
 export interface ContactPromise extends Promise<Contact>, Fragmentable {
@@ -976,6 +1048,8 @@ export interface ContactPromise extends Promise<Contact>, Fragmentable {
   name: () => Promise<String>;
   number: () => Promise<String>;
   property: <T = PropertyPromise>() => T;
+  email: () => Promise<String>;
+  notes: () => Promise<String>;
 }
 
 export interface ContactSubscription
@@ -985,6 +1059,8 @@ export interface ContactSubscription
   name: () => Promise<AsyncIterator<String>>;
   number: () => Promise<AsyncIterator<String>>;
   property: <T = PropertySubscription>() => T;
+  email: () => Promise<AsyncIterator<String>>;
+  notes: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ContactNullablePromise
@@ -994,6 +1070,8 @@ export interface ContactNullablePromise
   name: () => Promise<String>;
   number: () => Promise<String>;
   property: <T = PropertyPromise>() => T;
+  email: () => Promise<String>;
+  notes: () => Promise<String>;
 }
 
 export interface Property {
@@ -1386,6 +1464,8 @@ export interface ContactPreviousValues {
   id: ID_Output;
   name: String;
   number: String;
+  email?: String;
+  notes?: String;
 }
 
 export interface ContactPreviousValuesPromise
@@ -1394,6 +1474,8 @@ export interface ContactPreviousValuesPromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   number: () => Promise<String>;
+  email: () => Promise<String>;
+  notes: () => Promise<String>;
 }
 
 export interface ContactPreviousValuesSubscription
@@ -1402,6 +1484,8 @@ export interface ContactPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   number: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  notes: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PropertySubscriptionPayload {

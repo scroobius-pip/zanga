@@ -731,6 +731,8 @@ export namespace MutationResolvers {
     name: string;
     number: string;
     referrerId: string;
+    email: string;
+    notes: string;
   }
   export interface LocationInput {
     city: string;

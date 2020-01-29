@@ -17,6 +17,8 @@ type Contact {
   name: String!
   number: String!
   property: Property! @relation(link: INLINE)
+  email: String
+  notes: String
 }
 
 type Property {
