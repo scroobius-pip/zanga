@@ -66,6 +66,8 @@ input ContactAgentInput {
   name: String!
   number: String!
   referrerId: String!
+  email: String!
+  notes: String!
 }
 
 input RegisterInput {

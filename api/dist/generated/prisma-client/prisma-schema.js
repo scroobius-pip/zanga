@@ -24,6 +24,8 @@ type Contact {
   name: String!
   number: String!
   property: Property!
+  email: String
+  notes: String
 }
 
 type ContactConnection {
@@ -37,6 +39,8 @@ input ContactCreateInput {
   name: String!
   number: String!
   property: PropertyCreateOneInput!
+  email: String
+  notes: String
 }
 
 input ContactCreateManyInput {
@@ -56,12 +60,18 @@ enum ContactOrderByInput {
   name_DESC
   number_ASC
   number_DESC
+  email_ASC
+  email_DESC
+  notes_ASC
+  notes_DESC
 }
 
 type ContactPreviousValues {
   id: ID!
   name: String!
   number: String!
+  email: String
+  notes: String
 }
 
 input ContactScalarWhereInput {
@@ -107,6 +117,34 @@ input ContactScalarWhereInput {
   number_not_starts_with: String
   number_ends_with: String
   number_not_ends_with: String
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  notes: String
+  notes_not: String
+  notes_in: [String!]
+  notes_not_in: [String!]
+  notes_lt: String
+  notes_lte: String
+  notes_gt: String
+  notes_gte: String
+  notes_contains: String
+  notes_not_contains: String
+  notes_starts_with: String
+  notes_not_starts_with: String
+  notes_ends_with: String
+  notes_not_ends_with: String
   AND: [ContactScalarWhereInput!]
   OR: [ContactScalarWhereInput!]
   NOT: [ContactScalarWhereInput!]
@@ -134,17 +172,23 @@ input ContactUpdateDataInput {
   name: String
   number: String
   property: PropertyUpdateOneRequiredInput
+  email: String
+  notes: String
 }
 
 input ContactUpdateInput {
   name: String
   number: String
   property: PropertyUpdateOneRequiredInput
+  email: String
+  notes: String
 }
 
 input ContactUpdateManyDataInput {
   name: String
   number: String
+  email: String
+  notes: String
 }
 
 input ContactUpdateManyInput {
@@ -162,6 +206,8 @@ input ContactUpdateManyInput {
 input ContactUpdateManyMutationInput {
   name: String
   number: String
+  email: String
+  notes: String
 }
 
 input ContactUpdateManyWithWhereNestedInput {
@@ -224,6 +270,34 @@ input ContactWhereInput {
   number_ends_with: String
   number_not_ends_with: String
   property: PropertyWhereInput
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  notes: String
+  notes_not: String
+  notes_in: [String!]
+  notes_not_in: [String!]
+  notes_lt: String
+  notes_lte: String
+  notes_gt: String
+  notes_gte: String
+  notes_contains: String
+  notes_not_contains: String
+  notes_starts_with: String
+  notes_not_starts_with: String
+  notes_ends_with: String
+  notes_not_ends_with: String
   AND: [ContactWhereInput!]
   OR: [ContactWhereInput!]
   NOT: [ContactWhereInput!]

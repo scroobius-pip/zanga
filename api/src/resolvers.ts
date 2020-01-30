@@ -45,22 +45,24 @@ const Mutation: MutationResolvers.Type = {
             await ctx.prisma.createContact({
                 name: input.name,
                 number: input.number,
+                email: input.email,
+                notes: input.notes,
                 property: {
                     connect: { id: input.propertyId }
                 }
             })
             if (input.referrerId) {
-                const referrerNumber = await ctx.prisma.user({ id: input.referrerId }).phone()
-                try {
-                    await client('', '').messages.create({
-                        body: "Someone has shown interest in the property you shared: " + "zanga.now.sh/property/" + input.propertyId,
-                        from: '+234' + '',
-                        to: '+234' + referrerNumber
-                    })
+                // const referrerNumber = await ctx.prisma.user({ id: input.referrerId }).phone()
+                // try {
+                //     await client('', '').messages.create({
+                //         body: "Someone has shown interest in the property you shared: " + "zanga.now.sh/property/" + input.propertyId,
+                //         from: '+234' + '',
+                //         to: '+234' + referrerNumber
+                //     })
 
-                } catch (error) {
+                // } catch (error) {
 
-                }
+                // }
                 //TWILIO HERE
             }
 
