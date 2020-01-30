@@ -24,6 +24,8 @@ export type ContactAgentInput = {
   name: Scalars['String'],
   number: Scalars['String'],
   referrerId: Scalars['String'],
+  email: Scalars['String'],
+  notes: Scalars['String'],
 };
 
 export type Cost = {
