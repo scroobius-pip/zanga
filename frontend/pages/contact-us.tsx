@@ -16,8 +16,8 @@ function validateEmail(email) {
 
 export default () => {
     const [formState, setFormState] = useState({
-        email: null,
-        notes: null,
+        email: '',
+        notes: '',
         checked: false
     })
 
@@ -63,9 +63,9 @@ export default () => {
 
     const toggleChange = () => {
         this.setState({
-          checked: !this.formState.checked,
+            checked: !this.formState.checked,
         });
-      }
+    }
 
     const enabButton = () => {
         if (formState.checked && !formState.notes || !formState.email) {
@@ -107,7 +107,7 @@ export default () => {
                     //disabled={enabButton}
                     checked={formState.checked}
                     onChange={toggleChange}
-                    marginTop={10} height={40}  marginRight={12}>
+                    marginTop={10} height={40} marginRight={12}>
                     Consent
                 </Checkbox>
                 <Button
