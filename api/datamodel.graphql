@@ -2,34 +2,35 @@
 type User {
 id: ID! @id
 email: String! @unique
-phone: String!
+phone: String! @unique
 name: String! @unique
 password: String!
-properties: [Property!] @relation(link: INLINE)
+properties: [Property!] @relation
 type:UserType!
 cac: String @unique
 tin: String @unique
-contacts: [Contact!] @relation(link: INLINE) 
+contacts: [Contact!] @relation
 }
 
 type Contact {
   id: ID! @id
   name: String!
   number: String!
-  property: Property! @relation(link: INLINE)
+  property: Property! @relation
   email: String
   notes: String
+  to:User!
 }
 
 type Property {
+  
   id: ID! @id
   title: String!
   city: String!
   state: String!
   costValue: Int!
   costType:CostType!
-  ownerId: ID!
-  ownerName: String!
+  owner:User!
   images: [String!]!
   description: String!
 }
