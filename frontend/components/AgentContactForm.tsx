@@ -9,7 +9,9 @@ import { getSdk } from '../generated/graphql'
 export default ({ referrer = '', propertyId = '' }) => {
     const [formState, setFormState] = useState({
         name: '',
-        number: ''
+        number: '',
+        email: '',
+        notes: ''
     })
 
     const [loading, setLoading] = useState(false)
@@ -23,6 +25,8 @@ export default ({ referrer = '', propertyId = '' }) => {
                 input: {
                     name: formState.name,
                     number: formState.number,
+                    email: formState.email,
+                    notes: formState.notes,
                     propertyId,
                     referrerId: referrer
                 }
