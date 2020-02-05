@@ -7,6 +7,7 @@ import { getSdk } from '../generated/graphql'
 import login from '../functions/login'
 import redirect from '../functions/redirect'
 import Router from 'next/router'
+import ReCAPTCHA from "react-google-recaptcha";
 
 function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -18,11 +19,14 @@ export default () => {
     const [formState, setFormState] = useState({
         email: null,
         notes: null,
-        checked: false
+        checked: false,
+        isverified: false
     })
 
     const [valid, setValid] = useState(false)
     const [loading, setLoading] = useState(false)
+
+    const RECAPTCHA_SITE_KEY = "6LeJDtYUAAAAAP9C4ZDSts7fOZpgRDNSTxySEFXp"
 
     useEffect(() => {
         console.log(formState)
@@ -74,6 +78,14 @@ export default () => {
         return !!(formState.notes.length && validateEmail(formState.email))
     }
 
+    const recaptchaResponse = (value) =>{
+        if(value){
+            this.setState({
+                iisverified: true
+            })
+        }
+      }
+
 
     return <Layout>
         <Heading marginTop={10} textAlign='center' size={900}>Sign in</Heading>
@@ -119,6 +131,10 @@ export default () => {
                     Sign in
                 </Button>
             </Pane>
+            <ReCAPTCHA
+                sitekey= {RECAPTCHA_SITE_KEY}
+                onChange={recaptchaResponse}
+            />
         </Card>
     </Layout>
 }
