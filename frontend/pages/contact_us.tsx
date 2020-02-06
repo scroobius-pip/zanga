@@ -20,7 +20,7 @@ export default () => {
         email: null,
         notes: null,
         checked: false,
-        isverified: false
+        isVerified: false
     })
 
     const [valid, setValid] = useState(false)
@@ -66,8 +66,8 @@ export default () => {
     }
 
     const toggleChange = () => {
-        this.setState({
-          checked: !this.formState.checked,
+        setFormState({
+          checked: !formState.checked,
         });
       }
 
@@ -80,12 +80,19 @@ export default () => {
 
     const recaptchaResponse = (value) =>{
         if(value){
-            this.setState({
-                iisverified: true
-            })
+            setFormState({
+                isVerified: !formState.isVerified
+            })                
         }
       }
 
+    const  handleVerified = () =>{
+        if(formState.isVerified){
+            submit()
+        }else{
+            alert("Please verify that you're a human")
+        }
+    }
 
     return <Layout>
         <Heading marginTop={10} textAlign='center' size={900}>Sign in</Heading>
@@ -126,7 +133,7 @@ export default () => {
                     isLoading={loading}
                     disabled={enabButton()}
                     onClick={() => {
-                        submit()
+                        handleVerified()
                     }} marginTop={10} height={40} appearance="primary" marginRight={12} iconAfter='log-in'>
                     Sign in
                 </Button>
