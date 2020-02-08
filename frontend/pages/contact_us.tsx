@@ -18,15 +18,17 @@ function validateEmail(email) {
 export default () => {
     const [formState, setFormState] = useState({
         email: null,
-        notes: null,
-        checked: false,
-        isVerified: false
+        notes: null
     })
+
+    const [checked, setChecked] = useState(false)
+    const [isVerified, setIsVerified] = useState(false)
 
     const [valid, setValid] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const RECAPTCHA_SITE_KEY = "6LeJDtYUAAAAAP9C4ZDSts7fOZpgRDNSTxySEFXp"
+    const RECAPTCHA_SECRET_KEY = "6LeJDtYUAAAAAK5GlLWuxNyO2mG44VbMqZq-Oyfb"
 
     useEffect(() => {
         console.log(formState)
@@ -66,13 +68,13 @@ export default () => {
     }
 
     const toggleChange = () => {
-        setFormState({
-          checked: !formState.checked,
-        });
+        setChecked(
+          !checked,
+        );
       }
 
-    const enabButton = () => {
-        if (formState.checked && !formState.notes || !formState.email) {
+    const enableButton = () => {
+        if (!checked && !formState.notes || !formState.email) {
             return false
         }
         return !!(formState.notes.length && validateEmail(formState.email))
@@ -80,14 +82,12 @@ export default () => {
 
     const recaptchaResponse = (value) =>{
         if(value){
-            setFormState({
-                isVerified: !formState.isVerified
-            })                
+            setIsVerified(!isVerified)                
         }
       }
 
-    const  handleVerified = () =>{
-        if(formState.isVerified){
+    const  submitToVerify = () =>{
+        if(!isVerified){
             submit()
         }else{
             alert("Please verify that you're a human")
@@ -131,9 +131,9 @@ export default () => {
                 </Checkbox>
                 <Button
                     isLoading={loading}
-                    disabled={enabButton()}
+                    disabled={enableButton()}
                     onClick={() => {
-                        handleVerified()
+                        submitToVerify()
                     }} marginTop={10} height={40} appearance="primary" marginRight={12} iconAfter='log-in'>
                     Sign in
                 </Button>
