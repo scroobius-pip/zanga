@@ -68,21 +68,21 @@ export default () => {
     }
 
     const toggleChange = () => {
-        setChecked(
-          !checked,
-        );
+        setChecked(!checked)
       }
 
     const enableButton = () => {
         if (!checked || (!formState.notes || !formState.email)) {
             return true
-        }else{return false}
-        return !!(formState.notes.length && validateEmail(formState.email))
+        }
+        else{
+            return false
+        }
     }
 
     const recaptchaResponse = (value) =>{
         if(value){
-            setIsVerified(isVerified)                
+            setIsVerified(!isVerified)                
         }
       }
 
@@ -127,7 +127,7 @@ export default () => {
                     checked={checked}
                     onChange={toggleChange}
                     color={colors.primary}
-                    label='I certify that the information provided above can be used to contact me'
+                    label='I certify that the information provided above can be use to contact me'
                     marginTop={10} height={40}  marginRight={12}>
                     Consent
                 </Checkbox>
