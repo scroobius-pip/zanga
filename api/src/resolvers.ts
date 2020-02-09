@@ -9,14 +9,14 @@ import { UserType, Property } from './types/models'
 import { CostType } from '../generated/sdk'
 
 
-const User: UserResolvers.Type = {
-    properties: async (parent, args, ctx) => await ctx.prisma.properties({ where: { ownerId: parent.id } }),
-    email: p => p.email,
-    id: p => p.id,
-    name: p => p.name,
-    phone: p => p.phone,
-    type: p => p.type
-}
+// const User: UserResolvers.Type = {
+//     // properties: p => p.,
+//     email: p => p.email,
+//     id: p => p.id,
+//     name: p => p.name,
+//     phone: p => p.phone,
+//     type: p => p.type
+// }
 
 const Query: QueryResolvers.Type = {
 
@@ -25,20 +25,25 @@ const Query: QueryResolvers.Type = {
             throw new AuthenticationError('Token Not Passed')
         }
 
-        const user = await ctx.prisma.user({ id: ctx.userId })
-        return user
+        const user = (await ctx.client.user({ id: ctx.userId })).findUserByID
+        if (!user) return null
 
+        const userProperties = user?.properties.data ?? []
+
+        return {
+            ...user,
+            properties: userProperties
+        }
     },
 
-    properties: async (_, args, ctx) => {
-
-        return (await ctx.client.properties({ costType: CostType[args.type] }))
+    properties: async (_, args, ctx) =>
+        (await ctx.client.properties({ costType: CostType[args.type] }))
             .findPropertiesByCostType
             .data
-    },
-    property: (_, args, ctx) => {
+    ,
+    property: async (_, args, ctx) => {
         if (!args.id.length) { throw new Error('Id Not Passed') }
-        return ctx.client.property({ id: args.id })
+        return (await (ctx.client.property({ id: args.id }))).findPropertyByID
     }
 }
 

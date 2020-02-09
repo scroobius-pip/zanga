@@ -327,6 +327,43 @@ export type PropertiesQuery = (
   ) }
 );
 
+export type PropertyQueryVariables = {
+  id: Scalars['ID']
+};
+
+
+export type PropertyQuery = (
+  { __typename?: 'Query' }
+  & { findPropertyByID: Maybe<(
+    { __typename?: 'Property' }
+    & Pick<Property, 'city' | 'id' | 'state' | 'costType' | 'costValue' | 'title' | 'images' | 'description'>
+    & { owner: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name'>
+    ) }
+  )> }
+);
+
+export type UserQueryVariables = {
+  id: Scalars['ID']
+};
+
+
+export type UserQuery = (
+  { __typename?: 'Query' }
+  & { findUserByID: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name' | 'type' | 'phone' | 'email'>
+    & { properties: (
+      { __typename?: 'PropertyPage' }
+      & { data: Array<Maybe<(
+        { __typename?: 'Property' }
+        & Pick<Property, 'city' | 'state' | 'description' | 'costType' | 'costValue' | 'id' | 'title' | 'images'>
+      )>> }
+    ) }
+  )> }
+);
+
 
 export const PropertiesDocument = gql`
     query properties($costType: CostType!) {
@@ -348,10 +385,57 @@ export const PropertiesDocument = gql`
   }
 }
     `;
+export const PropertyDocument = gql`
+    query property($id: ID!) {
+  findPropertyByID(id: $id) {
+    city
+    id
+    state
+    costType
+    costValue
+    owner {
+      id
+      name
+    }
+    title
+    images
+    description
+  }
+}
+    `;
+export const UserDocument = gql`
+    query user($id: ID!) {
+  findUserByID(id: $id) {
+    id
+    name
+    type
+    phone
+    properties {
+      data {
+        city
+        state
+        description
+        costType
+        costValue
+        id
+        title
+        images
+      }
+    }
+    email
+  }
+}
+    `;
 export function getSdk(client: GraphQLClient) {
   return {
     properties(variables: PropertiesQueryVariables): Promise<PropertiesQuery> {
       return client.request<PropertiesQuery>(print(PropertiesDocument), variables);
+    },
+    property(variables: PropertyQueryVariables): Promise<PropertyQuery> {
+      return client.request<PropertyQuery>(print(PropertyDocument), variables);
+    },
+    user(variables: UserQueryVariables): Promise<UserQuery> {
+      return client.request<UserQuery>(print(UserDocument), variables);
     }
   };
 }

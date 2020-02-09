@@ -1,0 +1,19 @@
+query property($id:ID!){
+    
+  findPropertyByID(id:$id){
+    city
+    id
+    state
+    costType
+    costValue
+    owner{
+      id
+      name
+    }
+    title
+    images
+    description
+    
+  }
+
+}
