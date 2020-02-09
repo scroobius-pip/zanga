@@ -39,24 +39,7 @@ export default () => {
 
     const submit = async () => {
         setLoading(true)
-        // try {
-        //     const client = new GraphQLClient('https://zanga-api.now.sh/graphql')
-        //     const sdk = getSdk(client)
-        //     const { login: { token, message } } = await sdk.login({
-        //         input: { ...formState }
-        //     })
-        //     if (token) {
-        //         login(token)
-        //         toaster.success('Login Success 😄')
-        //         Router.push('/')
 
-        //     } else {
-        //         toaster.warning(message)
-        //     }
-
-        // } catch (error) {
-        //     toaster.danger('Retry Request Later')
-        // }
 
         setLoading(false)
     }
@@ -98,13 +81,10 @@ export default () => {
                     color={colors.primary}
                     height={120}
                     type='text'
-                    // marginTop={10}
                     name="notes"
                     placeholder="Provide Entra Notes"
                 />
                 <Checkbox
-                    //isLoading={loading}
-                    //disabled={enabButton}
                     checked={formState.checked}
                     onChange={toggleChange}
                     marginTop={10} height={40} marginRight={12}>
