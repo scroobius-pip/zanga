@@ -8,15 +8,18 @@
     "deploy": "npm run build && now",
     "dev": "micro-dev ./dist/src/index.js -l tcp://localhost:2000",
     "build": "npm run buildSchema && tsc",
-    "buildSchema": "tsc --lib esnext --types node --esModuleInterop ./src/schema/generateSchemaString.ts && node ./src/schema/generateSchemaString.js"
+    "buildSchema": "tsc --lib esnext --types node --esModuleInterop ./src/schema/generateSchemaString.ts && node ./src/schema/generateSchemaString.js",
+    "graphql-gen": "graphql-codegen --config codegen.yml"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@graphql-codegen/typescript-graphql-request": "^1.12.2",
     "@types/bcryptjs": "^2.4.2",
     "@types/jsonwebtoken": "^8.3.5",
-    "apollo-server-micro": "^2.9.13",
+    "apollo-server-core": "^2.10.0",
+    "apollo-server-micr o": "^2.9.13",
     "bcryptjs": "^2.4.3",
     "graphql": "^14.5.8",
     "graphql-import": "^0.7.1",
@@ -32,5 +35,12 @@
     "ts-node-dev": "^1.0.0-pre.44",
     "twilio": "^3.39.0",
     "typescript": "^3.7.3"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.12.2",
+    "@graphql-codegen/introspection": "^1.12.2",
+    "@graphql-codegen/typescript": "^1.12.2",
+    "@graphql-codegen/typescript-operations": "^1.12.2",
+    "graphql-request": "^1.8.2"
   }
 }

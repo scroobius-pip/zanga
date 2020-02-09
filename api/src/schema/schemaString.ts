@@ -1,7 +1,7 @@
 
 const data = `type Query {
   me: User
-  properties(type: CostType): [Property!]!
+  properties(type: CostType!): [Property!]!
   property(id: ID!): Property
 }
 

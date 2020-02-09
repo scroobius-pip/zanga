@@ -5,7 +5,8 @@ import jwt from 'jsonwebtoken'
 import client from 'twilio'
 
 
-import { UserType } from './types/models'
+import { UserType, Property } from './types/models'
+import { CostType } from '../generated/sdk'
 
 
 const User: UserResolvers.Type = {
@@ -23,18 +24,21 @@ const Query: QueryResolvers.Type = {
         if (!ctx.userId) {
             throw new AuthenticationError('Token Not Passed')
         }
+
         const user = await ctx.prisma.user({ id: ctx.userId })
         return user
 
     },
 
-    properties: (_, args, ctx) => {
-        // return args.type
-        return args.type ? ctx.prisma.properties({ where: { costType: args.type } }) : ctx.prisma.properties()
+    properties: async (_, args, ctx) => {
+
+        return (await ctx.client.properties({ costType: CostType[args.type] }))
+            .findPropertiesByCostType
+            .data
     },
     property: (_, args, ctx) => {
         if (!args.id.length) { throw new Error('Id Not Passed') }
-        return ctx.prisma.property({ id: args.id })
+        return ctx.client.property({ id: args.id })
     }
 }
 

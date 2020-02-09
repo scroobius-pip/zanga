@@ -1,6 +1,5 @@
-import { Prisma } from '../../generated/prisma-client'
-
+import { getSdk } from '../../generated/sdk'
 export interface Context {
     userId: string
-    prisma: Prisma
+    client: ReturnType<typeof getSdk>
 }

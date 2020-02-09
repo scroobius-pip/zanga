@@ -45,3 +45,7 @@ enum UserType {
 Agency
 Individual
 }
+
+type Query {
+  findPropertiesByCostType(costType:CostType!):[Property!]!
+}
