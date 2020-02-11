@@ -1,10 +1,15 @@
 import { TextInputField, Button, toaster } from 'evergreen-ui'
 import { colors } from '../styles'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { GraphQLClient } from 'graphql-request'
 import { getSdk } from '../generated/graphql'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
 
 export default ({ referrer = '', propertyId = '' }) => {
     const [formState, setFormState] = useState({
@@ -15,6 +20,20 @@ export default ({ referrer = '', propertyId = '' }) => {
     })
 
     const [loading, setLoading] = useState(false)
+    const [isVerified, setIsVerified] = useState(false)
+    const [valid, setValid] = useState(false)
+    
+    let RECAPTCHA_SITE_KEY = "6LeJDtYUAAAAAP9C4ZDSts7fOZpgRDNSTxySEFXp"
+
+    useEffect(() => {
+        console.log(formState)
+        setValid(isValid())
+    }, [JSON.stringify(formState)])
+
+    const isValid = () => {
+        return !!(validateEmail(formState.email))
+    }
+
 
     const submit = async () => {
         setLoading(true)
@@ -42,6 +61,20 @@ export default ({ referrer = '', propertyId = '' }) => {
         setLoading(false)
     }
 
+    const agentRecaptchaResponse = (value) =>{
+        if(value){
+            setIsVerified(!isVerified)                
+        }
+    }
+
+    const  submitToVerify = () =>{
+        if(isVerified){
+            submit()
+        }else{
+            alert("Please verify that you're a human")
+        }
+    }
+
     return <>
 
         <TextInputField
@@ -67,16 +100,34 @@ export default ({ referrer = '', propertyId = '' }) => {
             name="Your full name"
             placeholder="Your full name"
         />
+        <TextInputField
+            onChange={e => setFormState({ ...formState, email: e.target.value })}
+            value={formState.email}
+            textAlign='left'
+            color={colors.primary}
+            label='Email (Optional)'
+            height={40}
+            name="Your email"
+            type='email'
+            placeholder="Your email"
+        />
         <Button
             isLoading={loading}
             disabled={!(formState.name && formState.number)}
-            onClick={() => submit()}
+            onClick={() => submitToVerify()}
             marginTop={10}
+            marginBottom={10}
             height={40}
             appearance="primary"
             marginRight={12}
             iconAfter='envelope'>
             Send Request
-</Button>
+        </Button>
+
+        <ReCAPTCHA
+                sitekey= {RECAPTCHA_SITE_KEY}
+                onChange={agentRecaptchaResponse}
+                marginTop={10}
+        />
     </>
 }

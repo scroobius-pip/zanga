@@ -7,7 +7,7 @@ import { getSdk } from '../generated/graphql'
 import login from '../functions/login'
 import redirect from '../functions/redirect'
 import Router from 'next/router'
-import ReCAPTCHA from 'react-google-recaptcha';
+import ReCAPTCHA from 'react-google-recaptcha'
 
 function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -27,8 +27,8 @@ export default () => {
     const [valid, setValid] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const RECAPTCHA_SITE_KEY = "6LeJDtYUAAAAAP9C4ZDSts7fOZpgRDNSTxySEFXp"
-    const RECAPTCHA_SECRET_KEY = "6LeJDtYUAAAAAK5GlLWuxNyO2mG44VbMqZq-Oyfb"
+    let RECAPTCHA_SITE_KEY = "6LeJDtYUAAAAAP9C4ZDSts7fOZpgRDNSTxySEFXp"
+    let RECAPTCHA_SECRET_KEY = "6LeJDtYUAAAAAK5GlLWuxNyO2mG44VbMqZq-Oyfb"
 
     useEffect(() => {
         console.log(formState)

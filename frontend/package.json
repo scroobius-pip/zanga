@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@graphql-codegen/cli": "^1.9.1",
-    "@graphql-codegen/typescript-graphql-request": "^1.9.1",
+    "@graphql-codegen/typescript-graphql-request": "^1.12.2",
     "evergreen-ui": "^4.21.5",
     "graphql": "^14.5.8",
     "graphql-request": "^1.8.2",
@@ -23,14 +23,15 @@
     "react": "^16.12.0",
     "react-device-detect": "^1.11.14",
     "react-dom": "^16.12.0",
+    "react-google-recaptcha": "^2.0.1",
     "react-grid-gallery": "^0.5.5",
     "s3-uploader": "^2.0.3"
   },
   "devDependencies": {
     "@graphql-codegen/introspection": "1.8.1",
-    "@graphql-codegen/typescript": "^1.9.1",
+    "@graphql-codegen/typescript": "^1.12.2",
     "@graphql-codegen/typescript-graphql-files-modules": "^1.8.1",
-    "@graphql-codegen/typescript-operations": "^1.9.1",
+    "@graphql-codegen/typescript-operations": "^1.12.2",
     "@types/node": "^12.12.17",
     "typescript": "^3.7.3"
   }
