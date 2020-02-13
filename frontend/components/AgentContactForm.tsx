@@ -1,4 +1,4 @@
-import { TextInputField, Button, toaster } from 'evergreen-ui'
+import { TextInputField, Textarea, Button, toaster } from 'evergreen-ui'
 import { colors } from '../styles'
 import { useState, useEffect } from 'react'
 import { GraphQLClient } from 'graphql-request'
@@ -110,6 +110,18 @@ export default ({ referrer = '', propertyId = '' }) => {
             name="Your email"
             type='email'
             placeholder="Your email"
+        />
+        <Textarea
+            onChange={e => setFormState({ ...formState, notes: e.target.value })}
+            value={formState.notes}
+            textAlign='left'
+            color={colors.primary}
+            label='Notes (Optional)'
+            height={120}
+            type='text'
+            marginTop={10}
+            name="notes"
+            placeholder="Optional Notes"
         />
         <Button
             isLoading={loading}
