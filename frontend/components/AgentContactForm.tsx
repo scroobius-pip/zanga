@@ -1,4 +1,6 @@
-import { TextInputField, Textarea, Button, toaster } from 'evergreen-ui'
+
+import { TextInputField, Button, toaster, Textarea, Pane, Label } from 'evergreen-ui'
+
 import { colors } from '../styles'
 import { useState, useEffect } from 'react'
 import { GraphQLClient } from 'graphql-request'
@@ -82,18 +84,19 @@ export default ({ referrer = '', propertyId = '' }) => {
             onChange={(e) => setFormState({ ...formState, number: e.target.value })}
             textAlign='left'
             color={colors.primary}
-            label='Phone Number'
+            label='*Phone Number'
+            required
             type='number'
             height={40}
             name="Your phone number"
             placeholder="Your Phone Number"
         />
         <TextInputField
-
+            required
             value={formState.name}
             onChange={(e) => setFormState({ ...formState, name: e.target.value })}
             textAlign='left'
-            label='Full Name'
+            label='*Full Name'
             color={colors.primary}
             height={40}
             // marginTop={10}
@@ -111,30 +114,39 @@ export default ({ referrer = '', propertyId = '' }) => {
             type='email'
             placeholder="Your email"
         />
-        <Textarea
-            onChange={e => setFormState({ ...formState, notes: e.target.value })}
-            value={formState.notes}
-            textAlign='left'
-            color={colors.primary}
-            label='Notes (Optional)'
-            height={120}
-            type='text'
-            marginTop={10}
-            name="notes"
-            placeholder="Optional Notes"
-        />
+    
         <Button
             isLoading={loading}
             disabled={!(formState.name && formState.number)}
             onClick={() => submitToVerify()}
-            marginTop={10}
-            marginBottom={10}
+            type="email"
+            value={formState.email}
+            onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+            textAlign='left'
+            label='Email'
+            color={colors.primary}
             height={40}
-            appearance="primary"
-            marginRight={12}
-            iconAfter='envelope'>
-            Send Request
-        </Button>
+            // marginTop={10}
+            name="Your email"
+            placeholder="Your email"
+        />
+        <Pane>
+            <Label textAlign="left" htmlFor="notes" marginBottom={4} display="block">
+                Notes
+            </Label>
+            <Textarea
+                id="notes"
+                value={formState.notes}
+                onChange={(e) => setFormState({ ...formState, notes: e.target.value })}
+                textAlign='left'
+                label='Extra Notes (Optional)'
+                color={colors.primary}
+                // height={40}
+                // marginTop={10}
+                name="Extra Notes"
+                placeholder="Extra notes"
+            />
+        </Pane>
 
         <ReCAPTCHA
                 sitekey= {RECAPTCHA_SITE_KEY}
