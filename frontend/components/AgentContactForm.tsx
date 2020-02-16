@@ -25,7 +25,7 @@ export default ({ referrer = '', propertyId = '' }) => {
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false)
     const [valid, setValid] = useState(false)
 
-    let RECAPTCHA_SITE_KEY = "6LeJDtYUAAAAAP9C4ZDSts7fOZpgRDNSTxySEFXp"
+    let RECAPTCHA_SITE_KEY = "6LfvXtkUAAAAAAtuGmUkrNzRXxJWil7unLGLqUiK"
 
     useEffect(() => {
         console.log(formState)
