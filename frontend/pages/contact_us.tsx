@@ -1,12 +1,13 @@
 import Layout from '../components/Layout'
-import { Card, Heading, Pane, TextInputField, Button, Textarea, Checkbox, toaster } from 'evergreen-ui'
+import { Card, Heading, Pane, TextInputField, Button, toaster,Textarea, Checkbox } from 'evergreen-ui'
 import { colors } from '../styles'
 import { useState, useEffect } from 'react'
-import { GraphQLClient } from 'graphql-request'
+// import { GraphQLClient } from 'graphql-request'
 import { getSdk } from '../generated/graphql'
 import login from '../functions/login'
 import redirect from '../functions/redirect'
 import Router from 'next/router'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -17,12 +18,17 @@ function validateEmail(email) {
 export default () => {
     const [formState, setFormState] = useState({
         email: null,
-        notes: null,
-        checked: false
+        notes: null
     })
+
+    const [checked, setChecked] = useState(false)
+    const [isVerified, setIsVerified] = useState(false)
 
     const [valid, setValid] = useState(false)
     const [loading, setLoading] = useState(false)
+
+    let RECAPTCHA_SITE_KEY = "6LeJDtYUAAAAAP9C4ZDSts7fOZpgRDNSTxySEFXp"
+    let RECAPTCHA_SECRET_KEY = "6LeJDtYUAAAAAK5GlLWuxNyO2mG44VbMqZq-Oyfb"
 
     useEffect(() => {
         console.log(formState)
@@ -62,21 +68,34 @@ export default () => {
     }
 
     const toggleChange = () => {
-        this.setState({
-          checked: !this.formState.checked,
-        });
+        setChecked(!checked)
       }
 
-    const enabButton = () => {
-        if (formState.checked && !formState.notes || !formState.email) {
+    const enableButton = () => {
+        if (!checked || (!formState.notes || !formState.email)) {
+            return true
+        }
+        else{
             return false
         }
-        return !!(formState.notes.length && validateEmail(formState.email))
     }
 
+    const recaptchaResponse = (value) =>{
+        if(value){
+            setIsVerified(!isVerified)                
+        }
+      }
+
+    const  submitToVerify = () =>{
+        if(isVerified){
+            submit()
+        }else{
+            alert("Please verify that you're a human")
+        }
+    }
 
     return <Layout>
-        <Heading marginTop={10} textAlign='center' size={900}>Sign in</Heading>
+        <Heading marginTop={10} textAlign='center' size={900}>Contact Us</Heading>
         <Card marginTop={50} background='tint1' maxWidth={450} elevation={3} margin='auto' padding={25}>
             <Pane marginTop={20}>
                 <TextInputField
@@ -84,7 +103,7 @@ export default () => {
                     value={formState.email}
                     textAlign='left'
                     color={colors.primary}
-                    label='Email'
+                    //label='Email'
                     height={40}
                     name="Your email"
                     type='email'
@@ -94,31 +113,38 @@ export default () => {
                     onChange={e => setFormState({ ...formState, notes: e.target.value })}
                     value={formState.notes}
                     textAlign='left'
-                    label='Notes'
                     color={colors.primary}
+                    label='Notes'
                     height={120}
                     type='text'
-                    // marginTop={10}
+                    marginTop={10}
                     name="notes"
                     placeholder="Provide Entra Notes"
                 />
                 <Checkbox
                     //isLoading={loading}
                     //disabled={enabButton}
-                    checked={formState.checked}
+                    checked={checked}
                     onChange={toggleChange}
+                    color={colors.primary}
+                    label='I certify that the information provided above can be use to contact me'
                     marginTop={10} height={40}  marginRight={12}>
                     Consent
                 </Checkbox>
                 <Button
                     isLoading={loading}
-                    disabled={enabButton()}
+                    disabled={enableButton()}
                     onClick={() => {
-                        submit()
-                    }} marginTop={10} height={40} appearance="primary" marginRight={12} iconAfter='log-in'>
-                    Sign in
+                        submitToVerify()
+                    }} marginBottom={10} height={40} appearance="primary" marginRight={12} iconAfter='log-in'>
+                    Submit
                 </Button>
             </Pane>
+            <ReCAPTCHA
+                sitekey= {RECAPTCHA_SITE_KEY}
+                onChange={recaptchaResponse}
+                marginTop={10}
+            />
         </Card>
     </Layout>
 }
