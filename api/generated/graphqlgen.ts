@@ -18,7 +18,7 @@ export namespace QueryResolvers {
   export const defaultResolvers = {};
 
   export interface ArgsProperties {
-    type?: CostType | null;
+    type: CostType;
   }
 
   export interface ArgsProperty {
@@ -48,7 +48,7 @@ export namespace QueryResolvers {
         args: ArgsProperties,
         ctx: Context,
         info: GraphQLResolveInfo
-      ) => Property[] | Promise<Property[]>)
+      ) => Array<Property | null> | Promise<Array<Property | null>>)
     | {
         fragment: string;
         resolve: (
@@ -56,7 +56,7 @@ export namespace QueryResolvers {
           args: ArgsProperties,
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => Property[] | Promise<Property[]>;
+        ) => Array<Property | null> | Promise<Array<Property | null>>;
       };
 
   export type PropertyResolver =
@@ -100,7 +100,7 @@ export namespace QueryResolvers {
           args: ArgsProperties,
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => Property[] | Promise<Property[]>)
+        ) => Array<Property | null> | Promise<Array<Property | null>>)
       | {
           fragment: string;
           resolve: (
@@ -108,7 +108,7 @@ export namespace QueryResolvers {
             args: ArgsProperties,
             ctx: Context,
             info: GraphQLResolveInfo
-          ) => Property[] | Promise<Property[]>;
+          ) => Array<Property | null> | Promise<Array<Property | null>>;
         };
 
     property:
@@ -353,8 +353,7 @@ export namespace PropertyResolvers {
     city: (parent: Property) => parent.city,
     state: (parent: Property) => parent.state,
     costValue: (parent: Property) => parent.costValue,
-    ownerId: (parent: Property) => parent.ownerId,
-    ownerName: (parent: Property) => parent.ownerName,
+    owner: (parent: Property) => parent.owner,
     images: (parent: Property) => parent.images,
     description: (parent: Property) => parent.description
   };
@@ -399,7 +398,7 @@ export namespace PropertyResolvers {
         args: {},
         ctx: Context,
         info: GraphQLResolveInfo
-      ) => string | Promise<string>)
+      ) => string | null | Promise<string | null>)
     | {
         fragment: string;
         resolve: (
@@ -407,7 +406,7 @@ export namespace PropertyResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => string | Promise<string>;
+        ) => string | null | Promise<string | null>;
       };
 
   export type StateResolver =
@@ -416,7 +415,7 @@ export namespace PropertyResolvers {
         args: {},
         ctx: Context,
         info: GraphQLResolveInfo
-      ) => string | Promise<string>)
+      ) => string | null | Promise<string | null>)
     | {
         fragment: string;
         resolve: (
@@ -424,7 +423,7 @@ export namespace PropertyResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => string | Promise<string>;
+        ) => string | null | Promise<string | null>;
       };
 
   export type CostValueResolver =
@@ -461,13 +460,13 @@ export namespace PropertyResolvers {
         ) => CostType | Promise<CostType>;
       };
 
-  export type OwnerIdResolver =
+  export type OwnerResolver =
     | ((
         parent: Property,
         args: {},
         ctx: Context,
         info: GraphQLResolveInfo
-      ) => string | Promise<string>)
+      ) => User | Promise<User>)
     | {
         fragment: string;
         resolve: (
@@ -475,24 +474,7 @@ export namespace PropertyResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => string | Promise<string>;
-      };
-
-  export type OwnerNameResolver =
-    | ((
-        parent: Property,
-        args: {},
-        ctx: Context,
-        info: GraphQLResolveInfo
-      ) => string | Promise<string>)
-    | {
-        fragment: string;
-        resolve: (
-          parent: Property,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo
-        ) => string | Promise<string>;
+        ) => User | Promise<User>;
       };
 
   export type ImagesResolver =
@@ -501,7 +483,7 @@ export namespace PropertyResolvers {
         args: {},
         ctx: Context,
         info: GraphQLResolveInfo
-      ) => string[] | Promise<string[]>)
+      ) => string[] | null | Promise<string[] | null>)
     | {
         fragment: string;
         resolve: (
@@ -509,7 +491,7 @@ export namespace PropertyResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => string[] | Promise<string[]>;
+        ) => string[] | null | Promise<string[] | null>;
       };
 
   export type DescriptionResolver =
@@ -518,7 +500,7 @@ export namespace PropertyResolvers {
         args: {},
         ctx: Context,
         info: GraphQLResolveInfo
-      ) => string | Promise<string>)
+      ) => string | null | Promise<string | null>)
     | {
         fragment: string;
         resolve: (
@@ -526,7 +508,7 @@ export namespace PropertyResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => string | Promise<string>;
+        ) => string | null | Promise<string | null>;
       };
 
   export interface Type {
@@ -570,7 +552,7 @@ export namespace PropertyResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => string | Promise<string>)
+        ) => string | null | Promise<string | null>)
       | {
           fragment: string;
           resolve: (
@@ -578,7 +560,7 @@ export namespace PropertyResolvers {
             args: {},
             ctx: Context,
             info: GraphQLResolveInfo
-          ) => string | Promise<string>;
+          ) => string | null | Promise<string | null>;
         };
 
     state:
@@ -587,7 +569,7 @@ export namespace PropertyResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => string | Promise<string>)
+        ) => string | null | Promise<string | null>)
       | {
           fragment: string;
           resolve: (
@@ -595,7 +577,7 @@ export namespace PropertyResolvers {
             args: {},
             ctx: Context,
             info: GraphQLResolveInfo
-          ) => string | Promise<string>;
+          ) => string | null | Promise<string | null>;
         };
 
     costValue:
@@ -632,13 +614,13 @@ export namespace PropertyResolvers {
           ) => CostType | Promise<CostType>;
         };
 
-    ownerId:
+    owner:
       | ((
           parent: Property,
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => string | Promise<string>)
+        ) => User | Promise<User>)
       | {
           fragment: string;
           resolve: (
@@ -646,24 +628,7 @@ export namespace PropertyResolvers {
             args: {},
             ctx: Context,
             info: GraphQLResolveInfo
-          ) => string | Promise<string>;
-        };
-
-    ownerName:
-      | ((
-          parent: Property,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo
-        ) => string | Promise<string>)
-      | {
-          fragment: string;
-          resolve: (
-            parent: Property,
-            args: {},
-            ctx: Context,
-            info: GraphQLResolveInfo
-          ) => string | Promise<string>;
+          ) => User | Promise<User>;
         };
 
     images:
@@ -672,7 +637,7 @@ export namespace PropertyResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => string[] | Promise<string[]>)
+        ) => string[] | null | Promise<string[] | null>)
       | {
           fragment: string;
           resolve: (
@@ -680,7 +645,7 @@ export namespace PropertyResolvers {
             args: {},
             ctx: Context,
             info: GraphQLResolveInfo
-          ) => string[] | Promise<string[]>;
+          ) => string[] | null | Promise<string[] | null>;
         };
 
     description:
@@ -689,7 +654,7 @@ export namespace PropertyResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => string | Promise<string>)
+        ) => string | null | Promise<string | null>)
       | {
           fragment: string;
           resolve: (
@@ -697,7 +662,7 @@ export namespace PropertyResolvers {
             args: {},
             ctx: Context,
             info: GraphQLResolveInfo
-          ) => string | Promise<string>;
+          ) => string | null | Promise<string | null>;
         };
   }
 }

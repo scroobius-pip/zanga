@@ -35,6 +35,11 @@ To startup the api service run the following commands:
 
 The api server is a graphql server, you'll need to understand how graphql works and how to create a graphql server using apollo graphql (https://www.apollographql.com/)
 
+Files & Directories Explanation:
+./datamodel.graphql - used for faunadb schema definition (https://www.fauna.com)
+./graphqlgen.yml - used to generate the graphql server resolver typings
+./prisma.yml - used to generate typescript code for directly interfacing with the database
+
 # /frontend
 
 The frontend code uses react with next.js for server-side rendering.

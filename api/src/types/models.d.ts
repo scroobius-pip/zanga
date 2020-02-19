@@ -14,8 +14,7 @@ export interface Property {
     city: string
     state: string
     costValue: number
-    ownerId: string
-    ownerName: string
+    owner: Pick<User, 'id' | 'name'>
     images: string[]
     description: string
 }

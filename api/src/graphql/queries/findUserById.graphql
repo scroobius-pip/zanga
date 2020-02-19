@@ -1,0 +1,25 @@
+query user($id:ID!){
+
+  findUserByID(id:$id){
+    id
+    name
+    type
+    phone
+    properties{
+      data{
+        city
+        state
+        description
+        costType
+        costValue
+        id
+        title
+        images
+        
+      }
+    }
+    email
+    
+  }
+
+}
