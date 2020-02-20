@@ -14,7 +14,6 @@ type Contact {
   # The document's ID.
   _id: ID!
   to: User!
-  id: ID!
   property: Property!
   notes: String
   # The document's timestamp.
@@ -23,7 +22,6 @@ type Contact {
 
 # 'Contact' input values
 input ContactInput {
-  id: ID!
   name: String!
   number: String!
   property: ContactPropertyRelation
@@ -66,7 +64,6 @@ enum CostType {
 scalar Date
 
 # The `Long` scalar type
-#  represents non-fractional signed whole numeric values.
 # Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
@@ -132,7 +129,6 @@ type Property {
   # The document's ID.
   _id: ID!
   costValue: Int!
-  id: ID!
   owner: User!
   title: String!
   images: [String!]!
@@ -142,7 +138,6 @@ type Property {
 
 # 'Property' input values
 input PropertyInput {
-  id: ID!
   title: String!
   city: String!
   state: String!
@@ -172,21 +167,22 @@ type PropertyPage {
 }
 
 type Query {
-  # Find a document from the collection of 'Contact' by its id.
-  findContactByID(
-    # The 'Contact' document's ID
-    id: ID!
-  ): Contact
-  # Find a document from the collection of 'User' by its id.
-  findUserByID(
-    # The 'User' document's ID
-    id: ID!
-  ): User
   # Find a document from the collection of 'Property' by its id.
   findPropertyByID(
     # The 'Property' document's ID
     id: ID!
   ): Property
+  findUserByEmail(email: String!): User
+  # Find a document from the collection of 'User' by its id.
+  findUserByID(
+    # The 'User' document's ID
+    id: ID!
+  ): User
+  # Find a document from the collection of 'Contact' by its id.
+  findContactByID(
+    # The 'Contact' document's ID
+    id: ID!
+  ): Contact
   findPropertiesByCostType(
     # The number of items to return per page.
     _size: Int
@@ -210,7 +206,6 @@ type User {
     # The pagination cursor.
     _cursor: String
   ): ContactPage!
-  id: ID!
   properties(
     # The number of items to return per page.
     _size: Int
@@ -237,7 +232,6 @@ input UserContactsRelation {
 
 # 'User' input values
 input UserInput {
-  id: ID!
   email: String!
   phone: String!
   name: String!

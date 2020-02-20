@@ -11,7 +11,6 @@ export type Scalars = {
   Float: number,
   /** 
  * The `Long` scalar type
-   *  represents non-fractional signed whole numeric values.
    * Long can represent values between -(2^63) and 2^63 - 1.
  */
   Long: any,
@@ -33,7 +32,6 @@ export type Contact = {
   /** The document's ID. */
   _id: Scalars['ID'],
   to: User,
-  id: Scalars['ID'],
   property: Property,
   notes?: Maybe<Scalars['String']>,
   /** The document's timestamp. */
@@ -42,7 +40,6 @@ export type Contact = {
 
 /** 'Contact' input values */
 export type ContactInput = {
-  id: Scalars['ID'],
   name: Scalars['String'],
   number: Scalars['String'],
   property?: Maybe<ContactPropertyRelation>,
@@ -164,7 +161,6 @@ export type Property = {
   /** The document's ID. */
   _id: Scalars['ID'],
   costValue: Scalars['Int'],
-  id: Scalars['ID'],
   owner: User,
   title: Scalars['String'],
   images: Array<Scalars['String']>,
@@ -174,7 +170,6 @@ export type Property = {
 
 /** 'Property' input values */
 export type PropertyInput = {
-  id: Scalars['ID'],
   title: Scalars['String'],
   city: Scalars['String'],
   state: Scalars['String'],
@@ -206,18 +201,24 @@ export type PropertyPage = {
 
 export type Query = {
    __typename?: 'Query',
-  /** Find a document from the collection of 'Contact' by its id. */
-  findContactByID?: Maybe<Contact>,
-  /** Find a document from the collection of 'User' by its id. */
-  findUserByID?: Maybe<User>,
   /** Find a document from the collection of 'Property' by its id. */
   findPropertyByID?: Maybe<Property>,
+  findUserByEmail?: Maybe<User>,
+  /** Find a document from the collection of 'User' by its id. */
+  findUserByID?: Maybe<User>,
+  /** Find a document from the collection of 'Contact' by its id. */
+  findContactByID?: Maybe<Contact>,
   findPropertiesByCostType: PropertyPage,
 };
 
 
-export type QueryFindContactByIdArgs = {
+export type QueryFindPropertyByIdArgs = {
   id: Scalars['ID']
+};
+
+
+export type QueryFindUserByEmailArgs = {
+  email: Scalars['String']
 };
 
 
@@ -226,7 +227,7 @@ export type QueryFindUserByIdArgs = {
 };
 
 
-export type QueryFindPropertyByIdArgs = {
+export type QueryFindContactByIdArgs = {
   id: Scalars['ID']
 };
 
@@ -246,7 +247,6 @@ export type User = {
   _id: Scalars['ID'],
   tin?: Maybe<Scalars['String']>,
   contacts: ContactPage,
-  id: Scalars['ID'],
   properties: PropertyPage,
   cac?: Maybe<Scalars['String']>,
   type: UserType,
@@ -280,7 +280,6 @@ export type UserContactsRelation = {
 
 /** 'User' input values */
 export type UserInput = {
-  id: Scalars['ID'],
   email: Scalars['String'],
   phone: Scalars['String'],
   name: Scalars['String'],
@@ -307,6 +306,64 @@ export enum UserType {
   Individual = 'Individual'
 }
 
+export type CreateContactMutationVariables = {
+  contact: ContactInput
+};
+
+
+export type CreateContactMutation = (
+  { __typename?: 'Mutation' }
+  & { createContact: (
+    { __typename?: 'Contact' }
+    & { id: Contact['_id'] }
+  ) }
+);
+
+export type CreatePropertyMutationVariables = {
+  property: PropertyInput
+};
+
+
+export type CreatePropertyMutation = (
+  { __typename?: 'Mutation' }
+  & { createProperty: (
+    { __typename?: 'Property' }
+    & Pick<Property, 'city' | 'state' | 'costType' | 'costValue' | 'description' | 'images' | 'title'>
+    & { id: Property['_id'] }
+    & { owner: (
+      { __typename?: 'User' }
+      & Pick<User, 'name'>
+    ) }
+  ) }
+);
+
+export type CreateUserMutationVariables = {
+  user: UserInput
+};
+
+
+export type CreateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { createUser: (
+    { __typename?: 'User' }
+    & Pick<User, 'email'>
+    & { id: User['_id'] }
+  ) }
+);
+
+export type DeletePropertyMutationVariables = {
+  id: Scalars['ID']
+};
+
+
+export type DeletePropertyMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteProperty: Maybe<(
+    { __typename?: 'Property' }
+    & { id: Property['_id'] }
+  )> }
+);
+
 export type PropertiesQueryVariables = {
   costType: CostType
 };
@@ -318,10 +375,12 @@ export type PropertiesQuery = (
     { __typename?: 'PropertyPage' }
     & { data: Array<Maybe<(
       { __typename?: 'Property' }
-      & Pick<Property, 'city' | 'state' | 'description' | 'costType' | 'costValue' | 'id' | 'images' | 'title'>
+      & Pick<Property, 'city' | 'state' | 'description' | 'costType' | 'costValue' | 'images' | 'title'>
+      & { id: Property['_id'] }
       & { owner: (
         { __typename?: 'User' }
-        & Pick<User, 'name' | 'id'>
+        & Pick<User, 'name'>
+        & { id: User['_id'] }
       ) }
     )>> }
   ) }
@@ -336,10 +395,34 @@ export type PropertyQuery = (
   { __typename?: 'Query' }
   & { findPropertyByID: Maybe<(
     { __typename?: 'Property' }
-    & Pick<Property, 'city' | 'id' | 'state' | 'costType' | 'costValue' | 'title' | 'images' | 'description'>
+    & Pick<Property, 'city' | 'state' | 'costType' | 'costValue' | 'title' | 'images' | 'description'>
+    & { id: Property['_id'] }
     & { owner: (
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'name'>
+      & Pick<User, 'name'>
+      & { id: User['_id'] }
+    ) }
+  )> }
+);
+
+export type UserByEmailQueryVariables = {
+  email: Scalars['String']
+};
+
+
+export type UserByEmailQuery = (
+  { __typename?: 'Query' }
+  & { findUserByEmail: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'password' | 'name' | 'type' | 'phone' | 'email'>
+    & { id: User['_id'] }
+    & { properties: (
+      { __typename?: 'PropertyPage' }
+      & { data: Array<Maybe<(
+        { __typename?: 'Property' }
+        & Pick<Property, 'city' | 'state' | 'description' | 'costType' | 'costValue' | 'title' | 'images'>
+        & { id: Property['_id'] }
+      )>> }
     ) }
   )> }
 );
@@ -353,18 +436,59 @@ export type UserQuery = (
   { __typename?: 'Query' }
   & { findUserByID: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'type' | 'phone' | 'email'>
+    & Pick<User, 'name' | 'type' | 'phone' | 'email'>
+    & { id: User['_id'] }
     & { properties: (
       { __typename?: 'PropertyPage' }
       & { data: Array<Maybe<(
         { __typename?: 'Property' }
-        & Pick<Property, 'city' | 'state' | 'description' | 'costType' | 'costValue' | 'id' | 'title' | 'images'>
+        & Pick<Property, 'city' | 'state' | 'description' | 'costType' | 'costValue' | 'title' | 'images'>
+        & { id: Property['_id'] }
       )>> }
     ) }
   )> }
 );
 
 
+export const CreateContactDocument = gql`
+    mutation createContact($contact: ContactInput!) {
+  createContact(data: $contact) {
+    id: _id
+  }
+}
+    `;
+export const CreatePropertyDocument = gql`
+    mutation createProperty($property: PropertyInput!) {
+  createProperty(data: $property) {
+    city
+    state
+    costType
+    costValue
+    description
+    images
+    title
+    owner {
+      name
+    }
+    id: _id
+  }
+}
+    `;
+export const CreateUserDocument = gql`
+    mutation createUser($user: UserInput!) {
+  createUser(data: $user) {
+    email
+    id: _id
+  }
+}
+    `;
+export const DeletePropertyDocument = gql`
+    mutation deleteProperty($id: ID!) {
+  deleteProperty(id: $id) {
+    id: _id
+  }
+}
+    `;
 export const PropertiesDocument = gql`
     query properties($costType: CostType!) {
   findPropertiesByCostType(costType: $costType, _size: 100) {
@@ -374,10 +498,10 @@ export const PropertiesDocument = gql`
       description
       costType
       costValue
-      id
+      id: _id
       owner {
         name
-        id
+        id: _id
       }
       images
       title
@@ -389,12 +513,12 @@ export const PropertyDocument = gql`
     query property($id: ID!) {
   findPropertyByID(id: $id) {
     city
-    id
+    id: _id
     state
     costType
     costValue
     owner {
-      id
+      id: _id
       name
     }
     title
@@ -403,10 +527,11 @@ export const PropertyDocument = gql`
   }
 }
     `;
-export const UserDocument = gql`
-    query user($id: ID!) {
-  findUserByID(id: $id) {
-    id
+export const UserByEmailDocument = gql`
+    query userByEmail($email: String!) {
+  findUserByEmail(email: $email) {
+    id: _id
+    password
     name
     type
     phone
@@ -417,7 +542,30 @@ export const UserDocument = gql`
         description
         costType
         costValue
-        id
+        id: _id
+        title
+        images
+      }
+    }
+    email
+  }
+}
+    `;
+export const UserDocument = gql`
+    query user($id: ID!) {
+  findUserByID(id: $id) {
+    id: _id
+    name
+    type
+    phone
+    properties {
+      data {
+        city
+        state
+        description
+        costType
+        costValue
+        id: _id
         title
         images
       }
@@ -428,11 +576,26 @@ export const UserDocument = gql`
     `;
 export function getSdk(client: GraphQLClient) {
   return {
+    createContact(variables: CreateContactMutationVariables): Promise<CreateContactMutation> {
+      return client.request<CreateContactMutation>(print(CreateContactDocument), variables);
+    },
+    createProperty(variables: CreatePropertyMutationVariables): Promise<CreatePropertyMutation> {
+      return client.request<CreatePropertyMutation>(print(CreatePropertyDocument), variables);
+    },
+    createUser(variables: CreateUserMutationVariables): Promise<CreateUserMutation> {
+      return client.request<CreateUserMutation>(print(CreateUserDocument), variables);
+    },
+    deleteProperty(variables: DeletePropertyMutationVariables): Promise<DeletePropertyMutation> {
+      return client.request<DeletePropertyMutation>(print(DeletePropertyDocument), variables);
+    },
     properties(variables: PropertiesQueryVariables): Promise<PropertiesQuery> {
       return client.request<PropertiesQuery>(print(PropertiesDocument), variables);
     },
     property(variables: PropertyQueryVariables): Promise<PropertyQuery> {
       return client.request<PropertyQuery>(print(PropertyDocument), variables);
+    },
+    userByEmail(variables: UserByEmailQueryVariables): Promise<UserByEmailQuery> {
+      return client.request<UserByEmailQuery>(print(UserByEmailDocument), variables);
     },
     user(variables: UserQueryVariables): Promise<UserQuery> {
       return client.request<UserQuery>(print(UserDocument), variables);

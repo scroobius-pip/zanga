@@ -1,6 +1,6 @@
 
 type User {
-id: ID! @id
+
 email: String! @unique
 phone: String! @unique
 name: String! @unique
@@ -13,7 +13,7 @@ contacts: [Contact!] @relation
 }
 
 type Contact {
-  id: ID! @id
+
   name: String!
   number: String!
   property: Property! @relation
@@ -23,8 +23,7 @@ type Contact {
 }
 
 type Property {
-  
-  id: ID! @id
+
   title: String!
   city: String!
   state: String!
@@ -48,4 +47,5 @@ Individual
 
 type Query {
   findPropertiesByCostType(costType:CostType!):[Property!]!
+  findUserByEmail(email:String!):User
 }

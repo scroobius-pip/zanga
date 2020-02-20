@@ -6,13 +6,8 @@ const deleteProperty: MutationResolvers.DeletePropertyResolver = async (_, args,
         throw new AuthenticationError('Token Not Passed')
     }
 
-    try {
-        await ctx.prisma.deleteProperty({ id: args.id })
-        return true
-    } catch (error) {
-        return false
-    }
-
+    await ctx.client.deleteProperty({ id: args.id })
+    return true
 }
 
 export default deleteProperty

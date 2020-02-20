@@ -1,7 +1,8 @@
-query user($id:ID!){
+query userByEmail($email:String!){
 
-  findUserByID(id:$id){
+  findUserByEmail(email:$email){
     id:_id
+    password
     name
     type
     phone

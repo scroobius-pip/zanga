@@ -1,6 +1,8 @@
 import { MutationResolvers } from '../../../generated/graphqlgen';
 import bcrypt from 'bcryptjs'
 import client from 'twilio'
+import { UserType } from '../../../generated/sdk';
+import createToken from '../../functions/createToken';
 
 const register: MutationResolvers.RegisterResolver = async (_, { input }, ctx) => {
     if (input.type === 'Agency') {
@@ -11,7 +13,7 @@ const register: MutationResolvers.RegisterResolver = async (_, { input }, ctx) =
             }
         }
     }
-    if (await ctx.prisma.user({ email: input.email })) {
+    if (await ctx.client.userByEmail({ email: input.email })) {
         return {
             token: '',
             message: 'User Exists'
@@ -20,13 +22,15 @@ const register: MutationResolvers.RegisterResolver = async (_, { input }, ctx) =
 
     try {
 
-        const userId = await ctx.prisma.createUser({
-            email: input.email,
-            name: input.name,
-            password: await bcrypt.hash(input.password, 2),
-            phone: input.phone,
-            type: input.type
-        }).id()
+        const userId = (await ctx.client.createUser({
+            user: {
+                email: input.email,
+                name: input.name,
+                password: await bcrypt.hash(input.password, 2),
+                phone: input.phone,
+                type: UserType[input.type]
+            }
+        })).createUser.id
 
         if (userId) {
             try {

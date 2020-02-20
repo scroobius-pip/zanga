@@ -2,12 +2,12 @@ query property($id:ID!){
     
   findPropertyByID(id:$id){
     city
-    id
+    id:_id
     state
     costType
     costValue
     owner{
-      id
+      id:_id
       name
     }
     title

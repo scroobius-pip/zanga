@@ -26,7 +26,7 @@ const cors = microCors({
 const getIdFromToken = (token: string) => {
     try {
         if (token) {
-            const { userId = '' } = jwt.verify(token, getJwtSecret()) as { userId: string }
+            const { userId = '' } = jwt.verify(token, getJwtSecret()) as { userId?: string }
             return userId
         }
         return ''

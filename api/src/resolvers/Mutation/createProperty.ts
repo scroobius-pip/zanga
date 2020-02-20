@@ -1,5 +1,6 @@
 import { MutationResolvers } from '../../../generated/graphqlgen';
 import { AuthenticationError } from 'apollo-server-core';
+import { CostType } from '../../../generated/sdk';
 
 const createProperty: MutationResolvers.CreatePropertyResolver = async (_, { input }, ctx) => {
 
@@ -7,19 +8,27 @@ const createProperty: MutationResolvers.CreatePropertyResolver = async (_, { inp
         throw new AuthenticationError('Token Not Passed')
     }
     const { description, images, location: { city, state }, title, costType, costValue } = input
-    return ctx.prisma.createProperty({
-        costType,
-        costValue,
-        description,
-        images: {
-            set: images
-        },
-        city,
-        state,
-        title,
-        ownerId: ctx.userId,
-        ownerName: await ctx.prisma.user({ id: ctx.userId }).name()
-    }).id()
+
+
+    const owner = (await ctx.client.user({ id: ctx.userId })).findUserByID
+    if (!owner) throw new Error('Failed to get owner')
+
+    const result = await ctx.client.createProperty({
+        property: {
+            costType: CostType[costType],
+            costValue,
+            description,
+            images,
+            city,
+            state,
+            title,
+            owner: {
+                connect: ctx.userId
+            }
+        }
+    })
+
+    return result.createProperty.id
 
 }
 

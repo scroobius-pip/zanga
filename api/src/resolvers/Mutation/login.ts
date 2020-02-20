@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 import createToken from '../../functions/createToken';
 
 const login: MutationResolvers.LoginResolver = async (_, { input: { email, password } }, ctx) => {
-    const user = await ctx.prisma.user({ email })
+    const user = (await ctx.client.userByEmail({ email })).findUserByEmail
     if (!user) {
         return {
             token: '',
