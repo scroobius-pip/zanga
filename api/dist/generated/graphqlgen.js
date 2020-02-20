@@ -23,8 +23,7 @@ var PropertyResolvers;
         city: (parent) => parent.city,
         state: (parent) => parent.state,
         costValue: (parent) => parent.costValue,
-        ownerId: (parent) => parent.ownerId,
-        ownerName: (parent) => parent.ownerName,
+        owner: (parent) => parent.owner,
         images: (parent) => parent.images,
         description: (parent) => parent.description
     };

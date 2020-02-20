@@ -1,0 +1,1 @@
+{"version":3,"file":"properties.js","sourceRoot":"","sources":["../../../../src/resolvers/Query/properties.ts"],"names":[],"mappings":";;AACA,gDAAkD;AAElD,MAAM,kBAAkB,GAAsC,KAAK,EAAE,CAAC,EAAE,IAAI,EAAE,GAAG,EAAE,EAAE,CACjF,CAAC,MAAM,GAAG,CAAC,MAAM,CAAC,UAAU,CAAC,EAAE,QAAQ,EAAE,cAAQ,CAAC,IAAI,CAAC,IAAI,CAAC,EAAE,CAAC,CAAC;KAC3D,wBAAwB;KACxB,IAAI,CAAA;AAEb,kBAAe,kBAAkB,CAAA"}

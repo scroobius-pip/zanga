@@ -1,7 +1,7 @@
 
 const data = `type Query {
   me: User
-  properties(type: CostType!): [Property!]!
+  properties(type: CostType!): [Property]!
   property(id: ID!): Property
 }
 
@@ -16,14 +16,13 @@ type Mutation {
 type Property {
   id: String!
   title: String!
-  city: String!
-  state: String!
+  city: String
+  state: String
   costValue: Int!
   costType: CostType!
-  ownerId: String!
-  ownerName: String!
-  images: [String!]!
-  description: String!
+  owner: User!
+  images: [String!]
+  description: String
 }
 
 enum CostType {
