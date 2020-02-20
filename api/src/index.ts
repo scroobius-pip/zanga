@@ -1,9 +1,19 @@
 import { ApolloServer, gql, AuthenticationError, ForbiddenError } from 'apollo-server-micro'
 import jwt from 'jsonwebtoken'
 import schema from './schema/schemaString'
-import { prisma } from '../generated/prisma-client'
+import { GraphQLClient } from 'graphql-request';
+import { getSdk } from '../generated/sdk'
 import { Context } from './types/types'
 import resolvers from './resolvers'
+import getJwtSecret from './functions/getJwtSecret';
+
+
+const client = getSdk(new GraphQLClient('https://graphql.fauna.com/graphql', {
+    headers: {
+        Authorization: 'Bearer ' + process.env.FAUNADB_SECRET
+    }
+}))
+
 const gqlSchema = gql(schema)
 
 const microCors = require('micro-cors')
@@ -12,10 +22,11 @@ const cors = microCors({
         'X-HTTP-Method-Override', 'Content-Type',
         'Authorization', 'Accept', 'token']
 })
+
 const getIdFromToken = (token: string) => {
     try {
         if (token) {
-            const { userId = '' } = jwt.verify(token, 'test') as { userId: string }
+            const { userId = '' } = jwt.verify(token, getJwtSecret()) as { userId: string }
             return userId
         }
         return ''
@@ -35,7 +46,7 @@ const server = new ApolloServer({
         const token = tokenWithBearer.split(' ')[1]
         const userId = getIdFromToken(token)
         return {
-            prisma,
+            client,
             userId
         }
     }

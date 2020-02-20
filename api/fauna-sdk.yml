@@ -1,5 +1,5 @@
 overwrite: true
-schema: faunadbSchema.graphql
+schema: ./faunadb/faunadbSchema.graphql
 documents: "./**/*.graphql"
 generates:
   ./generated/sdk.ts:
