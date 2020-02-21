@@ -1,4 +1,4 @@
-query properties($type:CostType) {
+query properties($type:CostType!) {
   properties(type:$type){
     id
     title
@@ -7,7 +7,9 @@ query properties($type:CostType) {
     costValue
     costType
     images
-    ownerName
+    owner {
+      name
+    }
   }
 
 }
@@ -22,7 +24,9 @@ query property($id:ID!){
     costType
     images
     description
-    ownerName
+      owner {
+        name
+      }
     }
 }
 
@@ -38,15 +42,13 @@ me{
 }
 
 query dashboard{
-    me{
-   id
+    me {
+    id
     email
     phone
     name
     type
-    
-      
-        properties{
+    properties {
             id
             title
             city
@@ -54,7 +56,9 @@ query dashboard{
             costValue
             costType
             images
-            ownerName
+            owner {
+              name
+            }
         }
     }
 }

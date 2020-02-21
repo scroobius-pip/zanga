@@ -108,26 +108,25 @@ export type Property = {
    __typename?: 'Property',
   id: Scalars['String'],
   title: Scalars['String'],
-  city: Scalars['String'],
-  state: Scalars['String'],
+  city?: Maybe<Scalars['String']>,
+  state?: Maybe<Scalars['String']>,
   costValue: Scalars['Int'],
   costType: CostType,
-  ownerId: Scalars['String'],
-  ownerName: Scalars['String'],
-  images: Array<Scalars['String']>,
-  description: Scalars['String'],
+  owner: User,
+  images?: Maybe<Array<Scalars['String']>>,
+  description?: Maybe<Scalars['String']>,
 };
 
 export type Query = {
    __typename?: 'Query',
   me?: Maybe<User>,
-  properties: Array<Property>,
+  properties: Array<Maybe<Property>>,
   property?: Maybe<Property>,
 };
 
 
 export type QueryPropertiesArgs = {
-  type?: Maybe<CostType>
+  type: CostType
 };
 
 
@@ -224,16 +223,20 @@ export type RegisterMutation = (
 );
 
 export type PropertiesQueryVariables = {
-  type?: Maybe<CostType>
+  type: CostType
 };
 
 
 export type PropertiesQuery = (
   { __typename?: 'Query' }
-  & { properties: Array<(
+  & { properties: Array<Maybe<(
     { __typename?: 'Property' }
-    & Pick<Property, 'id' | 'title' | 'city' | 'state' | 'costValue' | 'costType' | 'images' | 'ownerName'>
-  )> }
+    & Pick<Property, 'id' | 'title' | 'city' | 'state' | 'costValue' | 'costType' | 'images'>
+    & { owner: (
+      { __typename?: 'User' }
+      & Pick<User, 'name'>
+    ) }
+  )>> }
 );
 
 export type PropertyQueryVariables = {
@@ -245,7 +248,11 @@ export type PropertyQuery = (
   { __typename?: 'Query' }
   & { property: Maybe<(
     { __typename?: 'Property' }
-    & Pick<Property, 'id' | 'title' | 'city' | 'state' | 'costValue' | 'costType' | 'images' | 'description' | 'ownerName'>
+    & Pick<Property, 'id' | 'title' | 'city' | 'state' | 'costValue' | 'costType' | 'images' | 'description'>
+    & { owner: (
+      { __typename?: 'User' }
+      & Pick<User, 'name'>
+    ) }
   )> }
 );
 
@@ -270,7 +277,11 @@ export type DashboardQuery = (
     & Pick<User, 'id' | 'email' | 'phone' | 'name' | 'type'>
     & { properties: Array<(
       { __typename?: 'Property' }
-      & Pick<Property, 'id' | 'title' | 'city' | 'state' | 'costValue' | 'costType' | 'images' | 'ownerName'>
+      & Pick<Property, 'id' | 'title' | 'city' | 'state' | 'costValue' | 'costType' | 'images'>
+      & { owner: (
+        { __typename?: 'User' }
+        & Pick<User, 'name'>
+      ) }
     )> }
   )> }
 );
@@ -308,7 +319,7 @@ export const RegisterDocument = gql`
 }
     `;
 export const PropertiesDocument = gql`
-    query properties($type: CostType) {
+    query properties($type: CostType!) {
   properties(type: $type) {
     id
     title
@@ -317,7 +328,9 @@ export const PropertiesDocument = gql`
     costValue
     costType
     images
-    ownerName
+    owner {
+      name
+    }
   }
 }
     `;
@@ -332,7 +345,9 @@ export const PropertyDocument = gql`
     costType
     images
     description
-    ownerName
+    owner {
+      name
+    }
   }
 }
     `;
@@ -363,7 +378,9 @@ export const DashboardDocument = gql`
       costValue
       costType
       images
-      ownerName
+      owner {
+        name
+      }
     }
   }
 }
@@ -385,7 +402,7 @@ export function getSdk(client: GraphQLClient) {
     register(variables: RegisterMutationVariables): Promise<RegisterMutation> {
       return client.request<RegisterMutation>(print(RegisterDocument), variables);
     },
-    properties(variables?: PropertiesQueryVariables): Promise<PropertiesQuery> {
+    properties(variables: PropertiesQueryVariables): Promise<PropertiesQuery> {
       return client.request<PropertiesQuery>(print(PropertiesDocument), variables);
     },
     property(variables: PropertyQueryVariables): Promise<PropertyQuery> {

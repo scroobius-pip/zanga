@@ -7,17 +7,19 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "graphql-gen": "graphql-codegen --config codegen.yml"
+    "graphql-gen": "graphql-codegen --config codegen.yml",
+    "generate": "graphql-codegen --config codegen2.yml"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@graphql-codegen/cli": "^1.9.1",
-    "@graphql-codegen/typescript-graphql-request": "^1.12.2",
+    "@graphql-codegen/typescript-graphql-request": "^1.9.1",
     "evergreen-ui": "^4.21.5",
     "graphql": "^14.5.8",
     "graphql-request": "^1.8.2",
+    "graphql-toolkit": "^0.7.5",
     "next": "^9.1.5",
     "next-cookies": "^2.0.3",
     "react": "^16.12.0",
@@ -29,9 +31,10 @@
   },
   "devDependencies": {
     "@graphql-codegen/introspection": "1.8.1",
-    "@graphql-codegen/typescript": "^1.12.2",
+    "@graphql-codegen/typescript": "^1.8.1",
     "@graphql-codegen/typescript-graphql-files-modules": "^1.8.1",
-    "@graphql-codegen/typescript-operations": "^1.12.2",
+    "@graphql-codegen/typescript-operations": "^1.8.1",
+    "@graphql-codegen/typescript-react-apollo": "1.8.1",
     "@types/node": "^12.12.17",
     "typescript": "^3.7.3"
   }

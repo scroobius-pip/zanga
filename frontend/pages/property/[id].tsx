@@ -108,7 +108,7 @@ Page.getInitialProps = async ({ query, ...ctx }): Promise<InitialProps> => {
         } : null
     })
     const sdk = getSdk(client)
-    const { property: { description, city, costType, costValue, id, images, ownerName, state, title } } = await sdk.property({ id: query.id })
+    const { property: { description, city, costType, costValue, id, images, owner: { name: ownerName }, state, title } } = await sdk.property({ id: query.id })
 
 
 

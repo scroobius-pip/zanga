@@ -13,7 +13,8 @@ const register: MutationResolvers.RegisterResolver = async (_, { input }, ctx) =
             }
         }
     }
-    if (await (await ctx.client.userByEmail({ email: input.email })).findUserByEmail) {
+    const existingEmail = !!(await ctx.client.userByEmail({ email: input.email })).findUserByEmail?.email
+    if (existingEmail) {
         return {
             token: '',
             message: 'User Exists'

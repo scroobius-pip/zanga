@@ -8,6 +8,7 @@ const twilio_1 = __importDefault(require("twilio"));
 const sdk_1 = require("../../../generated/sdk");
 const createToken_1 = __importDefault(require("../../functions/createToken"));
 const register = async (_, { input }, ctx) => {
+    var _a;
     if (input.type === 'Agency') {
         if (!(input.cac && input.tin)) {
             return {
@@ -16,7 +17,8 @@ const register = async (_, { input }, ctx) => {
             };
         }
     }
-    if (await ctx.client.userByEmail({ email: input.email })) {
+    const existingEmail = !!((_a = (await ctx.client.userByEmail({ email: input.email })).findUserByEmail) === null || _a === void 0 ? void 0 : _a.email);
+    if (existingEmail) {
         return {
             token: '',
             message: 'User Exists'

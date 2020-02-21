@@ -13,7 +13,7 @@ export default [
     "Enugu",
     "Edo",
     "Ekiti",
-    "FCT - Abuja",
+    "FCT",
     "Gombe",
     "Imo",
     "Jigawa",
