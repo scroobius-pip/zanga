@@ -81,7 +81,7 @@ const Page = ({ property, user, referrerId }: InitialProps) => {
                         Router.push('/register')
                         return
                     }
-                    copyPropertyLink(`https://zanga.now.sh/property/${property.id}?ref=${user?.id}`)
+                    copyPropertyLink(`https://myzanga.com/property/${property.id}?ref=${user?.id}`)
                 }} marginTop={20} height={40} appearance="primary" marginRight={12} iconAfter="link">
                     Get Commission Link
                 </Button>

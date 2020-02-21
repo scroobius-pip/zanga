@@ -70,7 +70,7 @@ export default ({ active, property: { imageUrl, title, location, price, id }, on
                                         Router.push('/login')
                                         return
                                     }
-                                    copyPropertyLink(`https://zanga.now.sh/property/${id}?ref=${refId}`)
+                                    copyPropertyLink(`https://myzanga.com/property/${id}?ref=${refId}`)
                                 }}
                                 height={40}
                                 iconColor={colors.primary} appearance="minimal" icon='social-media' />}
