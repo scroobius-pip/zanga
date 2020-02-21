@@ -13,5 +13,8 @@ export const Query: QueryResolvers.Type = {
   },
   property: (parent, args, ctx) => {
     throw new Error("Resolver not implemented");
+  },
+  currentRate: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
   }
 };

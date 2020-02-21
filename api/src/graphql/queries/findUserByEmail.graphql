@@ -23,7 +23,14 @@ query userByEmail($email:String!){
       }
     }
     email
-    
+        propertyPoints{
+      impressions
+      profit
+      propertyTitle
+      propertyId
+      id:_id
+      
+    }
   }
 
 }

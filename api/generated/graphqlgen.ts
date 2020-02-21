@@ -4,6 +4,8 @@ import { GraphQLResolveInfo } from "graphql";
 import {
   User,
   Property,
+  UserPoint,
+  PropertyPoint,
   RegisterResult,
   LoginResult,
   Location,
@@ -76,6 +78,23 @@ export namespace QueryResolvers {
         ) => Property | null | Promise<Property | null>;
       };
 
+  export type CurrentRateResolver =
+    | ((
+        parent: undefined,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => number | Promise<number>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: undefined,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => number | Promise<number>;
+      };
+
   export interface Type {
     me:
       | ((
@@ -127,16 +146,34 @@ export namespace QueryResolvers {
             info: GraphQLResolveInfo
           ) => Property | null | Promise<Property | null>;
         };
+
+    currentRate:
+      | ((
+          parent: undefined,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => number | Promise<number>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: undefined,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => number | Promise<number>;
+        };
   }
 }
 
 export namespace UserResolvers {
   export const defaultResolvers = {
     id: (parent: User) => parent.id,
-    email: (parent: User) => (parent.email === undefined ? null : parent.email),
+    email: (parent: User) => parent.email,
     phone: (parent: User) => parent.phone,
     name: (parent: User) => parent.name,
-    type: (parent: User) => parent.type
+    type: (parent: User) => parent.type,
+    point: (parent: User) => parent.point
   };
 
   export type IdResolver =
@@ -162,7 +199,7 @@ export namespace UserResolvers {
         args: {},
         ctx: Context,
         info: GraphQLResolveInfo
-      ) => string | null | Promise<string | null>)
+      ) => string | Promise<string>)
     | {
         fragment: string;
         resolve: (
@@ -170,7 +207,7 @@ export namespace UserResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => string | null | Promise<string | null>;
+        ) => string | Promise<string>;
       };
 
   export type PhoneResolver =
@@ -241,6 +278,23 @@ export namespace UserResolvers {
         ) => Property[] | Promise<Property[]>;
       };
 
+  export type PointResolver =
+    | ((
+        parent: User,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => UserPoint | null | Promise<UserPoint | null>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: User,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => UserPoint | null | Promise<UserPoint | null>;
+      };
+
   export interface Type {
     id:
       | ((
@@ -265,7 +319,7 @@ export namespace UserResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo
-        ) => string | null | Promise<string | null>)
+        ) => string | Promise<string>)
       | {
           fragment: string;
           resolve: (
@@ -273,7 +327,7 @@ export namespace UserResolvers {
             args: {},
             ctx: Context,
             info: GraphQLResolveInfo
-          ) => string | null | Promise<string | null>;
+          ) => string | Promise<string>;
         };
 
     phone:
@@ -342,6 +396,23 @@ export namespace UserResolvers {
             ctx: Context,
             info: GraphQLResolveInfo
           ) => Property[] | Promise<Property[]>;
+        };
+
+    point:
+      | ((
+          parent: User,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => UserPoint | null | Promise<UserPoint | null>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: User,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => UserPoint | null | Promise<UserPoint | null>;
         };
   }
 }
@@ -663,6 +734,265 @@ export namespace PropertyResolvers {
             ctx: Context,
             info: GraphQLResolveInfo
           ) => string | null | Promise<string | null>;
+        };
+  }
+}
+
+export namespace UserPointResolvers {
+  export const defaultResolvers = {
+    totalProfit: (parent: UserPoint) => parent.totalProfit,
+    totalPoints: (parent: UserPoint) => parent.totalPoints,
+    propertyPoints: (parent: UserPoint) => parent.propertyPoints
+  };
+
+  export type PropertyPointsResolver =
+    | ((
+        parent: UserPoint,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => PropertyPoint[] | Promise<PropertyPoint[]>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: UserPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => PropertyPoint[] | Promise<PropertyPoint[]>;
+      };
+
+  export type TotalProfitResolver =
+    | ((
+        parent: UserPoint,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => number | Promise<number>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: UserPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => number | Promise<number>;
+      };
+
+  export type TotalPointsResolver =
+    | ((
+        parent: UserPoint,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => number | Promise<number>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: UserPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => number | Promise<number>;
+      };
+
+  export interface Type {
+    propertyPoints:
+      | ((
+          parent: UserPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => PropertyPoint[] | Promise<PropertyPoint[]>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: UserPoint,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => PropertyPoint[] | Promise<PropertyPoint[]>;
+        };
+
+    totalProfit:
+      | ((
+          parent: UserPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => number | Promise<number>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: UserPoint,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => number | Promise<number>;
+        };
+
+    totalPoints:
+      | ((
+          parent: UserPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => number | Promise<number>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: UserPoint,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => number | Promise<number>;
+        };
+  }
+}
+
+export namespace PropertyPointResolvers {
+  export const defaultResolvers = {
+    propertyId: (parent: PropertyPoint) => parent.propertyId,
+    propertyTitle: (parent: PropertyPoint) => parent.propertyTitle,
+    points: (parent: PropertyPoint) => parent.points,
+    profit: (parent: PropertyPoint) => parent.profit
+  };
+
+  export type PropertyIdResolver =
+    | ((
+        parent: PropertyPoint,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => string | Promise<string>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: PropertyPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => string | Promise<string>;
+      };
+
+  export type PropertyTitleResolver =
+    | ((
+        parent: PropertyPoint,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => string | Promise<string>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: PropertyPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => string | Promise<string>;
+      };
+
+  export type PointsResolver =
+    | ((
+        parent: PropertyPoint,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => number | Promise<number>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: PropertyPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => number | Promise<number>;
+      };
+
+  export type ProfitResolver =
+    | ((
+        parent: PropertyPoint,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => number | Promise<number>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: PropertyPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => number | Promise<number>;
+      };
+
+  export interface Type {
+    propertyId:
+      | ((
+          parent: PropertyPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => string | Promise<string>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: PropertyPoint,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => string | Promise<string>;
+        };
+
+    propertyTitle:
+      | ((
+          parent: PropertyPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => string | Promise<string>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: PropertyPoint,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => string | Promise<string>;
+        };
+
+    points:
+      | ((
+          parent: PropertyPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => number | Promise<number>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: PropertyPoint,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => number | Promise<number>;
+        };
+
+    profit:
+      | ((
+          parent: PropertyPoint,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => number | Promise<number>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: PropertyPoint,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => number | Promise<number>;
         };
   }
 }
@@ -1210,6 +1540,8 @@ export interface Resolvers {
   Query: QueryResolvers.Type;
   User: UserResolvers.Type;
   Property: PropertyResolvers.Type;
+  UserPoint: UserPointResolvers.Type;
+  PropertyPoint: PropertyPointResolvers.Type;
   Mutation: MutationResolvers.Type;
   RegisterResult: RegisterResultResolvers.Type;
   LoginResult: LoginResultResolvers.Type;

@@ -4,7 +4,7 @@ import { colors } from '../styles'
 export interface Props {
     totalPoints: number
     rate: string
-    totalNaira: number
+    totalProfit: number
 }
 
 export default (props: Props) => {
@@ -71,7 +71,7 @@ export default (props: Props) => {
                     color={colors.primary}
 
                 >
-                    ₦{props.totalNaira}
+                    ₦{props.totalProfit}
                 </Heading>
             </Pane>
             <Pane>

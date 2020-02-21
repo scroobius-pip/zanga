@@ -1,9 +1,13 @@
+import { Maybe } from '../../generated/sdk';
+
+type Maybe<T> = T | null
 export interface User {
     id: string
-    email: string | null
+    email: Maybe<string>
     phone: string
     name: string
-    type: UserType
+    type: UserType,
+    point: Maybe<UserPoint>
 }
 
 
@@ -43,4 +47,16 @@ export interface RegisterResult {
 export interface LoginResult {
     token: string | null
     message: string
+}
+
+export interface UserPoint {
+    totalProfit: number
+    totalPoints: number
+    propertyPoints: PropertyPoint[]
+}
+export interface PropertyPoint {
+    propertyId: string
+    propertyTitle: string
+    points: number
+    profit: number
 }

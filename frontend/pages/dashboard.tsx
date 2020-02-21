@@ -172,7 +172,7 @@ Page.getInitialProps = async ({ query, ...ctx }): Promise<InitialProps> => {
         ...(me.type === UserType.Individual ? {
             userPointCount: {
                 rate: '0.5',
-                totalNaira: 5000,
+                totalProfit: 5000,
                 totalPoints: 50000
             },
             userPropertyPoints: {

@@ -22,7 +22,14 @@ query user($id:ID!){
       }
     }
     email
-    
+        propertyPoints{
+      impressions
+      profit
+      propertyTitle
+      propertyId
+      id:_id
+      
+    }
   }
 
 }

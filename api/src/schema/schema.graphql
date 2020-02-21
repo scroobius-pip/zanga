@@ -37,13 +37,28 @@ type Cost {
   costType: CostType!
 }
 
+
 type User {
 id: ID!
-email: String
+email: String!
 phone: String!
 name: String!
 type: UserType!
-properties: [Property!]! 
+properties: [Property!]!
+point: UserPoint
+}
+
+type UserPoint {
+  propertyPoints:[PropertyPoint!]!
+  totalProfit:Float!
+  totalPoints:Int!
+}
+
+type PropertyPoint {
+propertyId:String!
+propertyTitle:String!
+points: Int!
+profit: Float!
 }
 
 
@@ -51,6 +66,7 @@ type Query {
 me:User
 properties(type:CostType!):[Property]!
 property(id:ID!):Property
+currentRate:Float!
 }
 
 type Mutation {

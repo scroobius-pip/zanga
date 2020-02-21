@@ -548,7 +548,11 @@ export type UserByEmailQuery = (
           & { id: User['_id'] }
         ) }
       )>> }
-    ) }
+    ), propertyPoints: Maybe<Array<(
+      { __typename?: 'PropertyPoint' }
+      & Pick<PropertyPoint, 'impressions' | 'profit' | 'propertyTitle' | 'propertyId'>
+      & { id: PropertyPoint['_id'] }
+    )>> }
   )> }
 );
 
@@ -575,7 +579,11 @@ export type UserQuery = (
           & { id: User['_id'] }
         ) }
       )>> }
-    ) }
+    ), propertyPoints: Maybe<Array<(
+      { __typename?: 'PropertyPoint' }
+      & Pick<PropertyPoint, 'impressions' | 'profit' | 'propertyTitle' | 'propertyId'>
+      & { id: PropertyPoint['_id'] }
+    )>> }
   )> }
 );
 
@@ -708,6 +716,13 @@ export const UserByEmailDocument = gql`
       }
     }
     email
+    propertyPoints {
+      impressions
+      profit
+      propertyTitle
+      propertyId
+      id: _id
+    }
   }
 }
     `;
@@ -735,6 +750,13 @@ export const UserDocument = gql`
       }
     }
     email
+    propertyPoints {
+      impressions
+      profit
+      propertyTitle
+      propertyId
+      id: _id
+    }
   }
 }
     `;

@@ -1,7 +1,7 @@
 import { MutationResolvers } from '../../../generated/graphqlgen';
 import addContactToSheet from '../../functions/addContactToSheet';
+import { POINT_RATE } from '../../constants';
 
-const POINT_RATE = 0.5 //1point = 0.5 naira
 
 const contactAgent: MutationResolvers.ContactAgentResolver = async (_, { input }, ctx) => {
 
