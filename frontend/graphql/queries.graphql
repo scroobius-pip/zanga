@@ -56,9 +56,7 @@ query dashboard{
             costValue
             costType
             images
-            owner {
-              name
-            }
+           
         }
     }
 }
