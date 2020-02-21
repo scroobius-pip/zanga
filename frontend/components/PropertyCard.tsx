@@ -2,7 +2,7 @@ import { Card, Text, Pane, Heading, IconButton, Icon, Button, Tooltip } from 'ev
 import { colors } from '../styles';
 import copyPropertyLink from '../functions/copyPropertyLink';
 import Router from 'next/router'
-
+import { isMobile } from 'react-device-detect'
 export interface Property {
     id: string
     imageUrl: string
@@ -35,14 +35,18 @@ export default ({ active, property: { imageUrl, title, location, price, id }, on
     borderRightWidth={4}
     borderRightColor={index % 2 !== 0 ? colors.primary : colors.primary}
     elevation={2}
+
     activeElevation={1}
     onClick={onClick}
 ><Pane display='flex'
     justifyContent='space-between'
-    flexDirection='row'>
+    flexDirection='row'
+    maxHeight={isMobile ? '' : 100}
+
+>
 
         <Pane flex={2} style={{ margin: '-15px 0px -15px -15px', }}>
-            <img style={{ objectFit: 'cover' }} height={'100%'} width={'100%'} src={imageUrl} />
+            <img style={{ objectFit: 'cover', height: '100%' }} width={'100%'} src={imageUrl} />
         </Pane>
         <Pane flex={5} display='flex' flexDirection='column' padding={10}>
             <Heading color={colors.grey} size={500}>{title}</Heading>
