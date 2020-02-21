@@ -16,7 +16,10 @@ query userByEmail($email:String!){
         id:_id
         title
         images
-        
+         owner{
+        name
+        id:_id
+      }
       }
     }
     email

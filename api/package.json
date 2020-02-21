@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "micro",
-    "deploy": "npm run build && now",
+    "deploy": "npm run generate && npm run build && now",
     "dev": "micro-dev ./dist/src/index.js -l tcp://localhost:2000",
     "build": "npm run buildSchema && tsc",
     "buildSchema": "tsc --lib esnext --types node --esModuleInterop ./src/schema/generateSchemaString.ts && node ./src/schema/generateSchemaString.js",
     "resolver-gen": "graphqlgen",
     "faunasdk-gen": "graphql-codegen --config fauna-sdk.yml",
-    "graphqlgen": "npm run resolver-gen && npm run faunasdk-gen"
+    "generate": "npm run resolver-gen && npm run faunasdk-gen"
   },
   "keywords": [],
   "author": "",

@@ -422,6 +422,11 @@ export type UserByEmailQuery = (
         { __typename?: 'Property' }
         & Pick<Property, 'city' | 'state' | 'description' | 'costType' | 'costValue' | 'title' | 'images'>
         & { id: Property['_id'] }
+        & { owner: (
+          { __typename?: 'User' }
+          & Pick<User, 'name'>
+          & { id: User['_id'] }
+        ) }
       )>> }
     ) }
   )> }
@@ -444,6 +449,11 @@ export type UserQuery = (
         { __typename?: 'Property' }
         & Pick<Property, 'city' | 'state' | 'description' | 'costType' | 'costValue' | 'title' | 'images'>
         & { id: Property['_id'] }
+        & { owner: (
+          { __typename?: 'User' }
+          & Pick<User, 'name'>
+          & { id: User['_id'] }
+        ) }
       )>> }
     ) }
   )> }
@@ -545,6 +555,10 @@ export const UserByEmailDocument = gql`
         id: _id
         title
         images
+        owner {
+          name
+          id: _id
+        }
       }
     }
     email
@@ -568,6 +582,10 @@ export const UserDocument = gql`
         id: _id
         title
         images
+        owner {
+          name
+          id: _id
+        }
       }
     }
     email

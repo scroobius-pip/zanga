@@ -110,6 +110,10 @@ exports.UserByEmailDocument = graphql_tag_1.default `
         id: _id
         title
         images
+        owner {
+          name
+          id: _id
+        }
       }
     }
     email
@@ -133,6 +137,10 @@ exports.UserDocument = graphql_tag_1.default `
         id: _id
         title
         images
+        owner {
+          name
+          id: _id
+        }
       }
     }
     email

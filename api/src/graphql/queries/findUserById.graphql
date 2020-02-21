@@ -15,7 +15,10 @@ query user($id:ID!){
         id:_id
         title
         images
-        
+         owner{
+        name
+        id:_id
+      }
       }
     }
     email
