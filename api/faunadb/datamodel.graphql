@@ -23,7 +23,7 @@ type Contact {
 }
 
 type Property {
-
+  pointCount: Int!
   title: String!
   city: String!
   state: String!

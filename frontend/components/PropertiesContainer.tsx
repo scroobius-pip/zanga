@@ -18,6 +18,7 @@ export default ({ properties, deletable, onDelete, refId }: Props) => {
     return <Pane>
         {properties.map((property, index) => {
             return <PropertyCard
+                key={property.id}
                 index={index}
                 refId={refId}
                 active={index === selected}

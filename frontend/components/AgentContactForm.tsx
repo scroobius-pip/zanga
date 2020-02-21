@@ -145,7 +145,7 @@ export default ({ referrer = '', propertyId = '' }) => {
             onChange={(e) => setFormState({ ...formState, email: e.target.value })}
             textAlign='left'
             label='Email'
-            color={colors.primary}
+            // color={colors.primary}
             height={40}
             appearance="primary"
             name="Your email"

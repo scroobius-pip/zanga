@@ -8,19 +8,30 @@ import { useState } from 'react'
 import getToken from '../functions/getToken'
 import redirect from '../functions/redirect'
 import { GraphQLClient } from 'graphql-request'
-import { getSdk, User, CostType } from '../generated/graphql'
+import { getSdk, User, CostType, UserType } from '../generated/graphql'
 import { parseProperties } from '../functions/parseProperties'
 import {
     isMobile
 } from 'react-device-detect'
+import UserPointCounter, { Props as UserPointCounterProps } from '../components/UserPointCounter'
+import UserPropertyPointTable, { Props as UserPropertyPointTableProps } from '../components/UserPropertyPointTable'
 interface InitialProps {
     properties: Property[]
     userName: string
     userType: User['type']
     token: string
+    userPointCount?: UserPointCounterProps
+    userPropertyPoints?: UserPropertyPointTableProps
 }
 
-const Page = ({ properties: initialProperties, userName, token }: InitialProps) => {
+const Page = ({ properties: initialProperties,
+    userName,
+    token,
+    userType,
+    userPointCount,
+    userPropertyPoints
+}: InitialProps) => {
+
     const [addFormVisible, setAddFormVisible] = useState(false)
     const [properties, setProperties] = useState(initialProperties)
 
@@ -77,7 +88,7 @@ const Page = ({ properties: initialProperties, userName, token }: InitialProps) 
         }
     }
 
-    const tabs: TabContainerProps['tabs'] = [{
+    const agentTabs: TabContainerProps['tabs'] = [{
         body: <PropertiesContainer deletable onDelete={deleteProperty} properties={properties} />,
 
         title: 'Properties'
@@ -92,17 +103,29 @@ const Page = ({ properties: initialProperties, userName, token }: InitialProps) 
     }
     ]
 
+    const userTabs: TabContainerProps['tabs'] = [{
+        body: <Pane>
+            <UserPointCounter {...userPointCount} />
+            <UserPropertyPointTable {...userPropertyPoints} />
+        </Pane>,
+        title: 'Statistics'
+    }]
+
+    const isAgent = userType === UserType.Agency
     return <Layout userName={userName}>
 
         <Pane display='flex' justifyContent='space-between' alignItems='flex-end'>
             <Heading size={900}>Dashboard</Heading>
-            <Button iconAfter='add' onClick={() => setAddFormVisible(true)} marginTop={10} height={40} appearance="primary" marginRight={12} >
-                Create Property
+            {
+                isAgent &&
+                <Button iconAfter='add' onClick={() => setAddFormVisible(true)} marginTop={10} height={40} appearance="primary" marginRight={12} >
+                    Create Property
                 </Button>
+            }
         </Pane>
         <Pane marginTop={25} background='tint1' padding={'2vw'}>
 
-            <TabsContainer tabs={tabs} />
+            <TabsContainer tabs={isAgent ? agentTabs : userTabs} />
         </Pane>
         <SideSheet
             shouldCloseOnOverlayClick={false}
@@ -141,12 +164,21 @@ Page.getInitialProps = async ({ query, ...ctx }): Promise<InitialProps> => {
     const sdk = getSdk(client)
     const { me } = await sdk.dashboard()
 
-    console.log('tokne' + token)
     return {
         userName: me.name,
         properties: parseProperties(me.properties),
         userType: me.type,
-        token
+        token,
+        ...(me.type === UserType.Individual ? {
+            userPointCount: {
+                rate: '0.5',
+                totalNaira: 5000,
+                totalPoints: 50000
+            },
+            userPropertyPoints: {
+                propertyPoints: []
+            }
+        } : {})
     }
 
 }
