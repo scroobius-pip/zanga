@@ -18,9 +18,11 @@ export interface Props {
 
 export default (props: Props) => {
     return <Card
+        elevation={2}
+        hoverElevation={3}
         marginTop={10}
         padding={20}
-        elevation={1}
+
     >
         <Table
             border="default"

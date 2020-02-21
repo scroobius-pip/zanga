@@ -21,7 +21,7 @@ export default (props: TabContainerProps) => {
     const TabNavItem = props.side ? SidebarTab : Tab
 
     return <>
-        < TabNav >
+        < TabNav  >
             {
                 props.tabs.map(({ body, title }, index) => <TabNavItem height={56} key={title} id={title} isSelected={index === selected}
                     onSelect={() => setSelected(index)}

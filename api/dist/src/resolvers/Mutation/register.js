@@ -55,7 +55,7 @@ const register = async (_, { input }, ctx) => {
         console.log(error);
         return {
             token: '',
-            message: error.message
+            message: 'User Exists!'
         };
     }
 };

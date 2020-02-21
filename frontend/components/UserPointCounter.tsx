@@ -21,12 +21,14 @@ export default (props: Props) => {
         })
     }, [])
     return <Card
-        elevation={1}
+        elevation={2}
+        hoverElevation={3}
         padding={20}
         marginTop={20}
         display='flex'
         justifyContent='center'
         textAlign='center'
+    // background='red'
     >
         <Pane>
 
@@ -65,11 +67,14 @@ export default (props: Props) => {
                     </Text>
                 </Pane>
             </Pane>
-            {!currentRate ? <Text fontWeight='600'>
-                Current Rate - ₦{currentRate}/Token
+            <Pane padding={5} display="flex" alignItems="center" justifyContent="center">
+
+                {currentRate ? <Text fontWeight='600'>
+                    Current Rate - ₦{currentRate}/token
             </Text> :
-                <Spinner size={2} />
-            }
+                    <Spinner />
+                }
+            </Pane>
             <Pane
                 marginTop={10}
                 justifyContent='center'

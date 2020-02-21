@@ -14,7 +14,9 @@ const tabs: TabContainerProps['tabs'] = [
         title: 'Marketer'
     },
     {
-        body: <AgentForm />,
+        body: <Pane marginTop={20} display='flex' justifyCotent='center'>
+            <Heading>Coming Soon</Heading>
+        </Pane>,
         title: 'Agency'
     },
 
@@ -28,7 +30,7 @@ function validateEmail(email) {
 
 export default () => {
     return <Layout>
-        <Pane justifyContent='center' marginBotton='50'>
+        <Pane justifyContent='center' marginBottom={20}>
             <Heading marginBotton={50} textAlign='center' size={900}>Register</Heading>
             <Paragraph textAlign='center' size={500}>Register To Start Sharing Links!</Paragraph>
         </Pane>
