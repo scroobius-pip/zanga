@@ -19,6 +19,7 @@ const createProperty = async (_, { input }, ctx) => {
             city,
             state,
             title,
+            pointCount: 1,
             owner: {
                 connect: ctx.userId
             }

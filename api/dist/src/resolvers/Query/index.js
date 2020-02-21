@@ -6,10 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const me_1 = __importDefault(require("./me"));
 const properties_1 = __importDefault(require("./properties"));
 const property_1 = __importDefault(require("./property"));
+const constants_1 = require("../../constants");
 const Query = {
     me: me_1.default,
     properties: properties_1.default,
-    property: property_1.default
+    property: property_1.default,
+    currentRate: () => constants_1.POINT_RATE
 };
 exports.default = Query;
 //# sourceMappingURL=index.js.map

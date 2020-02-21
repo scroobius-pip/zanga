@@ -4,6 +4,7 @@ const data = `type Query {
   me: User
   properties(type: CostType!): [Property]!
   property(id: ID!): Property
+  currentRate: Float!
 }
 
 type Mutation {
@@ -53,11 +54,25 @@ type Cost {
 
 type User {
   id: ID!
-  email: String
+  email: String!
   phone: String!
   name: String!
   type: UserType!
   properties: [Property!]!
+  point: UserPoint
+}
+
+type UserPoint {
+  propertyPoints: [PropertyPoint!]!
+  totalProfit: Float!
+  totalPoints: Int!
+}
+
+type PropertyPoint {
+  propertyId: String!
+  propertyTitle: String!
+  points: Int!
+  profit: Float!
 }
 
 input ContactAgentInput {

@@ -9,10 +9,11 @@ var UserResolvers;
 (function (UserResolvers) {
     UserResolvers.defaultResolvers = {
         id: (parent) => parent.id,
-        email: (parent) => (parent.email === undefined ? null : parent.email),
+        email: (parent) => parent.email,
         phone: (parent) => parent.phone,
         name: (parent) => parent.name,
-        type: (parent) => parent.type
+        type: (parent) => parent.type,
+        point: (parent) => parent.point
     };
 })(UserResolvers = exports.UserResolvers || (exports.UserResolvers = {}));
 var PropertyResolvers;
@@ -28,6 +29,23 @@ var PropertyResolvers;
         description: (parent) => parent.description
     };
 })(PropertyResolvers = exports.PropertyResolvers || (exports.PropertyResolvers = {}));
+var UserPointResolvers;
+(function (UserPointResolvers) {
+    UserPointResolvers.defaultResolvers = {
+        totalProfit: (parent) => parent.totalProfit,
+        totalPoints: (parent) => parent.totalPoints,
+        propertyPoints: (parent) => parent.propertyPoints
+    };
+})(UserPointResolvers = exports.UserPointResolvers || (exports.UserPointResolvers = {}));
+var PropertyPointResolvers;
+(function (PropertyPointResolvers) {
+    PropertyPointResolvers.defaultResolvers = {
+        propertyId: (parent) => parent.propertyId,
+        propertyTitle: (parent) => parent.propertyTitle,
+        points: (parent) => parent.points,
+        profit: (parent) => parent.profit
+    };
+})(PropertyPointResolvers = exports.PropertyPointResolvers || (exports.PropertyPointResolvers = {}));
 var MutationResolvers;
 (function (MutationResolvers) {
     MutationResolvers.defaultResolvers = {};

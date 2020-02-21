@@ -22,6 +22,7 @@ const createProperty: MutationResolvers.CreatePropertyResolver = async (_, { inp
             city,
             state,
             title,
+            pointCount: 1,
             owner: {
                 connect: ctx.userId
             }

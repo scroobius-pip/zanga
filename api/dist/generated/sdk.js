@@ -39,6 +39,13 @@ exports.CreatePropertyDocument = graphql_tag_1.default `
   }
 }
     `;
+exports.CreatePropertyPointDocument = graphql_tag_1.default `
+    mutation createPropertyPoint($data: PropertyPointInput!) {
+  createPropertyPoint(data: $data) {
+    id: _id
+  }
+}
+    `;
 exports.CreateUserDocument = graphql_tag_1.default `
     mutation createUser($user: UserInput!) {
   createUser(data: $user) {
@@ -50,6 +57,16 @@ exports.CreateUserDocument = graphql_tag_1.default `
 exports.DeletePropertyDocument = graphql_tag_1.default `
     mutation deleteProperty($id: ID!) {
   deleteProperty(id: $id) {
+    id: _id
+  }
+}
+    `;
+exports.IncrementPropertyPointDocument = graphql_tag_1.default `
+    mutation incrementPropertyPoint($pointNo: Int!, $propertyPointId: ID!, $rate: Float!) {
+  incrementPropertyPoint(pointNo: $pointNo, propertyPointId: $propertyPointId, rate: $rate) {
+    impressions
+    profit
+    propertyTitle
     id: _id
   }
 }
@@ -89,6 +106,15 @@ exports.PropertyDocument = graphql_tag_1.default `
     title
     images
     description
+    pointCount
+  }
+}
+    `;
+exports.PropertyPointDocument = graphql_tag_1.default `
+    query propertyPoint($propertyId: ID!) {
+  findPropertyPointByPropertyId(propertyId: $propertyId) {
+    propertyId
+    profit
   }
 }
     `;
@@ -117,6 +143,13 @@ exports.UserByEmailDocument = graphql_tag_1.default `
       }
     }
     email
+    propertyPoints {
+      impressions
+      profit
+      propertyTitle
+      propertyId
+      id: _id
+    }
   }
 }
     `;
@@ -144,6 +177,13 @@ exports.UserDocument = graphql_tag_1.default `
       }
     }
     email
+    propertyPoints {
+      impressions
+      profit
+      propertyTitle
+      propertyId
+      id: _id
+    }
   }
 }
     `;
@@ -155,17 +195,26 @@ function getSdk(client) {
         createProperty(variables) {
             return client.request(graphql_1.print(exports.CreatePropertyDocument), variables);
         },
+        createPropertyPoint(variables) {
+            return client.request(graphql_1.print(exports.CreatePropertyPointDocument), variables);
+        },
         createUser(variables) {
             return client.request(graphql_1.print(exports.CreateUserDocument), variables);
         },
         deleteProperty(variables) {
             return client.request(graphql_1.print(exports.DeletePropertyDocument), variables);
         },
+        incrementPropertyPoint(variables) {
+            return client.request(graphql_1.print(exports.IncrementPropertyPointDocument), variables);
+        },
         properties(variables) {
             return client.request(graphql_1.print(exports.PropertiesDocument), variables);
         },
         property(variables) {
             return client.request(graphql_1.print(exports.PropertyDocument), variables);
+        },
+        propertyPoint(variables) {
+            return client.request(graphql_1.print(exports.PropertyPointDocument), variables);
         },
         userByEmail(variables) {
             return client.request(graphql_1.print(exports.UserByEmailDocument), variables);
