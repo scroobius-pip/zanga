@@ -108,6 +108,15 @@ type Mutation {
     # The 'Property' document's ID
     id: ID!
   ): Property
+  # Partially updates an existing document in the collection of 'Contact'. It only
+  # modifies the values that are specified in the arguments. During execution, it
+  # verifies that required fields are not set to 'null'.
+  partialUpdateContact(
+    # The 'Contact' document's ID
+    id: ID!
+    # 'Contact' input values
+    data: PartialUpdateContactInput!
+  ): Contact
   # Update an existing document in the collection of 'Contact'
   updateContact(
     # The 'Contact' document's ID
@@ -115,6 +124,15 @@ type Mutation {
     # 'Contact' input values
     data: ContactInput!
   ): Contact
+  # Partially updates an existing document in the collection of 'PropertyPoint'.
+  # It only modifies the values that are specified in the arguments. During
+  # execution, it verifies that required fields are not set to 'null'.
+  partialUpdatePropertyPoint(
+    # The 'PropertyPoint' document's ID
+    id: ID!
+    # 'PropertyPoint' input values
+    data: PartialUpdatePropertyPointInput!
+  ): PropertyPoint
   # Update an existing document in the collection of 'PropertyPoint'
   updatePropertyPoint(
     # The 'PropertyPoint' document's ID
@@ -132,6 +150,15 @@ type Mutation {
     # The 'Contact' document's ID
     id: ID!
   ): Contact
+  # Partially updates an existing document in the collection of 'Property'. It
+  # only modifies the values that are specified in the arguments. During
+  # execution, it verifies that required fields are not set to 'null'.
+  partialUpdateProperty(
+    # The 'Property' document's ID
+    id: ID!
+    # 'Property' input values
+    data: PartialUpdatePropertyInput!
+  ): Property
   # Delete an existing document in the collection of 'User'
   deleteUser(
     # The 'User' document's ID
@@ -142,6 +169,62 @@ type Mutation {
     # The 'PropertyPoint' document's ID
     id: ID!
   ): PropertyPoint
+  # Partially updates an existing document in the collection of 'User'. It only
+  # modifies the values that are specified in the arguments. During execution, it
+  # verifies that required fields are not set to 'null'.
+  partialUpdateUser(
+    # The 'User' document's ID
+    id: ID!
+    # 'User' input values
+    data: PartialUpdateUserInput!
+  ): User
+}
+
+# 'Contact' input values
+input PartialUpdateContactInput {
+  name: String
+  number: String
+  property: ContactPropertyRelation
+  email: String
+  notes: String
+  to: ContactToRelation
+}
+
+# 'Property' input values
+input PartialUpdatePropertyInput {
+  pointCount: Int
+  title: String
+  city: String
+  state: String
+  costValue: Int
+  costType: CostType
+  owner: PropertyOwnerRelation
+  images: [String!]
+  description: String
+}
+
+# 'PropertyPoint' input values
+input PartialUpdatePropertyPointInput {
+  user: PropertyPointUserRelation
+  userId: ID
+  profit: Float
+  impressions: Int
+  propertyTitle: String
+  propertyId: ID
+}
+
+# 'User' input values
+input PartialUpdateUserInput {
+  email: String
+  phone: String
+  name: String
+  password: String
+  properties: UserPropertiesRelation
+  type: UserType
+  cac: String
+  tin: String
+  contacts: UserContactsRelation
+  propertyPoints: UserPropertyPointsRelation
 }
 
 type Property {
@@ -198,6 +281,7 @@ type PropertyPoint {
   # The document's ID.
   _id: ID!
   propertyId: ID!
+  userId: ID!
   user: User!
   # The document's timestamp.
   _ts: Long!
@@ -206,10 +290,21 @@ type PropertyPoint {
 # 'PropertyPoint' input values
 input PropertyPointInput {
   user: PropertyPointUserRelation
+  userId: ID!
   profit: Float!
   impressions: Int!
   propertyTitle: String!
   propertyId: ID!
+}
+
+# The pagination object for elements of type 'PropertyPoint'.
+type PropertyPointPage {
+  # The elements of type 'PropertyPoint' in this page.
+  data: [PropertyPoint]!
+  # A cursor for elements coming after the current page.
+  after: String
+  # A cursor for elements coming before the current page.
+  before: String
 }
 
 # Allow manipulating the relationship between the types 'PropertyPoint' and 'User' using the field 'PropertyPoint.user'.
@@ -228,6 +323,10 @@ type Query {
   ): Property
   findPropertyPointByPropertyId(propertyId: ID!): PropertyPoint
   findUserByEmail(email: String!): User
+  findPropertyPointByPropertyIdAndUserId(
+    propertyId: ID!
+    userId: ID!
+  ): PropertyPoint
   # Find a document from the collection of 'User' by its id.
   findUserByID(
     # The 'User' document's ID
@@ -274,7 +373,12 @@ type User {
   ): PropertyPage!
   cac: String
   type: UserType!
-  propertyPoints: [PropertyPoint!]
+  propertyPoints(
+    # The number of items to return per page.
+    _size: Int
+    # The pagination cursor.
+    _cursor: String
+  ): PropertyPointPage!
   phone: String!
   password: String!
   # The document's timestamp.
@@ -302,7 +406,7 @@ input UserInput {
   cac: String
   tin: String
   contacts: UserContactsRelation
-  propertyPoints: [ID!]
+  propertyPoints: UserPropertyPointsRelation
 }
 
 # Allow manipulating the relationship between the types 'User' and 'Property'.
@@ -312,6 +416,16 @@ input UserPropertiesRelation {
   # Connect one or more documents of type 'Property' with the current document using their IDs.
   connect: [ID]
   # Disconnect the given documents of type 'Property' from the current document using their IDs.
+  disconnect: [ID]
+}
+
+# Allow manipulating the relationship between the types 'User' and 'PropertyPoint'.
+input UserPropertyPointsRelation {
+  # Create one or more documents of type 'PropertyPoint' and associate them with the current document.
+  create: [PropertyPointInput]
+  # Connect one or more documents of type 'PropertyPoint' with the current document using their IDs.
+  connect: [ID]
+  # Disconnect the given documents of type 'PropertyPoint' from the current document using their IDs.
   disconnect: [ID]
 }
 

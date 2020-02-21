@@ -1,3 +1,7 @@
+query currentRate {
+  currentRate
+}
+
 query properties($type:CostType!) {
   properties(type:$type){
     id
@@ -60,5 +64,15 @@ query dashboard{
              name
            }
         }
+    point {
+      propertyPoints {
+        propertyId
+        propertyTitle
+        points
+        profit
+      }
+      totalProfit
+      totalPoints
     }
+  }
 }

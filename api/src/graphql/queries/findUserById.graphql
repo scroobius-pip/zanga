@@ -23,11 +23,13 @@ query user($id:ID!){
     }
     email
         propertyPoints{
-      impressions
+    data{
+        impressions
       profit
       propertyTitle
       propertyId
       id:_id
+    }
       
     }
   }

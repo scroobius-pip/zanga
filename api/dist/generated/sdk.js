@@ -111,9 +111,9 @@ exports.PropertyDocument = graphql_tag_1.default `
 }
     `;
 exports.PropertyPointDocument = graphql_tag_1.default `
-    query propertyPoint($propertyId: ID!) {
-  findPropertyPointByPropertyId(propertyId: $propertyId) {
-    propertyId
+    query propertyPoint($propertyId: ID!, $userId: ID!) {
+  findPropertyPointByPropertyIdAndUserId(propertyId: $propertyId, userId: $userId) {
+    id: _id
     profit
   }
 }
@@ -144,11 +144,13 @@ exports.UserByEmailDocument = graphql_tag_1.default `
     }
     email
     propertyPoints {
-      impressions
-      profit
-      propertyTitle
-      propertyId
-      id: _id
+      data {
+        impressions
+        profit
+        propertyTitle
+        propertyId
+        id: _id
+      }
     }
   }
 }
@@ -178,11 +180,13 @@ exports.UserDocument = graphql_tag_1.default `
     }
     email
     propertyPoints {
-      impressions
-      profit
-      propertyTitle
-      propertyId
-      id: _id
+      data {
+        impressions
+        profit
+        propertyTitle
+        propertyId
+        id: _id
+      }
     }
   }
 }

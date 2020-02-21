@@ -1,13 +1,25 @@
-import { Card, Pane, Button, Text, Paragraph, Heading } from 'evergreen-ui'
+import { Card, Pane, Button, Text, Paragraph, Heading, Spinner } from 'evergreen-ui'
 import { colors } from '../styles'
+import { useState, useEffect } from 'react'
+import { GraphQLClient } from 'graphql-request'
+import { getSdk } from '../generated/graphql'
 
 export interface Props {
     totalPoints: number
-    rate: string
     totalProfit: number
 }
 
 export default (props: Props) => {
+    const [currentRate, setCurrentRate] = useState<number>()
+
+
+    useEffect(() => {
+        const client = new GraphQLClient('https://zanga-api.now.sh/graphql')
+        const sdk = getSdk(client)
+        sdk.currentRate().then(result => {
+            setCurrentRate(result.currentRate)
+        })
+    }, [])
     return <Card
         elevation={1}
         padding={20}
@@ -53,9 +65,11 @@ export default (props: Props) => {
                     </Text>
                 </Pane>
             </Pane>
-            <Text fontWeight='600'>
-                Current Rate - ₦{props.rate}/Token
-            </Text>
+            {!currentRate ? <Text fontWeight='600'>
+                Current Rate - ₦{currentRate}/Token
+            </Text> :
+                <Spinner size={2} />
+            }
             <Pane
                 marginTop={10}
                 justifyContent='center'

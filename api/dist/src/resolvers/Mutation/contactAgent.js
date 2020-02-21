@@ -20,24 +20,15 @@ const contactAgent = async (_, { input }, ctx) => {
             }
         });
         if (input.referrerId) {
-            // const referrerNumber = await ctx.prisma.user({ id: input.referrerId }).phone()
-            // try {
-            //     await client('', '').messages.create({
-            //         body: "Someone has shown interest in the property you shared: " + "zanga.now.sh/property/" + input.propertyId,
-            //         from: '+234' + '',
-            //         to: '+234' + referrerNumber
-            //     })
-            // } catch (error) {
-            // }
-            //TWILIO HERE
             const property = (await ctx.client.property({
                 id: input.propertyId,
             })).findPropertyByID;
             if (!property)
                 throw 'property id wrong';
             let propertyPointId = (_a = (await ctx.client.propertyPoint({
-                propertyId: input.propertyId
-            })).findPropertyPointByPropertyId) === null || _a === void 0 ? void 0 : _a.propertyId;
+                propertyId: input.propertyId,
+                userId: input.referrerId
+            })).findPropertyPointByPropertyIdAndUserId) === null || _a === void 0 ? void 0 : _a.id;
             if (!propertyPointId) {
                 propertyPointId = (await ctx.client.createPropertyPoint({
                     data: {
@@ -45,6 +36,7 @@ const contactAgent = async (_, { input }, ctx) => {
                         profit: property.pointCount * constants_1.POINT_RATE,
                         propertyId: property.id,
                         propertyTitle: property.title,
+                        userId: input.referrerId,
                         user: {
                             connect: input.referrerId
                         }

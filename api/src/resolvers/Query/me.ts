@@ -12,21 +12,27 @@ const meResolver: QueryResolvers.MeResolver = async (_, __, ctx) => {
 
     const userProperties = user?.properties.data ?? []
     const userPoints = user.propertyPoints ?? []
-
+    const userPointsData = userPoints?.data ?? []
     return {
         ...user,
         properties: userProperties,
         point: {
-            propertyPoints: userPoints.map(userPoint => {
+            propertyPoints: (userPointsData).map(userPoint => {
                 return {
-                    points: userPoint.impressions,
-                    profit: userPoint.profit,
-                    propertyId: userPoint.propertyId,
-                    propertyTitle: userPoint.propertyTitle
+                    points: userPoint?.impressions,
+                    profit: userPoint?.profit,
+                    propertyId: userPoint?.propertyId,
+                    propertyTitle: userPoint?.propertyTitle
                 }
             }),
-            totalPoints: userPoints.reduce((acc, val) => acc + val.impressions, 0),
-            totalProfit: userPoints.reduce((acc, current) => { return acc + current.profit }, 0),
+            totalPoints: userPointsData.reduce((acc, val) => {
+                const impressions = val ? val.impressions : 0
+                return acc + impressions
+            }, 0),
+            totalProfit: userPointsData.reduce((acc, current) => {
+                const profit = current ? current.profit : 0
+                return acc + profit
+            }, 0),
         }
     } as User
 }

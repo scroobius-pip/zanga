@@ -171,12 +171,21 @@ Page.getInitialProps = async ({ query, ...ctx }): Promise<InitialProps> => {
         token,
         ...(me.type === UserType.Individual ? {
             userPointCount: {
-                rate: '0.5',
-                totalProfit: 5000,
-                totalPoints: 50000
+
+                totalProfit: me.point.totalProfit,
+                totalPoints: me.point.totalPoints
             },
             userPropertyPoints: {
-                propertyPoints: []
+                propertyPoints: me.point.propertyPoints.map(point => {
+                    return {
+                        property: {
+                            id: point.propertyId,
+                            title: point.propertyTitle
+                        },
+                        points: point.points,
+                        profit: point.profit
+                    }
+                })
             }
         } : {})
     }

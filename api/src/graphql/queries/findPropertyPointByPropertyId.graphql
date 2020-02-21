@@ -1,6 +1,0 @@
-query propertyPoint($propertyId:ID!) {
-  findPropertyPointByPropertyId(propertyId:$propertyId){
-    propertyId
-    profit
-  }
-}

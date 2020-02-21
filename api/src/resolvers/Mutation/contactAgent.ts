@@ -18,26 +18,17 @@ const contactAgent: MutationResolvers.ContactAgentResolver = async (_, { input }
             }
         })
         if (input.referrerId) {
-            // const referrerNumber = await ctx.prisma.user({ id: input.referrerId }).phone()
-            // try {
-            //     await client('', '').messages.create({
-            //         body: "Someone has shown interest in the property you shared: " + "zanga.now.sh/property/" + input.propertyId,
-            //         from: '+234' + '',
-            //         to: '+234' + referrerNumber
-            //     })
 
-            // } catch (error) {
-
-            // }
-            //TWILIO HERE
             const property = (await ctx.client.property({
                 id: input.propertyId,
             })).findPropertyByID
+
             if (!property) throw 'property id wrong'
 
             let propertyPointId = (await ctx.client.propertyPoint({
-                propertyId: input.propertyId
-            })).findPropertyPointByPropertyId?.propertyId
+                propertyId: input.propertyId,
+                userId: input.referrerId
+            })).findPropertyPointByPropertyIdAndUserId?.id
 
             if (!propertyPointId) {
                 propertyPointId = (await ctx.client.createPropertyPoint({
@@ -46,6 +37,7 @@ const contactAgent: MutationResolvers.ContactAgentResolver = async (_, { input }
                         profit: property.pointCount * POINT_RATE,
                         propertyId: property.id,
                         propertyTitle: property.title,
+                        userId: input.referrerId,
                         user: {
                             connect: input.referrerId
                         }

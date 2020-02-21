@@ -117,11 +117,20 @@ export type Property = {
   description?: Maybe<Scalars['String']>,
 };
 
+export type PropertyPoint = {
+   __typename?: 'PropertyPoint',
+  propertyId: Scalars['String'],
+  propertyTitle: Scalars['String'],
+  points: Scalars['Int'],
+  profit: Scalars['Float'],
+};
+
 export type Query = {
    __typename?: 'Query',
   me?: Maybe<User>,
   properties: Array<Maybe<Property>>,
   property?: Maybe<Property>,
+  currentRate: Scalars['Float'],
 };
 
 
@@ -154,11 +163,19 @@ export type RegisterResult = {
 export type User = {
    __typename?: 'User',
   id: Scalars['ID'],
-  email?: Maybe<Scalars['String']>,
+  email: Scalars['String'],
   phone: Scalars['String'],
   name: Scalars['String'],
   type: UserType,
   properties: Array<Property>,
+  point?: Maybe<UserPoint>,
+};
+
+export type UserPoint = {
+   __typename?: 'UserPoint',
+  propertyPoints: Array<PropertyPoint>,
+  totalProfit: Scalars['Float'],
+  totalPoints: Scalars['Int'],
 };
 
 export enum UserType {
@@ -222,6 +239,14 @@ export type RegisterMutation = (
   ) }
 );
 
+export type CurrentRateQueryVariables = {};
+
+
+export type CurrentRateQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'currentRate'>
+);
+
 export type PropertiesQueryVariables = {
   type: CostType
 };
@@ -282,6 +307,13 @@ export type DashboardQuery = (
         { __typename?: 'User' }
         & Pick<User, 'name'>
       ) }
+    )>, point: Maybe<(
+      { __typename?: 'UserPoint' }
+      & Pick<UserPoint, 'totalProfit' | 'totalPoints'>
+      & { propertyPoints: Array<(
+        { __typename?: 'PropertyPoint' }
+        & Pick<PropertyPoint, 'propertyId' | 'propertyTitle' | 'points' | 'profit'>
+      )> }
     )> }
   )> }
 );
@@ -316,6 +348,11 @@ export const RegisterDocument = gql`
     token
     message
   }
+}
+    `;
+export const CurrentRateDocument = gql`
+    query currentRate {
+  currentRate
 }
     `;
 export const PropertiesDocument = gql`
@@ -382,6 +419,16 @@ export const DashboardDocument = gql`
         name
       }
     }
+    point {
+      propertyPoints {
+        propertyId
+        propertyTitle
+        points
+        profit
+      }
+      totalProfit
+      totalPoints
+    }
   }
 }
     `;
@@ -401,6 +448,9 @@ export function getSdk(client: GraphQLClient) {
     },
     register(variables: RegisterMutationVariables): Promise<RegisterMutation> {
       return client.request<RegisterMutation>(print(RegisterDocument), variables);
+    },
+    currentRate(variables?: CurrentRateQueryVariables): Promise<CurrentRateQuery> {
+      return client.request<CurrentRateQuery>(print(CurrentRateDocument), variables);
     },
     properties(variables: PropertiesQueryVariables): Promise<PropertiesQuery> {
       return client.request<PropertiesQuery>(print(PropertiesDocument), variables);
