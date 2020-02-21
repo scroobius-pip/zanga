@@ -10,6 +10,15 @@ type:UserType!
 cac: String @unique
 tin: String @unique
 contacts: [Contact!] @relation
+propertyPoints: [PropertyPoint!]
+}
+
+type PropertyPoint {
+  user:User!
+  profit: Float!
+  impressions: Int!
+  propertyTitle:String!
+  propertyId:ID! @unique
 }
 
 type Contact {
@@ -48,4 +57,44 @@ Individual
 type Query {
   findPropertiesByCostType(costType:CostType!):[Property!]!
   findUserByEmail(email:String!):User
+  findPropertyPointByPropertyId(propertyId:ID!):PropertyPoint
 }
+
+type Mutation {
+  incrementPropertyPoint(pointNo:Int!,propertyPointId:ID!,rate:Float!): PropertyPoint! @resolver(name:"increment_property_point")
+
+}
+
+# Query(Lambda(["pointNo","propertyId","rate"], 
+# Update(
+#   Ref(Collection("PropertyPoint"),Var("propertyId")),
+#   {
+#     data:{
+#       impressions:Add(
+#                 Select(
+#                     ['data','impressions'],
+#                     Get(
+#                         Ref(
+#                             Collection('PropertyPoint'),
+#                             Var("propertyId")
+#                         )
+#                     )
+#                 ),
+#                 Var("pointNo")
+#             ),
+#       profit:Add(
+#         Select(
+#           ['data','profit'],
+#           Get(
+#             Ref(
+#               Collection('PropertyPoint'),
+#               Var("propertyId")
+#               )
+#             )
+#           ),
+#           Multiply(Var("pointNo"),Var("rate"))
+#         )
+#     }
+#   }
+#   )
+# ))

@@ -1,0 +1,5 @@
+mutation createPropertyPoint ($data: PropertyPointInput!){
+createPropertyPoint(data:$data){
+    id:_id
+}
+}

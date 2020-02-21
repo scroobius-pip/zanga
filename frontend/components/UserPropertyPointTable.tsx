@@ -4,8 +4,12 @@ import Router from 'next/router'
 
 
 interface PropertyPoint {
-    property: Property
+    property: {
+        id: string
+        title: string
+    }
     points: number
+    profit: number
 }
 
 export interface Props {
@@ -29,6 +33,9 @@ export default (props: Props) => {
                 <Table.TextHeaderCell>
                     Points
             </Table.TextHeaderCell>
+                <Table.TextHeaderCell>
+                    Profit
+            </Table.TextHeaderCell>
             </TableHead>
             <Table.Body>
                 {
@@ -45,6 +52,10 @@ export default (props: Props) => {
                             <Table.TextCell>{
                                 propertyPoint.points
                             }</Table.TextCell>
+                            <Table.TextCell>{
+                                propertyPoint.profit
+                            }</Table.TextCell>
+
                         </Table.Row>
                     })
                 }

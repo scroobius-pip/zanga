@@ -64,6 +64,7 @@ enum CostType {
 scalar Date
 
 # The `Long` scalar type
+#  represents non-fractional signed whole numeric values.
 # Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
@@ -75,6 +76,11 @@ type Mutation {
     # 'User' input values
     data: UserInput!
   ): User
+  # Create a new document in the collection of 'PropertyPoint'
+  createPropertyPoint(
+    # 'PropertyPoint' input values
+    data: PropertyPointInput!
+  ): PropertyPoint!
   # Create a new document in the collection of 'User'
   createUser(
     # 'User' input values
@@ -85,6 +91,11 @@ type Mutation {
     # 'Contact' input values
     data: ContactInput!
   ): Contact!
+  incrementPropertyPoint(
+    pointNo: Int!
+    propertyPointId: ID!
+    rate: Float!
+  ): PropertyPoint!
   # Update an existing document in the collection of 'Property'
   updateProperty(
     # The 'Property' document's ID
@@ -104,6 +115,13 @@ type Mutation {
     # 'Contact' input values
     data: ContactInput!
   ): Contact
+  # Update an existing document in the collection of 'PropertyPoint'
+  updatePropertyPoint(
+    # The 'PropertyPoint' document's ID
+    id: ID!
+    # 'PropertyPoint' input values
+    data: PropertyPointInput!
+  ): PropertyPoint
   # Create a new document in the collection of 'Property'
   createProperty(
     # 'Property' input values
@@ -119,11 +137,17 @@ type Mutation {
     # The 'User' document's ID
     id: ID!
   ): User
+  # Delete an existing document in the collection of 'PropertyPoint'
+  deletePropertyPoint(
+    # The 'PropertyPoint' document's ID
+    id: ID!
+  ): PropertyPoint
 }
 
 type Property {
   city: String!
   state: String!
+  pointCount: Int!
   description: String!
   costType: CostType!
   # The document's ID.
@@ -138,6 +162,7 @@ type Property {
 
 # 'Property' input values
 input PropertyInput {
+  pointCount: Int!
   title: String!
   city: String!
   state: String!
@@ -166,18 +191,53 @@ type PropertyPage {
   before: String
 }
 
+type PropertyPoint {
+  impressions: Int!
+  propertyTitle: String!
+  profit: Float!
+  # The document's ID.
+  _id: ID!
+  propertyId: ID!
+  user: User!
+  # The document's timestamp.
+  _ts: Long!
+}
+
+# 'PropertyPoint' input values
+input PropertyPointInput {
+  user: PropertyPointUserRelation
+  profit: Float!
+  impressions: Int!
+  propertyTitle: String!
+  propertyId: ID!
+}
+
+# Allow manipulating the relationship between the types 'PropertyPoint' and 'User' using the field 'PropertyPoint.user'.
+input PropertyPointUserRelation {
+  # Create a document of type 'User' and associate it with the current document.
+  create: UserInput
+  # Connect a document of type 'User' with the current document using its ID.
+  connect: ID
+}
+
 type Query {
   # Find a document from the collection of 'Property' by its id.
   findPropertyByID(
     # The 'Property' document's ID
     id: ID!
   ): Property
+  findPropertyPointByPropertyId(propertyId: ID!): PropertyPoint
   findUserByEmail(email: String!): User
   # Find a document from the collection of 'User' by its id.
   findUserByID(
     # The 'User' document's ID
     id: ID!
   ): User
+  # Find a document from the collection of 'PropertyPoint' by its id.
+  findPropertyPointByID(
+    # The 'PropertyPoint' document's ID
+    id: ID!
+  ): PropertyPoint
   # Find a document from the collection of 'Contact' by its id.
   findContactByID(
     # The 'Contact' document's ID
@@ -214,6 +274,7 @@ type User {
   ): PropertyPage!
   cac: String
   type: UserType!
+  propertyPoints: [PropertyPoint!]
   phone: String!
   password: String!
   # The document's timestamp.
@@ -241,6 +302,7 @@ input UserInput {
   cac: String
   tin: String
   contacts: UserContactsRelation
+  propertyPoints: [ID!]
 }
 
 # Allow manipulating the relationship between the types 'User' and 'Property'.

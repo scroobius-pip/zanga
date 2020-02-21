@@ -1,6 +1,8 @@
 import { MutationResolvers } from '../../../generated/graphqlgen';
 import addContactToSheet from '../../functions/addContactToSheet';
 
+const POINT_RATE = 0.5 //1point = 0.5 naira
+
 const contactAgent: MutationResolvers.ContactAgentResolver = async (_, { input }, ctx) => {
 
     try {
@@ -28,6 +30,35 @@ const contactAgent: MutationResolvers.ContactAgentResolver = async (_, { input }
 
             // }
             //TWILIO HERE
+            const property = (await ctx.client.property({
+                id: input.propertyId,
+            })).findPropertyByID
+            if (!property) throw 'property id wrong'
+
+            let propertyPointId = (await ctx.client.propertyPoint({
+                propertyId: input.propertyId
+            })).findPropertyPointByPropertyId?.propertyId
+
+            if (!propertyPointId) {
+                propertyPointId = (await ctx.client.createPropertyPoint({
+                    data: {
+                        impressions: 1,
+                        profit: property.pointCount * POINT_RATE,
+                        propertyId: property.id,
+                        propertyTitle: property.title,
+                        user: {
+                            connect: input.referrerId
+                        }
+                    }
+                })).createPropertyPoint.id
+            }
+
+            await ctx.client.incrementPropertyPoint({
+                pointNo: property.pointCount,
+                propertyPointId: propertyPointId,
+                rate: POINT_RATE
+            })
+
         }
 
         await addContactToSheet({

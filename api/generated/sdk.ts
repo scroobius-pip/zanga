@@ -11,6 +11,7 @@ export type Scalars = {
   Float: number,
   /** 
  * The `Long` scalar type
+   *  represents non-fractional signed whole numeric values.
    * Long can represent values between -(2^63) and 2^63 - 1.
  */
   Long: any,
@@ -86,28 +87,40 @@ export type Mutation = {
    __typename?: 'Mutation',
   /** Update an existing document in the collection of 'User' */
   updateUser?: Maybe<User>,
+  /** Create a new document in the collection of 'PropertyPoint' */
+  createPropertyPoint: PropertyPoint,
   /** Create a new document in the collection of 'User' */
   createUser: User,
   /** Create a new document in the collection of 'Contact' */
   createContact: Contact,
+  incrementPropertyPoint: PropertyPoint,
   /** Update an existing document in the collection of 'Property' */
   updateProperty?: Maybe<Property>,
   /** Delete an existing document in the collection of 'Property' */
   deleteProperty?: Maybe<Property>,
   /** Update an existing document in the collection of 'Contact' */
   updateContact?: Maybe<Contact>,
+  /** Update an existing document in the collection of 'PropertyPoint' */
+  updatePropertyPoint?: Maybe<PropertyPoint>,
   /** Create a new document in the collection of 'Property' */
   createProperty: Property,
   /** Delete an existing document in the collection of 'Contact' */
   deleteContact?: Maybe<Contact>,
   /** Delete an existing document in the collection of 'User' */
   deleteUser?: Maybe<User>,
+  /** Delete an existing document in the collection of 'PropertyPoint' */
+  deletePropertyPoint?: Maybe<PropertyPoint>,
 };
 
 
 export type MutationUpdateUserArgs = {
   id: Scalars['ID'],
   data: UserInput
+};
+
+
+export type MutationCreatePropertyPointArgs = {
+  data: PropertyPointInput
 };
 
 
@@ -118,6 +131,13 @@ export type MutationCreateUserArgs = {
 
 export type MutationCreateContactArgs = {
   data: ContactInput
+};
+
+
+export type MutationIncrementPropertyPointArgs = {
+  pointNo: Scalars['Int'],
+  propertyPointId: Scalars['ID'],
+  rate: Scalars['Float']
 };
 
 
@@ -138,6 +158,12 @@ export type MutationUpdateContactArgs = {
 };
 
 
+export type MutationUpdatePropertyPointArgs = {
+  id: Scalars['ID'],
+  data: PropertyPointInput
+};
+
+
 export type MutationCreatePropertyArgs = {
   data: PropertyInput
 };
@@ -152,10 +178,16 @@ export type MutationDeleteUserArgs = {
   id: Scalars['ID']
 };
 
+
+export type MutationDeletePropertyPointArgs = {
+  id: Scalars['ID']
+};
+
 export type Property = {
    __typename?: 'Property',
   city: Scalars['String'],
   state: Scalars['String'],
+  pointCount: Scalars['Int'],
   description: Scalars['String'],
   costType: CostType,
   /** The document's ID. */
@@ -170,6 +202,7 @@ export type Property = {
 
 /** 'Property' input values */
 export type PropertyInput = {
+  pointCount: Scalars['Int'],
   title: Scalars['String'],
   city: Scalars['String'],
   state: Scalars['String'],
@@ -199,13 +232,46 @@ export type PropertyPage = {
   before?: Maybe<Scalars['String']>,
 };
 
+export type PropertyPoint = {
+   __typename?: 'PropertyPoint',
+  impressions: Scalars['Int'],
+  propertyTitle: Scalars['String'],
+  profit: Scalars['Float'],
+  /** The document's ID. */
+  _id: Scalars['ID'],
+  propertyId: Scalars['ID'],
+  user: User,
+  /** The document's timestamp. */
+  _ts: Scalars['Long'],
+};
+
+/** 'PropertyPoint' input values */
+export type PropertyPointInput = {
+  user?: Maybe<PropertyPointUserRelation>,
+  profit: Scalars['Float'],
+  impressions: Scalars['Int'],
+  propertyTitle: Scalars['String'],
+  propertyId: Scalars['ID'],
+};
+
+/** Allow manipulating the relationship between the types 'PropertyPoint' and 'User' using the field 'PropertyPoint.user'. */
+export type PropertyPointUserRelation = {
+  /** Create a document of type 'User' and associate it with the current document. */
+  create?: Maybe<UserInput>,
+  /** Connect a document of type 'User' with the current document using its ID. */
+  connect?: Maybe<Scalars['ID']>,
+};
+
 export type Query = {
    __typename?: 'Query',
   /** Find a document from the collection of 'Property' by its id. */
   findPropertyByID?: Maybe<Property>,
+  findPropertyPointByPropertyId?: Maybe<PropertyPoint>,
   findUserByEmail?: Maybe<User>,
   /** Find a document from the collection of 'User' by its id. */
   findUserByID?: Maybe<User>,
+  /** Find a document from the collection of 'PropertyPoint' by its id. */
+  findPropertyPointByID?: Maybe<PropertyPoint>,
   /** Find a document from the collection of 'Contact' by its id. */
   findContactByID?: Maybe<Contact>,
   findPropertiesByCostType: PropertyPage,
@@ -217,12 +283,22 @@ export type QueryFindPropertyByIdArgs = {
 };
 
 
+export type QueryFindPropertyPointByPropertyIdArgs = {
+  propertyId: Scalars['ID']
+};
+
+
 export type QueryFindUserByEmailArgs = {
   email: Scalars['String']
 };
 
 
 export type QueryFindUserByIdArgs = {
+  id: Scalars['ID']
+};
+
+
+export type QueryFindPropertyPointByIdArgs = {
   id: Scalars['ID']
 };
 
@@ -250,6 +326,7 @@ export type User = {
   properties: PropertyPage,
   cac?: Maybe<Scalars['String']>,
   type: UserType,
+  propertyPoints?: Maybe<Array<PropertyPoint>>,
   phone: Scalars['String'],
   password: Scalars['String'],
   /** The document's timestamp. */
@@ -289,6 +366,7 @@ export type UserInput = {
   cac?: Maybe<Scalars['String']>,
   tin?: Maybe<Scalars['String']>,
   contacts?: Maybe<UserContactsRelation>,
+  propertyPoints?: Maybe<Array<Scalars['ID']>>,
 };
 
 /** Allow manipulating the relationship between the types 'User' and 'Property'. */
@@ -337,6 +415,19 @@ export type CreatePropertyMutation = (
   ) }
 );
 
+export type CreatePropertyPointMutationVariables = {
+  data: PropertyPointInput
+};
+
+
+export type CreatePropertyPointMutation = (
+  { __typename?: 'Mutation' }
+  & { createPropertyPoint: (
+    { __typename?: 'PropertyPoint' }
+    & { id: PropertyPoint['_id'] }
+  ) }
+);
+
 export type CreateUserMutationVariables = {
   user: UserInput
 };
@@ -362,6 +453,22 @@ export type DeletePropertyMutation = (
     { __typename?: 'Property' }
     & { id: Property['_id'] }
   )> }
+);
+
+export type IncrementPropertyPointMutationVariables = {
+  pointNo: Scalars['Int'],
+  propertyPointId: Scalars['ID'],
+  rate: Scalars['Float']
+};
+
+
+export type IncrementPropertyPointMutation = (
+  { __typename?: 'Mutation' }
+  & { incrementPropertyPoint: (
+    { __typename?: 'PropertyPoint' }
+    & Pick<PropertyPoint, 'impressions' | 'profit' | 'propertyTitle'>
+    & { id: PropertyPoint['_id'] }
+  ) }
 );
 
 export type PropertiesQueryVariables = {
@@ -395,13 +502,26 @@ export type PropertyQuery = (
   { __typename?: 'Query' }
   & { findPropertyByID: Maybe<(
     { __typename?: 'Property' }
-    & Pick<Property, 'city' | 'state' | 'costType' | 'costValue' | 'title' | 'images' | 'description'>
+    & Pick<Property, 'city' | 'state' | 'costType' | 'costValue' | 'title' | 'images' | 'description' | 'pointCount'>
     & { id: Property['_id'] }
     & { owner: (
       { __typename?: 'User' }
       & Pick<User, 'name'>
       & { id: User['_id'] }
     ) }
+  )> }
+);
+
+export type PropertyPointQueryVariables = {
+  propertyId: Scalars['ID']
+};
+
+
+export type PropertyPointQuery = (
+  { __typename?: 'Query' }
+  & { findPropertyPointByPropertyId: Maybe<(
+    { __typename?: 'PropertyPoint' }
+    & Pick<PropertyPoint, 'propertyId' | 'profit'>
   )> }
 );
 
@@ -484,6 +604,13 @@ export const CreatePropertyDocument = gql`
   }
 }
     `;
+export const CreatePropertyPointDocument = gql`
+    mutation createPropertyPoint($data: PropertyPointInput!) {
+  createPropertyPoint(data: $data) {
+    id: _id
+  }
+}
+    `;
 export const CreateUserDocument = gql`
     mutation createUser($user: UserInput!) {
   createUser(data: $user) {
@@ -495,6 +622,16 @@ export const CreateUserDocument = gql`
 export const DeletePropertyDocument = gql`
     mutation deleteProperty($id: ID!) {
   deleteProperty(id: $id) {
+    id: _id
+  }
+}
+    `;
+export const IncrementPropertyPointDocument = gql`
+    mutation incrementPropertyPoint($pointNo: Int!, $propertyPointId: ID!, $rate: Float!) {
+  incrementPropertyPoint(pointNo: $pointNo, propertyPointId: $propertyPointId, rate: $rate) {
+    impressions
+    profit
+    propertyTitle
     id: _id
   }
 }
@@ -534,6 +671,15 @@ export const PropertyDocument = gql`
     title
     images
     description
+    pointCount
+  }
+}
+    `;
+export const PropertyPointDocument = gql`
+    query propertyPoint($propertyId: ID!) {
+  findPropertyPointByPropertyId(propertyId: $propertyId) {
+    propertyId
+    profit
   }
 }
     `;
@@ -600,17 +746,26 @@ export function getSdk(client: GraphQLClient) {
     createProperty(variables: CreatePropertyMutationVariables): Promise<CreatePropertyMutation> {
       return client.request<CreatePropertyMutation>(print(CreatePropertyDocument), variables);
     },
+    createPropertyPoint(variables: CreatePropertyPointMutationVariables): Promise<CreatePropertyPointMutation> {
+      return client.request<CreatePropertyPointMutation>(print(CreatePropertyPointDocument), variables);
+    },
     createUser(variables: CreateUserMutationVariables): Promise<CreateUserMutation> {
       return client.request<CreateUserMutation>(print(CreateUserDocument), variables);
     },
     deleteProperty(variables: DeletePropertyMutationVariables): Promise<DeletePropertyMutation> {
       return client.request<DeletePropertyMutation>(print(DeletePropertyDocument), variables);
     },
+    incrementPropertyPoint(variables: IncrementPropertyPointMutationVariables): Promise<IncrementPropertyPointMutation> {
+      return client.request<IncrementPropertyPointMutation>(print(IncrementPropertyPointDocument), variables);
+    },
     properties(variables: PropertiesQueryVariables): Promise<PropertiesQuery> {
       return client.request<PropertiesQuery>(print(PropertiesDocument), variables);
     },
     property(variables: PropertyQueryVariables): Promise<PropertyQuery> {
       return client.request<PropertyQuery>(print(PropertyDocument), variables);
+    },
+    propertyPoint(variables: PropertyPointQueryVariables): Promise<PropertyPointQuery> {
+      return client.request<PropertyPointQuery>(print(PropertyPointDocument), variables);
     },
     userByEmail(variables: UserByEmailQueryVariables): Promise<UserByEmailQuery> {
       return client.request<UserByEmailQuery>(print(UserByEmailDocument), variables);
