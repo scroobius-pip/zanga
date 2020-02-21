@@ -105,7 +105,7 @@ const Page = ({ properties: initialProperties, userName, token }: InitialProps) 
             <TabsContainer tabs={tabs} />
         </Pane>
         <SideSheet
-
+            shouldCloseOnOverlayClick={false}
             preventBodyScrolling
             width={isMobile ? '100%' : undefined}
             isShown={addFormVisible}
