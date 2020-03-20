@@ -2,12 +2,12 @@ import { colors } from '../styles'
 import NavBar from './NavBar'
 import Footer from './Footer'
 
-export default ({ children, noNav = false, userName = '' }) => {
+export default ({ children, noNav = false, userName = '', fullWidth = false }) => {
     return <>
         <div style={{ minHeight: '100vh', position: 'relative', }}>
-            <div style={{ margin: 'auto', maxWidth: 800 }}>
+            <div style={{ margin: 'auto', maxWidth: fullWidth ? null : 800 }}>
 
-                {!noNav && <NavBar userName={userName} />}
+                {!noNav && <NavBar userName={userName} fullWidth={fullWidth} />}
                 <style jsx global>
                     {`
     body {

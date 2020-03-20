@@ -87,7 +87,7 @@ const Page = ({ property, user, referrerId }: InitialProps) => {
                 </Button>
 
             </Pane>
-            <Card marginTop={50} background='tint1' maxWidth={450} elevation={3} margin='auto' padding={25}>
+            <Card marginTop={50} width={'50%'} background='tint1' elevation={3} margin='auto' padding={25}>
                 <Pane >
                     <Heading marginTop={10} size={700}>Interested in this property ?</Heading>
                     <Text>Agent - {property.ownerName}</Text>

@@ -5,6 +5,7 @@ import logout from '../functions/logout'
 
 interface Props {
     userName?: string
+    fullWidth?: boolean
 }
 
 const AvatarPopover = ({ userName = '' }) => {
@@ -39,13 +40,23 @@ const AvatarPopover = ({ userName = '' }) => {
 }
 export { AvatarPopover }
 
-export default ({ userName }: Props) => {
-    return <Card marginBottom={25} padding={15} background='white' elevation={3} width={'100%'} display='flex' justifyContent='space-between'>
-        <Link href='/'>
-            <img style={{ cursor: 'grab' }} src='/zanga-logo.svg' height={40} />
-        </Link>
+export default ({ userName, fullWidth = true }: Props) => {
+    const width = !fullWidth ? '100%' : 800
 
-        {userName ? <AvatarPopover userName={userName} /> : <Button height={40} onClick={() => Router.push('/register')} appearance="minimal">Register</Button>}
+    return <Card marginBottom={25} padding={15} background='white' elevation={3} width={'100%'}>
+        <Pane maxWidth={width} margin='auto' display='flex' justifyContent='space-between'>
+
+            <Link href='/'>
+                <img style={{ cursor: 'grab' }} src='/zanga-logo.svg' height={40} />
+            </Link>
+
+            {userName ? <AvatarPopover userName={userName} /> :
+                <div>
+                    <Button onClick={() => Router.push('/login')} height={40} appearance="primary">Login</Button>
+                    <Button onClick={() => Router.push('/register')} height={40} appearance="minimal">Register</Button>
+                </div>
+            }
+        </Pane>
 
     </Card>
 }
