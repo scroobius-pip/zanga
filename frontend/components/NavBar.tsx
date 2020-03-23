@@ -2,6 +2,7 @@ import { Pane, Avatar, Card, Button, Popover, Text, Position, Menu, toaster } fr
 import Router from 'next/router'
 import Link from 'next/link'
 import logout from '../functions/logout'
+import { colors } from '../styles'
 
 interface Props {
     userName?: string
@@ -43,7 +44,7 @@ export { AvatarPopover }
 export default ({ userName, fullWidth = true }: Props) => {
     const width = !fullWidth ? '100%' : 800
 
-    return <Card marginBottom={25} padding={15} background='white' elevation={3} width={'100%'}>
+    return <Card marginBottom={25} elevation={ 3} padding={15} background={'white'} width={'100%'}>
         <Pane maxWidth={width} margin='auto' display='flex' justifyContent='space-between'>
 
             <Link href='/'>
@@ -52,7 +53,7 @@ export default ({ userName, fullWidth = true }: Props) => {
 
             {userName ? <AvatarPopover userName={userName} /> :
                 <div>
-                    <Button onClick={() => Router.push('/login')} height={40} appearance="primary">Login</Button>
+                    <Button onClick={() => Router.push('/login')} appearance='primary' height={40}>Login</Button>
                     <Button onClick={() => Router.push('/register')} height={40} appearance="minimal">Register</Button>
                 </div>
             }
