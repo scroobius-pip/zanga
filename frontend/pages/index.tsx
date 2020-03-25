@@ -4,6 +4,7 @@ import ContentNav, { ContentNavProps } from '../components/ContentNav'
 import { colors } from '../styles'
 import { useState } from 'react'
 import { useRouter, NextRouter } from 'next/router'
+import FeaturedPropertyCard from '../components/FeaturedPropertyCard'
 
 
 
@@ -19,9 +20,12 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </Paragraph>
+                <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
+
                 <Button onClick={() => router.push('/properties')} marginTop='default' backgroundColor={colors.primary}  appearance='primary' iconAfter='arrow-right' height={56}>
                     Properties
                 </Button>
+                </div>
             </>,
             image: '/property.jpg'
         },
@@ -35,7 +39,12 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </Paragraph>
-                <Button marginTop='default' backgroundColor={colors.primary}  appearance='primary' iconAfter='arrow-right' height={56}>
+                <Button 
+                marginTop='default' 
+                backgroundColor={colors.primary}
+                appearance='primary' 
+                iconAfter='arrow-right'
+                height={56}>
                     Properties
             </Button>
             </>,
@@ -124,7 +133,7 @@ const Page = () => {
             </Pane>
             <Pane>
 <Heading size={800}>Featured Property</Heading>
-
+<FeaturedPropertyCard/>
 </Pane>
 
         </Pane>

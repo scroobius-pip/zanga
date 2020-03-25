@@ -42,9 +42,9 @@ const AvatarPopover = ({ userName = '' }) => {
 export { AvatarPopover }
 
 export default ({ userName, fullWidth = true }: Props) => {
-    const width = !fullWidth ? '100%' : 800
+    const width = !fullWidth ? '100%' : 1000
 
-    return <Card marginBottom={25} elevation={ 3} padding={15} background={'white'} width={'100%'}>
+    return <Card marginBottom={25} elevation={3} padding={15} background={'white'} width={'100%'}>
         <Pane maxWidth={width} margin='auto' display='flex' justifyContent='space-between'>
 
             <Link href='/'>
