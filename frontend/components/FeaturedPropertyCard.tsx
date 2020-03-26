@@ -8,6 +8,7 @@ export default () => {
         style={{
             textDecoration: 'none',
             outline: 'none',
+            // maxWidth: 328
             // color:'inherit'
         }}
         href='/properties'>
@@ -16,7 +17,7 @@ export default () => {
             background='white'
             elevation={2}
             hoverElevation={4}
-            maxWidth={328}
+        // maxWidth={328}
         // border
         // maxHeight={200}
         >
@@ -32,7 +33,7 @@ export default () => {
             </Pane>
             <Pane padding={20} >
                 <Heading padding={2} color={colors.grey} size={500}>Duplex for rent in abuja</Heading>
-                <Heading padding={2} color={colors.primary} size={700}>$29,000,000</Heading>
+                <Heading padding={2} size={700}>₦29,000,000</Heading>
                 <Pane style={{ borderRadius: 2, }} display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
 
                     <Pane style={{ backgroundColor: '#FFC82D', padding: 5, borderRadius: 2 }}>

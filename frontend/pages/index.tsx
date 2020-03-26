@@ -1,10 +1,11 @@
 import Layout from '../components/Layout'
-import { Pane, Card, Paragraph, Heading, Button } from 'evergreen-ui'
+import { Pane, Card, Paragraph, Heading, Button,Text } from 'evergreen-ui'
 import ContentNav, { ContentNavProps } from '../components/ContentNav'
 import { colors } from '../styles'
 import { useState } from 'react'
 import { useRouter, NextRouter } from 'next/router'
 import FeaturedPropertyCard from '../components/FeaturedPropertyCard'
+import FeaturedCarousel from '../components/FeaturedCarousel'
 
 
 
@@ -61,9 +62,9 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </Paragraph>
-                <Button marginTop='default' backgroundColor={colors.primary}  appearance='primary' iconAfter='arrow-right' height={56}>
-                    Properties
-            </Button>
+            <Button onClick={() => router.push('/properties')} marginTop='default' backgroundColor={colors.primary}   iconAfter='chat' height={56}>
+                    Contact us
+                </Button>
             </>,
             image: '/advertising.jpg'
         },
@@ -76,8 +77,8 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     
             </Paragraph>
-                <Button marginTop='default' backgroundColor={colors.primary}  appearance='primary' iconAfter='arrow-right' height={56}>
-                    Properties
+                <Button marginTop='default' intent='danger'   height={56}>
+                    Coming Soon
             </Button>
             </>,
             image: '/earn.jpg'
@@ -85,6 +86,7 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
     
     ]
 }
+
 const Page = () => {
     
     const router = useRouter()
@@ -93,7 +95,7 @@ const Page = () => {
 
     return <Layout fullWidth>
         <Pane width={'100%'}  maxWidth={1200} margin='auto' >
-            <Pane height='100vh' marginTop={-50} position='relative' >
+            <Pane height='90vh' marginTop={-50} position='relative' >
 
            
           {
@@ -131,10 +133,13 @@ const Page = () => {
                 </Card>
             </Pane>
             </Pane>
-            <Pane>
-<Heading size={800}>Featured Property</Heading>
-<FeaturedPropertyCard/>
-</Pane>
+            <Pane paddingLeft={10} paddingRight={10}>
+                <Pane  marginLeft={25} marginBottom={30} >
+                <Heading  textAlign='left' marginBottom={5} size={900}>Featured Property</Heading>
+                <Text color={colors.grey} size={500}>Trusted and beautiful properties in Nigeria</Text>
+                </Pane>
+                <FeaturedCarousel/>
+            </Pane>
 
         </Pane>
       
