@@ -4,7 +4,6 @@ import ContentNav, { ContentNavProps } from '../components/ContentNav'
 import { colors } from '../styles'
 import { useState } from 'react'
 import { useRouter, NextRouter } from 'next/router'
-import FeaturedPropertyCard from '../components/FeaturedPropertyCard'
 import FeaturedCarousel from '../components/FeaturedCarousel'
 
 
@@ -81,7 +80,7 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
                     Coming Soon
             </Button>
             </>,
-            image: '/earn.jpg'
+            image: '/colet.jpg'
         }
     
     ]
