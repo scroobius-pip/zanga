@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "micro",
-    "deploy": "npm run generate && npm run build && now",
+    "deploy": "npm run generate && npm run build && now --prod",
     "dev": "micro-dev ./dist/src/index.js -l tcp://localhost:2000",
     "build": "npm run buildSchema && tsc",
     "buildSchema": "tsc --lib esnext --types node --esModuleInterop ./src/schema/generateSchemaString.ts && node ./src/schema/generateSchemaString.js",

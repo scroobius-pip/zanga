@@ -53,7 +53,8 @@ const Page = ({ properties: initialProperties,
                     description: fields.description,
                     images: fields.images,
                     location: fields.location,
-                    title: fields.title
+                    title: fields.title,
+                    featured: fields.featured
                 }
             })
             return !!result.length
@@ -89,7 +90,7 @@ const Page = ({ properties: initialProperties,
     }
 
     const agentTabs: TabContainerProps['tabs'] = [{
-        body: <PropertiesContainer deletable onDelete={deleteProperty} properties={properties} />,
+        body: <PropertiesContainer view='grid' deletable onDelete={deleteProperty} properties={properties} />,
 
         title: 'Properties'
     },

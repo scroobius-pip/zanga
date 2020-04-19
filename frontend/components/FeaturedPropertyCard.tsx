@@ -1,63 +1,113 @@
-import { Card, Pane, Heading, Text, Tooltip, IconButton } from 'evergreen-ui'
+import { Card, Pane, Heading, Text, Tooltip, IconButton, Paragraph } from 'evergreen-ui'
 import { colors } from '../styles'
 import { Router } from 'next/router'
 import copyPropertyLink from '../functions/copyPropertyLink'
+import Link from 'next/link'
 
 export default () => {
-    return <a
-        style={{
-            textDecoration: 'none',
-            outline: 'none',
-            // maxWidth: 328
-            // color:'inherit'
-        }}
-        href='/properties'>
-        <Card
-
-            background='white'
-            elevation={2}
-            hoverElevation={4}
-        // maxWidth={328}
-        // border
-        // maxHeight={200}
+    return <div>
+        <div
+            className='featured-card'
+            style={{
+                width: 400,
+                position: 'relative',
+                // height: 600
+                marginBottom: 100
+            }}
         >
-            <Pane height='158px'
-                borderTopLeftRadius={5}
-                borderTopRightRadius={5}
+
+            <img
+                width='100%'
+                height='100%'
+                style={{
+                    borderRadius: 10
+                }}
+                src="https://is1-3.housingcdn.com/4f2250e8/f37b0ec815585f31fa77f299085b55af/v0/medium/konark_meadows-shahad-mumbai-atlanta_landmark.jpeg"
+            />
+            <Link
+                href='/property/257999739274920467'
             >
-                <img height='100%' width='100%' style={{
-                    objectFit: 'cover',
-                    borderTopLeftRadius: 5,
-                    borderTopRightRadius: 5
-                }} src='https://is1-3.housingcdn.com/4f2250e8/f37b0ec815585f31fa77f299085b55af/v0/medium/konark_meadows-shahad-mumbai-atlanta_landmark.jpeg' />
-            </Pane>
-            <Pane padding={20} >
-                <Heading padding={2} color={colors.grey} size={500}>Duplex for rent in abuja</Heading>
-                <Heading padding={2} size={700}>₦29,000,000</Heading>
-                <Pane style={{ borderRadius: 2, }} display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
+                <button className='btn'
+                    style={{
+                        position: 'absolute',
+                        transform: 'translate(-50%,-50%)',
 
-                    <Pane style={{ backgroundColor: '#FFC82D', padding: 5, borderRadius: 2 }}>
-                        <Text size={500} style={{ fontWeight: '600' }} color='white'>FEATURED</Text>
-                    </Pane>
-                    <Pane>
-                        <Tooltip content={'Share Property'}>
+                        left: '50%'
+                    }}
+                >
+                    VIEW <span style={{ fontSize: '1.4em', marginLeft: '.4em', fontWeight: 800 }}>
+                        →
+                </span>
+                </button>
+            </Link>
 
-                            {
-                                <IconButton
-                                    onClick={(e) => {
-                                        // e.stopPropagation()
-                                        // if (!refId) {
-                                        //     Router.push('/login')
-                                        //     return
-                                        // }
-                                        // copyPropertyLink(`https://myzanga.com/property/${id}?ref=${refId}`)
-                                    }}
-                                    height={40}
-                                    iconColor={colors.primary} appearance="minimal" icon='social-media' />}
-                        </Tooltip>
-                    </Pane>
-                </Pane>
-            </Pane>
-        </Card>
-    </a>
+            <Card
+                elevation={4}
+                // hoverElevation={4}
+                position='absolute'
+                top='100%'
+                left='49.5%'
+                width={'95%'}
+                transform='translate(-50%, -50%)'
+                // margin='auto'
+                padding={20}
+                zIndex={10}
+                background='white'
+                borderRadius={10}
+                borderLeft
+                borderLeftWidth={5}
+                borderLeftColor={colors.grey}
+
+            >
+                <Heading fontWeight={700} size={700}>Duplex for sale at Kuje,Fct</Heading>
+                <Paragraph size={500} marginTop={10}>
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque perspiciatis laudantium blanditiis aliquam, distinctio ullam.
+                </Paragraph>
+            </Card>
+            <style jsx>
+                {`
+                .featured-card >img {
+                    filter: brightness(60%);
+                    transition: all 0.2s linear;
+                }
+
+                .featured-card > .btn {
+                    opacity:0;
+                    top:52%;
+                    transition: all 0.2s linear;
+                }
+               
+                .featured-card:hover > .btn {
+                    opacity:1;
+                    top:50%;
+                }
+                .featured-card:hover >img {
+                    filter: brightness(90%);
+                }
+
+                .btn{
+                    border: 1px solid white;
+                    border-radius: 50px;
+                    background-color: transparent;
+                    color: white;
+                    padding: 12px 24px;
+                    font-size: 15px;
+                    cursor: pointer;
+                    transition: all 0.2s linear;
+                    letter-spacing: 0.08em;
+                    font-weight:700;
+                    font-family:"SF UI Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+                }
+                
+                .btn:hover {
+                    background-color: white;
+                    color:black;
+                }
+                
+                `}
+            </style>
+        </div>
+    </div>
+
+
 }

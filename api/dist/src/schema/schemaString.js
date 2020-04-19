@@ -5,6 +5,7 @@ const data = `type Query {
   properties(type: CostType!): [Property]!
   property(id: ID!): Property
   currentRate: Float!
+  featuredProperties: [Property]!
 }
 
 type Mutation {
@@ -25,6 +26,7 @@ type Property {
   owner: User!
   images: [String!]
   description: String
+  featured: Boolean
 }
 
 enum CostType {
@@ -114,6 +116,7 @@ input CreatePropertyInput {
   location: LocationInput!
   costValue: Int!
   costType: CostType!
+  featured: Boolean!
   images: [String!]!
   description: String!
 }

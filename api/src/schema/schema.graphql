@@ -9,6 +9,7 @@ type Property {
   owner:User!
   images: [String!]
   description: String
+  featured:Boolean
 }
 
 enum CostType {
@@ -67,6 +68,7 @@ me:User
 properties(type:CostType!):[Property]!
 property(id:ID!):Property
 currentRate:Float!
+featuredProperties:[Property]!
 }
 
 type Mutation {
@@ -118,6 +120,7 @@ input CreatePropertyInput {
   location: LocationInput!
   costValue:Int!
   costType: CostType!
+  featured:Boolean!
   images: [String!]!
   description: String!
 }

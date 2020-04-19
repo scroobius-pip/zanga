@@ -64,7 +64,6 @@ enum CostType {
 scalar Date
 
 # The `Long` scalar type
-#  represents non-fractional signed whole numeric values.
 # Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
@@ -108,15 +107,6 @@ type Mutation {
     # The 'Property' document's ID
     id: ID!
   ): Property
-  # Partially updates an existing document in the collection of 'Contact'. It only
-  # modifies the values that are specified in the arguments. During execution, it
-  # verifies that required fields are not set to 'null'.
-  partialUpdateContact(
-    # The 'Contact' document's ID
-    id: ID!
-    # 'Contact' input values
-    data: PartialUpdateContactInput!
-  ): Contact
   # Update an existing document in the collection of 'Contact'
   updateContact(
     # The 'Contact' document's ID
@@ -124,15 +114,6 @@ type Mutation {
     # 'Contact' input values
     data: ContactInput!
   ): Contact
-  # Partially updates an existing document in the collection of 'PropertyPoint'.
-  # It only modifies the values that are specified in the arguments. During
-  # execution, it verifies that required fields are not set to 'null'.
-  partialUpdatePropertyPoint(
-    # The 'PropertyPoint' document's ID
-    id: ID!
-    # 'PropertyPoint' input values
-    data: PartialUpdatePropertyPointInput!
-  ): PropertyPoint
   # Update an existing document in the collection of 'PropertyPoint'
   updatePropertyPoint(
     # The 'PropertyPoint' document's ID
@@ -150,15 +131,6 @@ type Mutation {
     # The 'Contact' document's ID
     id: ID!
   ): Contact
-  # Partially updates an existing document in the collection of 'Property'. It
-  # only modifies the values that are specified in the arguments. During
-  # execution, it verifies that required fields are not set to 'null'.
-  partialUpdateProperty(
-    # The 'Property' document's ID
-    id: ID!
-    # 'Property' input values
-    data: PartialUpdatePropertyInput!
-  ): Property
   # Delete an existing document in the collection of 'User'
   deleteUser(
     # The 'User' document's ID
@@ -169,62 +141,6 @@ type Mutation {
     # The 'PropertyPoint' document's ID
     id: ID!
   ): PropertyPoint
-  # Partially updates an existing document in the collection of 'User'. It only
-  # modifies the values that are specified in the arguments. During execution, it
-  # verifies that required fields are not set to 'null'.
-  partialUpdateUser(
-    # The 'User' document's ID
-    id: ID!
-    # 'User' input values
-    data: PartialUpdateUserInput!
-  ): User
-}
-
-# 'Contact' input values
-input PartialUpdateContactInput {
-  name: String
-  number: String
-  property: ContactPropertyRelation
-  email: String
-  notes: String
-  to: ContactToRelation
-}
-
-# 'Property' input values
-input PartialUpdatePropertyInput {
-  pointCount: Int
-  title: String
-  city: String
-  state: String
-  costValue: Int
-  costType: CostType
-  owner: PropertyOwnerRelation
-  images: [String!]
-  description: String
-}
-
-# 'PropertyPoint' input values
-input PartialUpdatePropertyPointInput {
-  user: PropertyPointUserRelation
-  userId: ID
-  profit: Float
-  impressions: Int
-  propertyTitle: String
-  propertyId: ID
-}
-
-# 'User' input values
-input PartialUpdateUserInput {
-  email: String
-  phone: String
-  name: String
-  password: String
-  properties: UserPropertiesRelation
-  type: UserType
-  cac: String
-  tin: String
-  contacts: UserContactsRelation
-  propertyPoints: UserPropertyPointsRelation
 }
 
 type Property {
@@ -235,6 +151,7 @@ type Property {
   costType: CostType!
   # The document's ID.
   _id: ID!
+  featured: Boolean!
   costValue: Int!
   owner: User!
   title: String!
@@ -254,6 +171,7 @@ input PropertyInput {
   owner: PropertyOwnerRelation
   images: [String!]!
   description: String!
+  featured: Boolean!
 }
 
 # Allow manipulating the relationship between the types 'Property' and 'User' using the field 'Property.owner'.
@@ -316,6 +234,13 @@ input PropertyPointUserRelation {
 }
 
 type Query {
+  findPropertyByFeatured(
+    # The number of items to return per page.
+    _size: Int
+    # The pagination cursor.
+    _cursor: String
+    featured: Boolean!
+  ): PropertyPage!
   # Find a document from the collection of 'Property' by its id.
   findPropertyByID(
     # The 'Property' document's ID
@@ -337,6 +262,12 @@ type Query {
     # The 'PropertyPoint' document's ID
     id: ID!
   ): PropertyPoint
+  findFeaturedProperties(
+    # The number of items to return per page.
+    _size: Int
+    # The pagination cursor.
+    _cursor: String
+  ): PropertyPage!
   # Find a document from the collection of 'Contact' by its id.
   findContactByID(
     # The 'Contact' document's ID

@@ -1,5 +1,5 @@
-query properties ($costType:CostType!){
-  findPropertiesByCostType(costType:$costType,_size:100){
+query featuredProperties {
+ findPropertyByFeatured(featured:true){
     data{
       city
       state

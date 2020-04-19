@@ -42,6 +42,7 @@ type Property {
   owner:User!
   images: [String!]!
   description: String!
+  featured: Boolean!
 }
 
 enum CostType {
@@ -59,6 +60,7 @@ type Query {
   findPropertiesByCostType(costType:CostType!):[Property!]!
   findUserByEmail(email:String!):User
   findPropertyPointByPropertyIdAndUserId(propertyId:ID!,userId:ID!):PropertyPoint
+  findPropertyByFeatured(featured:Boolean!):[Property!]
 }
 
 type Mutation {

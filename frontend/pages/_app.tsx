@@ -7,8 +7,11 @@ class MyApp extends App {
     render() {
         const { Component, pageProps } = this.props
         return (
-            <div>
+            <div style={{
+                // width: 'calc(100%)' 
+            }}>
                 <Component {...pageProps} />
+
             </div>
         )
     }

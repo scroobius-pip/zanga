@@ -1,27 +1,54 @@
 import FeaturedPropertyCard from './FeaturedPropertyCard'
 import Slider from 'react-styled-carousel-am'
 import { Pane } from 'evergreen-ui'
+import Masonry from 'react-masonry-css'
 
-const responsive = [
-    { breakPoint: 425, cardsToShow: 1 },
-    { breakPoint: 1280, cardsToShow: 4 }, // this will be applied if screen size is greater than 1280px. cardsToShow will become 4.
-    { breakPoint: 760, cardsToShow: 3 },
-]
+const breakpointColumnsObj = {
+    default: 4,
+    1100: 3,
+    700: 2,
+    500: 4
+}
 
 export default () => {
-    return <Slider autoSlide={5000} responsive={responsive} showArrows>
-        {
-            ['', '', '', '', ''].map(() => {
-                return <Pane padding={10}>
-
-                    <FeaturedPropertyCard />
-                </Pane>
-            })
-        }
+    return <div style={{ width: '100%' }}>
 
 
+        <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="masonry-grid"
+            columnClassName="masonry-grid_column">
 
-    </Slider>
+
+            {
+                ['', '', '', '', ''].map(() => {
+                    return <FeaturedPropertyCard />
+
+                })
+            }
+
+
+        </Masonry>
+        <style jsx>
+            {`
+
+.masonry-grid {
+    display: -webkit-box; /* Not needed if autoprefixing */
+    display: -ms-flexbox; /* Not needed if autoprefixing */
+    display: flex;
+    margin-left: -30px; /* gutter size offset */
+    width: auto;
+  }
+  .masonry-grid_column {
+    padding-left: 30px; /* gutter size */
+    background-clip: padding-box;
+  }
+
+
+`}
+        </style>
+    </div>
+
 
 
 }

@@ -1,28 +1,41 @@
-import PropertyCard, { Property } from './PropertyCard';
+import { GridViewCard, ListViewCard, CardProps } from './PropertyCard';
 import { Pane, toaster } from 'evergreen-ui';
 import { useState } from 'react';
+import { Container, Row, Col } from 'react-grid-system';
+
 import Router from 'next/router'
 
 interface Props {
-    properties: Property[]
+    properties: CardProps['property'][]
     deletable?: boolean
     onDelete?: (id: string) => Promise<any>
     refId?: string
+    view: 'grid' | 'list'
+    disableCardButton?: boolean
 }
 
 
-export default ({ properties, deletable, onDelete, refId }: Props) => {
+export default ({ properties, view, deletable, onDelete, refId, disableCardButton }: Props) => {
+    const PropertyCard = view === 'grid' ? (props) => <Col
+        xs={12}
+        sm={6}
+        lg={3}
+    >
 
-    const [selected, setSelected] = useState()
+        <GridViewCard {...props} />
 
-    return <Pane>
+    </Col> : ListViewCard
+
+    const Container = view === 'grid' ? GridContainer : Pane
+    return <Container>
         {properties.map((property, index) => {
             return <PropertyCard
                 key={property.id}
                 index={index}
                 refId={refId}
-                active={index === selected}
+                active={false}
                 property={property}
+                disableButton={disableCardButton}
                 onClick={() => Router.push(`/property/${property.id}`)}
                 onDelete={deletable && (async () => {
                     await onDelete(property.id)
@@ -30,6 +43,18 @@ export default ({ properties, deletable, onDelete, refId }: Props) => {
                 })}
             />
         })}
-    </Pane>
+    </Container>
 
+}
+
+const GridContainer = ({ children }) => {
+    return <Container fluid>
+
+        <Row
+            gutterWidth={40}
+        >
+
+            {children}
+        </Row>
+    </Container>
 }

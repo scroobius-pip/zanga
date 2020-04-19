@@ -95,6 +95,23 @@ export namespace QueryResolvers {
         ) => number | Promise<number>;
       };
 
+  export type FeaturedPropertiesResolver =
+    | ((
+        parent: undefined,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => Array<Property | null> | Promise<Array<Property | null>>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: undefined,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Array<Property | null> | Promise<Array<Property | null>>;
+      };
+
   export interface Type {
     me:
       | ((
@@ -162,6 +179,23 @@ export namespace QueryResolvers {
             ctx: Context,
             info: GraphQLResolveInfo
           ) => number | Promise<number>;
+        };
+
+    featuredProperties:
+      | ((
+          parent: undefined,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Array<Property | null> | Promise<Array<Property | null>>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: undefined,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => Array<Property | null> | Promise<Array<Property | null>>;
         };
   }
 }
@@ -582,6 +616,23 @@ export namespace PropertyResolvers {
         ) => string | null | Promise<string | null>;
       };
 
+  export type FeaturedResolver =
+    | ((
+        parent: Property,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => boolean | null | Promise<boolean | null>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: Property,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => boolean | null | Promise<boolean | null>;
+      };
+
   export interface Type {
     id:
       | ((
@@ -734,6 +785,23 @@ export namespace PropertyResolvers {
             ctx: Context,
             info: GraphQLResolveInfo
           ) => string | null | Promise<string | null>;
+        };
+
+    featured:
+      | ((
+          parent: Property,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => boolean | null | Promise<boolean | null>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: Property,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => boolean | null | Promise<boolean | null>;
         };
   }
 }
@@ -1018,6 +1086,7 @@ export namespace MutationResolvers {
     location: LocationInput;
     costValue: number;
     costType: CostType;
+    featured: boolean;
     images: string[];
     description: string;
   }

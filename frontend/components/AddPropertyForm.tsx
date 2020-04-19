@@ -1,4 +1,4 @@
-import { Heading, Pane, TextInputField, SelectMenu, Button, Select, Textarea, FilePicker, toaster, TagInput } from 'evergreen-ui'
+import { Heading, Pane, TextInputField, SelectMenu, Button, Select, Textarea, FilePicker, toaster, TagInput, Switch } from 'evergreen-ui'
 import { colors } from '../styles'
 import { useState, useEffect } from 'react'
 import states from './states'
@@ -14,6 +14,7 @@ export interface AddPropertyFormState {
     costType: 'Rent' | 'Sale'
     images: string[]
     // imageFiles:string[]
+    featured: boolean
     description: string
 }
 
@@ -31,7 +32,8 @@ export default ({ submit }: Props) => {
             city: '',
             state: ''
         },
-        title: ''
+        title: '',
+        featured: false
     })
 
     const [valid, setValid] = useState(false)
@@ -165,6 +167,14 @@ export default ({ submit }: Props) => {
                     }}
                 />
 
+            </Pane>
+            <Pane>
+                <Heading marginTop={10} marginBottom={10} alignItems='center' size={600}>Featured</Heading>
+                <Switch
+                    height={24}
+                    checked={formState.featured}
+                    onChange={e => setFormState({ ...formState, featured: e.target.checked })}
+                />
             </Pane>
             <Button float='right' isLoading={loading} onClick={onSubmit} disabled={!valid} iconAfter='add' marginTop={10} height={40} appearance="primary" marginRight={12} >
                 Create Property

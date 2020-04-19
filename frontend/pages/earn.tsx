@@ -22,8 +22,7 @@ interface InitialProps {
 
 const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
 
-
-    return <Layout fullWidth userName={user?.name} noNav>
+    return <Layout userName={user?.name} noNav>
         <Head>
             <title>Zanga - Share Realestate and Earn Commissions</title>
         </Head>
@@ -31,16 +30,13 @@ const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
             height={'100%'}
             width={'100%'}
         >
-            <Card margin='auto' maxWidth={1200} elevation={3} width='100%' padding={20}
+            <Card margin='auto' maxWidth={800} elevation={3} width='100%' padding={20}
                 background='white'
             >
                 <Pane>
                     <Pane display='flex' justifyContent='space-between'>
                         <Link href='/'>
-                            <a href='/'>
-
-                                <img style={{ cursor: 'pointer' }} src='/zanga-logo.svg' height={40} />
-                            </a>
+                            <img style={{ cursor: 'pointer' }} src='/zanga-logo.svg' height={40} />
                         </Link>
                         <Pane>
                             {
@@ -54,17 +50,18 @@ const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
                         </Pane>
                     </Pane>
                     <Pane marginTop={35}>
-
                         <Heading className='f-wght_900' fontWeight={700} size={900}>
-                            {'Find your '}
-                            <span style={{ color: colors.primary }}>ideal</span> property
+                            <span style={{ color: colors.primary }}>Share</span> Property &
+            </Heading>
+                        <Heading className='f-wght_900' fontWeight={700} size={900}>
+                            <span style={{ color: colors.primary }}>Earn</span> Money from  <span style={{ color: colors.primary }}>Commissions</span>
                         </Heading>
 
                     </Pane>
                     <Pane>
                         <Pane>
                             <Paragraph fontWeight={500} size={500} marginTop="default">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe ut possimus illo voluptatum, consectetur quae.
+                                Share properties via social media and make commissions from property sales.
                         </Paragraph>
                             {/* <Paragraph size={400} >
                             You'll be contacted once it's sold
@@ -83,9 +80,7 @@ const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
             rentProperties={rentProperties}
             saleProperties={saleProperties}
             devProperties={[]}
-            view='grid'
-            disablePropertyCardButton
-
+            view='list'
         />
     </Layout>
 }

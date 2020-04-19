@@ -1,5 +1,6 @@
 import { colors } from '../styles'
 import { Pane, Text } from 'evergreen-ui'
+import SocialIcons from './SocialIcons'
 
 
 const FooterListItem = ({ text, url }) => {
@@ -63,7 +64,9 @@ export default () => {
                 </ul>
 
             </Pane>
-
+            <div style={{ width: '100%', }}>
+                <SocialIcons />
+            </div>
         </Pane>
 
     </footer>

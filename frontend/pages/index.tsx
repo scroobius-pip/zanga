@@ -5,13 +5,22 @@ import { colors } from '../styles'
 import { useState } from 'react'
 import { useRouter, NextRouter } from 'next/router'
 import FeaturedCarousel from '../components/FeaturedCarousel'
+import getToken from '../functions/getToken'
+import { GraphQLClient } from 'graphql-request'
+import { getSdk, User } from '../generated/graphql'
+import logout from '../functions/logout'
+import UnderlineText from '../components/UnderlineText'
+import FeaturedPropertyCard from '../components/FeaturedPropertyCard'
 
+interface InitialProps {
+    user?: Pick<User, 'id' | 'name'>
+}
 
 
 const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
  return   [
         {
-            title: 'Purchase',
+            title: 'Property',
             icon: '/home.svg',
             Content: <>
                 <Heading size={900}>Find your ideal home.</Heading>
@@ -25,6 +34,9 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
                 <Button onClick={() => router.push('/properties')} marginTop='default' backgroundColor={colors.primary}  appearance='primary' iconAfter='arrow-right' height={56}>
                     Properties
                 </Button>
+                {/* <a href='/properties' style={{textDecoration:'none',color:'inherit'}} onClick={()=>router.push('/properties')}>
+                    <UnderlineText text='Properties'/>
+                </a> */}
                 </div>
             </>,
             image: '/property.jpg'
@@ -45,7 +57,7 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
                 appearance='primary' 
                 iconAfter='arrow-right'
                 height={56}>
-                    Properties
+                    Earn
             </Button>
             </>,
             image: '/earn.jpg'
@@ -61,7 +73,7 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </Paragraph>
-            <Button onClick={() => router.push('/properties')} marginTop='default' backgroundColor={colors.primary}   iconAfter='chat' height={56}>
+            <Button onClick={() => router.push('/contact-us')} marginTop='default' backgroundColor={colors.primary}   iconAfter='chat' height={56}>
                     Contact us
                 </Button>
             </>,
@@ -81,19 +93,34 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
             </Button>
             </>,
             image: '/colet.jpg'
-        }
+        },
+        // {
+        //     title: 'Mortgage',
+        //     icon: '/colet.svg',
+        //     Content: <>
+        //         <Heading size={900}>Find a flat mate and split rent</Heading>
+        //         <Paragraph size={500} marginTop="default">
+        //             Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    
+        //     </Paragraph>
+        //         <Button marginTop='default' intent='danger'   height={56}>
+        //             Coming Soon
+        //     </Button>
+        //     </>,
+        //     image: '/colet.jpg'
+        // }
     
     ]
 }
 
-const Page = () => {
+const Page = ({user}:InitialProps) => {
     
     const router = useRouter()
     const tabs = initTabs(router)
     const [image, setImage] = useState(tabs[0].image)
 
-    return <Layout fullWidth>
-        <Pane width={'100%'}  maxWidth={1200} margin='auto' >
+    return <Layout userName={user?.name} fullWidth>
+        <Pane width={'100%'}  margin='auto' >
             <Pane height='90vh' marginTop={-50} position='relative' >
 
            
@@ -132,12 +159,13 @@ const Page = () => {
                 </Card>
             </Pane>
             </Pane>
-            <Pane paddingLeft={10} paddingRight={10}>
+            <Pane  maxWidth={1200} paddingLeft={10} paddingRight={10} margin='auto'>
                 <Pane  marginLeft={25} marginBottom={30} >
-                <Heading  textAlign='left' marginBottom={5} size={900}>Featured Property</Heading>
-                <Text color={colors.grey} size={500}>Trusted and beautiful properties in Nigeria</Text>
+                <Heading  textAlign='left' marginBottom={5} fontWeight={900} size={900}>Featured Property</Heading>
+                <Text color={colors.grey} size={600}>Trusted and beautiful properties in Nigeria</Text>
                 </Pane>
                 <FeaturedCarousel/>
+             
             </Pane>
 
         </Pane>
@@ -145,5 +173,29 @@ const Page = () => {
     </Layout>
 }
 
+Page.getInitialProps = async ({ query, ...ctx }): Promise<InitialProps> => {
+    const token = getToken(ctx)
+    const client = new GraphQLClient('https://zanga-api.now.sh/graphql', {
+        headers: token.length ? {
+            authorization: 'Bearer ' + token
+        } : null
+    })
+    const sdk = getSdk(client)
+
+    return {
+        user: !!token.length ? await (async () => {
+            try {
+
+                return (await sdk.me()).me
+            } catch (err) {
+                logout()
+                return null
+            }
+
+        })() : null
+    }
+
+
+}
 
 export default Page

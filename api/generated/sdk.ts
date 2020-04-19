@@ -11,7 +11,6 @@ export type Scalars = {
   Float: number,
   /** 
  * The `Long` scalar type
-   *  represents non-fractional signed whole numeric values.
    * Long can represent values between -(2^63) and 2^63 - 1.
  */
   Long: any,
@@ -98,42 +97,18 @@ export type Mutation = {
   updateProperty?: Maybe<Property>,
   /** Delete an existing document in the collection of 'Property' */
   deleteProperty?: Maybe<Property>,
-  /** 
- * Partially updates an existing document in the collection of 'Contact'. It only
-   * modifies the values that are specified in the arguments. During execution, it
-   * verifies that required fields are not set to 'null'.
- */
-  partialUpdateContact?: Maybe<Contact>,
   /** Update an existing document in the collection of 'Contact' */
   updateContact?: Maybe<Contact>,
-  /** 
- * Partially updates an existing document in the collection of 'PropertyPoint'.
-   * It only modifies the values that are specified in the arguments. During
-   * execution, it verifies that required fields are not set to 'null'.
- */
-  partialUpdatePropertyPoint?: Maybe<PropertyPoint>,
   /** Update an existing document in the collection of 'PropertyPoint' */
   updatePropertyPoint?: Maybe<PropertyPoint>,
   /** Create a new document in the collection of 'Property' */
   createProperty: Property,
   /** Delete an existing document in the collection of 'Contact' */
   deleteContact?: Maybe<Contact>,
-  /** 
- * Partially updates an existing document in the collection of 'Property'. It
-   * only modifies the values that are specified in the arguments. During
-   * execution, it verifies that required fields are not set to 'null'.
- */
-  partialUpdateProperty?: Maybe<Property>,
   /** Delete an existing document in the collection of 'User' */
   deleteUser?: Maybe<User>,
   /** Delete an existing document in the collection of 'PropertyPoint' */
   deletePropertyPoint?: Maybe<PropertyPoint>,
-  /** 
- * Partially updates an existing document in the collection of 'User'. It only
-   * modifies the values that are specified in the arguments. During execution, it
-   * verifies that required fields are not set to 'null'.
- */
-  partialUpdateUser?: Maybe<User>,
 };
 
 
@@ -176,21 +151,9 @@ export type MutationDeletePropertyArgs = {
 };
 
 
-export type MutationPartialUpdateContactArgs = {
-  id: Scalars['ID'],
-  data: PartialUpdateContactInput
-};
-
-
 export type MutationUpdateContactArgs = {
   id: Scalars['ID'],
   data: ContactInput
-};
-
-
-export type MutationPartialUpdatePropertyPointArgs = {
-  id: Scalars['ID'],
-  data: PartialUpdatePropertyPointInput
 };
 
 
@@ -210,12 +173,6 @@ export type MutationDeleteContactArgs = {
 };
 
 
-export type MutationPartialUpdatePropertyArgs = {
-  id: Scalars['ID'],
-  data: PartialUpdatePropertyInput
-};
-
-
 export type MutationDeleteUserArgs = {
   id: Scalars['ID']
 };
@@ -223,59 +180,6 @@ export type MutationDeleteUserArgs = {
 
 export type MutationDeletePropertyPointArgs = {
   id: Scalars['ID']
-};
-
-
-export type MutationPartialUpdateUserArgs = {
-  id: Scalars['ID'],
-  data: PartialUpdateUserInput
-};
-
-/** 'Contact' input values */
-export type PartialUpdateContactInput = {
-  name?: Maybe<Scalars['String']>,
-  number?: Maybe<Scalars['String']>,
-  property?: Maybe<ContactPropertyRelation>,
-  email?: Maybe<Scalars['String']>,
-  notes?: Maybe<Scalars['String']>,
-  to?: Maybe<ContactToRelation>,
-};
-
-/** 'Property' input values */
-export type PartialUpdatePropertyInput = {
-  pointCount?: Maybe<Scalars['Int']>,
-  title?: Maybe<Scalars['String']>,
-  city?: Maybe<Scalars['String']>,
-  state?: Maybe<Scalars['String']>,
-  costValue?: Maybe<Scalars['Int']>,
-  costType?: Maybe<CostType>,
-  owner?: Maybe<PropertyOwnerRelation>,
-  images?: Maybe<Array<Scalars['String']>>,
-  description?: Maybe<Scalars['String']>,
-};
-
-/** 'PropertyPoint' input values */
-export type PartialUpdatePropertyPointInput = {
-  user?: Maybe<PropertyPointUserRelation>,
-  userId?: Maybe<Scalars['ID']>,
-  profit?: Maybe<Scalars['Float']>,
-  impressions?: Maybe<Scalars['Int']>,
-  propertyTitle?: Maybe<Scalars['String']>,
-  propertyId?: Maybe<Scalars['ID']>,
-};
-
-/** 'User' input values */
-export type PartialUpdateUserInput = {
-  email?: Maybe<Scalars['String']>,
-  phone?: Maybe<Scalars['String']>,
-  name?: Maybe<Scalars['String']>,
-  password?: Maybe<Scalars['String']>,
-  properties?: Maybe<UserPropertiesRelation>,
-  type?: Maybe<UserType>,
-  cac?: Maybe<Scalars['String']>,
-  tin?: Maybe<Scalars['String']>,
-  contacts?: Maybe<UserContactsRelation>,
-  propertyPoints?: Maybe<UserPropertyPointsRelation>,
 };
 
 export type Property = {
@@ -287,6 +191,7 @@ export type Property = {
   costType: CostType,
   /** The document's ID. */
   _id: Scalars['ID'],
+  featured: Scalars['Boolean'],
   costValue: Scalars['Int'],
   owner: User,
   title: Scalars['String'],
@@ -306,6 +211,7 @@ export type PropertyInput = {
   owner?: Maybe<PropertyOwnerRelation>,
   images: Array<Scalars['String']>,
   description: Scalars['String'],
+  featured: Scalars['Boolean'],
 };
 
 /** Allow manipulating the relationship between the types 'Property' and 'User' using the field 'Property.owner'. */
@@ -372,6 +278,7 @@ export type PropertyPointUserRelation = {
 
 export type Query = {
    __typename?: 'Query',
+  findPropertyByFeatured: PropertyPage,
   /** Find a document from the collection of 'Property' by its id. */
   findPropertyByID?: Maybe<Property>,
   findPropertyPointByPropertyId?: Maybe<PropertyPoint>,
@@ -381,9 +288,17 @@ export type Query = {
   findUserByID?: Maybe<User>,
   /** Find a document from the collection of 'PropertyPoint' by its id. */
   findPropertyPointByID?: Maybe<PropertyPoint>,
+  findFeaturedProperties: PropertyPage,
   /** Find a document from the collection of 'Contact' by its id. */
   findContactByID?: Maybe<Contact>,
   findPropertiesByCostType: PropertyPage,
+};
+
+
+export type QueryFindPropertyByFeaturedArgs = {
+  _size?: Maybe<Scalars['Int']>,
+  _cursor?: Maybe<Scalars['String']>,
+  featured: Scalars['Boolean']
 };
 
 
@@ -415,6 +330,12 @@ export type QueryFindUserByIdArgs = {
 
 export type QueryFindPropertyPointByIdArgs = {
   id: Scalars['ID']
+};
+
+
+export type QueryFindFeaturedPropertiesArgs = {
+  _size?: Maybe<Scalars['Int']>,
+  _cursor?: Maybe<Scalars['String']>
 };
 
 
@@ -613,7 +534,27 @@ export type PropertiesQuery = (
     { __typename?: 'PropertyPage' }
     & { data: Array<Maybe<(
       { __typename?: 'Property' }
-      & Pick<Property, 'city' | 'state' | 'description' | 'costType' | 'costValue' | 'images' | 'title'>
+      & Pick<Property, 'city' | 'state' | 'description' | 'costType' | 'costValue' | 'featured' | 'images' | 'title'>
+      & { id: Property['_id'] }
+      & { owner: (
+        { __typename?: 'User' }
+        & Pick<User, 'name'>
+        & { id: User['_id'] }
+      ) }
+    )>> }
+  ) }
+);
+
+export type FeaturedPropertiesQueryVariables = {};
+
+
+export type FeaturedPropertiesQuery = (
+  { __typename?: 'Query' }
+  & { findPropertyByFeatured: (
+    { __typename?: 'PropertyPage' }
+    & { data: Array<Maybe<(
+      { __typename?: 'Property' }
+      & Pick<Property, 'city' | 'state' | 'description' | 'costType' | 'costValue' | 'featured' | 'images' | 'title'>
       & { id: Property['_id'] }
       & { owner: (
         { __typename?: 'User' }
@@ -633,7 +574,7 @@ export type PropertyQuery = (
   { __typename?: 'Query' }
   & { findPropertyByID: Maybe<(
     { __typename?: 'Property' }
-    & Pick<Property, 'city' | 'state' | 'costType' | 'costValue' | 'title' | 'images' | 'description' | 'pointCount'>
+    & Pick<Property, 'city' | 'state' | 'costType' | 'costValue' | 'featured' | 'title' | 'images' | 'description' | 'pointCount'>
     & { id: Property['_id'] }
     & { owner: (
       { __typename?: 'User' }
@@ -792,6 +733,28 @@ export const PropertiesDocument = gql`
       description
       costType
       costValue
+      featured
+      id: _id
+      owner {
+        name
+        id: _id
+      }
+      images
+      title
+    }
+  }
+}
+    `;
+export const FeaturedPropertiesDocument = gql`
+    query featuredProperties {
+  findPropertyByFeatured(featured: true) {
+    data {
+      city
+      state
+      description
+      costType
+      costValue
+      featured
       id: _id
       owner {
         name
@@ -811,6 +774,7 @@ export const PropertyDocument = gql`
     state
     costType
     costValue
+    featured
     owner {
       id: _id
       name
@@ -925,6 +889,9 @@ export function getSdk(client: GraphQLClient) {
     },
     properties(variables: PropertiesQueryVariables): Promise<PropertiesQuery> {
       return client.request<PropertiesQuery>(print(PropertiesDocument), variables);
+    },
+    featuredProperties(variables?: FeaturedPropertiesQueryVariables): Promise<FeaturedPropertiesQuery> {
+      return client.request<FeaturedPropertiesQuery>(print(FeaturedPropertiesDocument), variables);
     },
     property(variables: PropertyQueryVariables): Promise<PropertyQuery> {
       return client.request<PropertyQuery>(print(PropertyDocument), variables);

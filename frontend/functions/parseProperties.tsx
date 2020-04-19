@@ -8,7 +8,8 @@ export const parseProperties = (properties: PropertiesQuery['properties']): Prop
             id: p.id,
             imageUrl: p.images[0],
             location: `${p.state},${p.city}`,
-            price: p.costType === CostType.Rent ? `₦${price}/yr` : `₦${price}`
+            price: p.costType === CostType.Rent ? `₦${price}/yr` : `₦${price}`,
+            description: p.description
         };
     });
 };

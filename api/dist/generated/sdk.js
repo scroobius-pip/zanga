@@ -80,6 +80,28 @@ exports.PropertiesDocument = graphql_tag_1.default `
       description
       costType
       costValue
+      featured
+      id: _id
+      owner {
+        name
+        id: _id
+      }
+      images
+      title
+    }
+  }
+}
+    `;
+exports.FeaturedPropertiesDocument = graphql_tag_1.default `
+    query featuredProperties {
+  findPropertyByFeatured(featured: true) {
+    data {
+      city
+      state
+      description
+      costType
+      costValue
+      featured
       id: _id
       owner {
         name
@@ -99,6 +121,7 @@ exports.PropertyDocument = graphql_tag_1.default `
     state
     costType
     costValue
+    featured
     owner {
       id: _id
       name
@@ -213,6 +236,9 @@ function getSdk(client) {
         },
         properties(variables) {
             return client.request(graphql_1.print(exports.PropertiesDocument), variables);
+        },
+        featuredProperties(variables) {
+            return client.request(graphql_1.print(exports.FeaturedPropertiesDocument), variables);
         },
         property(variables) {
             return client.request(graphql_1.print(exports.PropertyDocument), variables);

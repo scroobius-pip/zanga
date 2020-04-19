@@ -16,5 +16,8 @@ export const Query: QueryResolvers.Type = {
   },
   currentRate: (parent, args, ctx) => {
     throw new Error("Resolver not implemented");
+  },
+  featuredProperties: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
   }
 };

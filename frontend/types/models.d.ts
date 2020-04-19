@@ -6,4 +6,5 @@ interface IProperty {
     description: string
     price: string
     ownerName: string
-} 
+}
+

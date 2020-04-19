@@ -44,11 +44,11 @@ export { AvatarPopover }
 export default ({ userName, fullWidth = true }: Props) => {
     const width = !fullWidth ? '100%' : 1000
 
-    return <Card marginBottom={25} elevation={3} padding={15} background={'white'} width={'100%'}>
+    return <Card top={0} zIndex={20} position='sticky' marginBottom={25} elevation={3} padding={15} background={'white'} width={'100%'}>
         <Pane maxWidth={width} margin='auto' display='flex' justifyContent='space-between'>
 
             <Link href='/'>
-                <img style={{ cursor: 'grab' }} src='/zanga-logo.svg' height={40} />
+                <img style={{ cursor: 'pointer' }} src='/zanga-logo.svg' height={40} />
             </Link>
 
             {userName ? <AvatarPopover userName={userName} /> :

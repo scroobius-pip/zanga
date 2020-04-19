@@ -6,6 +6,7 @@ query property($id:ID!){
     state
     costType
     costValue
+    featured
     owner{
       id:_id
       name

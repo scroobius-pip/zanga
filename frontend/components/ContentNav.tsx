@@ -47,24 +47,37 @@ export default ({ onSelect, tabs }: ContentNavProps) => {
     const [selected, setSelected] = useState(0)
     const TabContent = tabs[selected].Content
 
-    return <div>
+    return <div style={{ width: '100%' }}>
+        <div
+            style={{
+                // maxWidth: 400,
+                position: 'relative',
+                // maxWidth: 'calc(100vw)',
+                // backgroundColor: 'red',
+                whiteSpace: 'nowrap',
+                overflowY: 'auto'
+            }}
+        >
 
-        <Pane
-            maxWidth={400}
-            borderTopLeftRadius={5}
-            borderTopRightRadius={5}
-            display='flex'
-            paddingX='50'
-            width='100%'
-            background='#EFF3F5'>
-            {tabs.map((tabs, index) => {
-                return <Tab onClick={() => {
-                    setSelected(index)
-                    onSelect(index)
-                }} active={index === selected} name={tabs.title} icon={tabs.icon} />
-            })}
+            <Pane
+                // maxWidth={400}
+                borderTopLeftRadius={5}
+                borderTopRightRadius={5}
+                display='flex'
+                paddingX='50'
+                width='fit-content'
+                background='#EFF3F5'
 
-        </Pane>
+            >
+                {tabs.map((tabs, index) => {
+                    return <Tab onClick={() => {
+                        setSelected(index)
+                        onSelect(index)
+                    }} active={index === selected} name={tabs.title} icon={tabs.icon} />
+                })}
+
+            </Pane>
+        </div>
         <Pane
             padding={20}
             borderBottomLeftRadius={5}

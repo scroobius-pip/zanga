@@ -8,5 +8,8 @@ export const Property: PropertyResolvers.Type = {
 
   costType: (parent, args, ctx) => {
     throw new Error("Resolver not implemented");
+  },
+  featured: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
   }
 };

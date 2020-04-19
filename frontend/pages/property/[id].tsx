@@ -26,7 +26,7 @@ const Page = ({ property, user, referrerId }: InitialProps) => {
 
 
 
-    return <Layout userName={user?.name}>
+    return <Layout fullWidth userName={user?.name}>
         <Head>
             <title>Zanga - {property.title}</title>
             <meta name="title" content={property.title} />
@@ -45,7 +45,15 @@ const Page = ({ property, user, referrerId }: InitialProps) => {
             <meta property="twitter:description" content={property.description} />
             <meta property="twitter:image" content={property.images[0]} />
         </Head>
-        <Pane maxWidth={800} margin='auto' background='white' elevation={2} padding={'5vmin'} height='100%' textAlign='center' display='flex' flexDirection='column'>
+
+        <Pane maxWidth={1200} margin='auto' background='white' elevation={2} padding={'5vmin'} height='100%' textAlign='center' display='flex' flexDirection='column'>
+            <Pane>
+                <Heading marginBottom={20} fontWeight={700} size={900} color={colors.primary}>{property.title}</Heading>
+            </Pane>
+            <Pane marginBottom={20} display='flex' alignSelf='center' flexDirection='row' alignItems='center' >
+                <Icon icon="map-marker" marginRight={5} size={16} />
+                <Text size={600} fontWeight={500}>{property.location}</Text>
+            </Pane>
             <Pane width='100%' margin='auto'>
                 <Gallery images={property.images.map(image => {
                     return {
@@ -56,13 +64,8 @@ const Page = ({ property, user, referrerId }: InitialProps) => {
                     }
                 })} />
             </Pane>
-            <Pane>
-                <Heading marginTop={20} size={600} color={colors.primary}>{property.title}</Heading>
-            </Pane>
-            <Pane marginTop={10} display='flex' alignSelf='center' flexDirection='row' alignItems='center' >
-                <Icon icon="map-marker" marginRight={5} size={16} />
-                <Text size={500}>{property.location}</Text>
-            </Pane>
+
+
             <Pane marginTop={20} marginBottom={30}>
 
                 <Card background="tint1"
@@ -81,13 +84,13 @@ const Page = ({ property, user, referrerId }: InitialProps) => {
                         Router.push('/register')
                         return
                     }
-                    copyPropertyLink(`https://myzanga.com/property/${property.id}?ref=${user?.id}`)
+                    copyPropertyLink(`https://myzanga.com/property/${property.id}?ref=${user?.id}`, property.title)
                 }} marginTop={20} height={40} appearance="primary" marginRight={12} iconAfter="link">
                     Get Commission Link
                 </Button>
 
             </Pane>
-            <Card marginTop={50} width={'50%'} background='tint1' elevation={3} margin='auto' padding={25}>
+            <Card marginTop={50} background='tint1' elevation={3} margin='auto' padding={25}>
                 <Pane >
                     <Heading marginTop={10} size={700}>Interested in this property ?</Heading>
                     <Text>Agent - {property.ownerName}</Text>
@@ -120,7 +123,7 @@ Page.getInitialProps = async ({ query, ...ctx }): Promise<InitialProps> => {
             description,
             id,
             images,
-            location: `${state},${city}`,
+            location: `${state}, ${city}`,
             ownerName,
             price: costType === CostType.Rent ? `₦${price}/yr` : `₦${price}`,
             title

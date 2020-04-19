@@ -44,6 +44,7 @@ export type CreatePropertyInput = {
   location: LocationInput,
   costValue: Scalars['Int'],
   costType: CostType,
+  featured: Scalars['Boolean'],
   images: Array<Scalars['String']>,
   description: Scalars['String'],
 };
@@ -115,6 +116,7 @@ export type Property = {
   owner: User,
   images?: Maybe<Array<Scalars['String']>>,
   description?: Maybe<Scalars['String']>,
+  featured?: Maybe<Scalars['Boolean']>,
 };
 
 export type PropertyPoint = {
@@ -131,6 +133,7 @@ export type Query = {
   properties: Array<Maybe<Property>>,
   property?: Maybe<Property>,
   currentRate: Scalars['Float'],
+  featuredProperties: Array<Maybe<Property>>,
 };
 
 
@@ -256,7 +259,7 @@ export type PropertiesQuery = (
   { __typename?: 'Query' }
   & { properties: Array<Maybe<(
     { __typename?: 'Property' }
-    & Pick<Property, 'id' | 'title' | 'city' | 'state' | 'costValue' | 'costType' | 'images'>
+    & Pick<Property, 'id' | 'title' | 'city' | 'state' | 'costValue' | 'costType' | 'images' | 'description'>
     & { owner: (
       { __typename?: 'User' }
       & Pick<User, 'name'>
@@ -365,6 +368,7 @@ export const PropertiesDocument = gql`
     costValue
     costType
     images
+    description
     owner {
       name
     }

@@ -6,7 +6,7 @@ const createProperty = async (_, { input }, ctx) => {
     if (!ctx.userId) {
         throw new apollo_server_core_1.AuthenticationError('Token Not Passed');
     }
-    const { description, images, location: { city, state }, title, costType, costValue } = input;
+    const { description, images, location: { city, state }, title, costType, costValue, featured } = input;
     const owner = (await ctx.client.user({ id: ctx.userId })).findUserByID;
     if (!owner)
         throw new Error('Failed to get owner');
@@ -18,6 +18,7 @@ const createProperty = async (_, { input }, ctx) => {
             images,
             city,
             state,
+            featured,
             title,
             pointCount: 1,
             owner: {

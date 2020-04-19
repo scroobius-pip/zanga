@@ -8,41 +8,21 @@ import login from '../functions/login'
 import redirect from '../functions/redirect'
 import Router from 'next/router'
 import ReCAPTCHA from 'react-google-recaptcha'
+import { useForm } from 'react-hook-form';
+import SocialIcons from '../components/SocialIcons'
 
-function validateEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}
 
+const RECAPTCHA_SITE_KEY = "6LfvXtkUAAAAAAtuGmUkrNzRXxJWil7unLGLqUiK"
 
 export default () => {
-    const [formState, setFormState] = useState({
-        email: null,
-        notes: null
-    })
 
-    const [checked, setChecked] = useState(false)
-    const [isVerified, setIsVerified] = useState(false)
-
-    const [valid, setValid] = useState(false)
-    const [loading, setLoading] = useState(false)
-
-    let RECAPTCHA_SITE_KEY = "6LfvXtkUAAAAAAtuGmUkrNzRXxJWil7unLGLqUiK"
-    useEffect(() => {
-        console.log(formState)
-        setValid(isValid())
-    }, [JSON.stringify(formState)])
-
-    const isValid = () => {
-        if (!formState.notes || !formState.email) {
-            return false
-        }
-        return !!(formState.notes.length && validateEmail(formState.email))
-    }
+    const { register, handleSubmit, errors } = useForm()
+    const [notBot, setNotBot] = useState(false)
 
 
-    const submit = async () => {
-        setLoading(true)
+    const onSubmit = async (data) => {
+        console.log(data)
+        // setLoading(true)
         // try {
         //     const client = new GraphQLClient('https://zanga-api.now.sh/graphql')
         //     const sdk = getSdk(client)
@@ -62,87 +42,68 @@ export default () => {
         //     toaster.danger('Retry Request Later')
         // }
 
-        setLoading(false)
+        // setLoading(false)
     }
 
-    const toggleChange = () => {
-        setChecked(!checked)
-    }
 
-    const enableButton = () => {
-        if (!checked || (!formState.notes || !formState.email)) {
-            return true
-        }
-        else {
-            return false
-        }
-    }
 
-    const recaptchaResponse = (value) => {
-        if (value) {
-            setIsVerified(!isVerified)
-        }
-    }
+    return <Layout fullWidth>
+        <Heading marginBottom={10} textAlign='center' size={900}>Contact Us</Heading>
 
-    const submitToVerify = () => {
-        if (isVerified) {
-            submit()
-        } else {
-            alert("Please verify that you're a human")
-        }
-    }
-
-    return <Layout>
-        <Heading marginTop={10} textAlign='center' size={900}>Contact Us</Heading>
         <Card marginTop={50} background='tint1' maxWidth={450} elevation={3} margin='auto' padding={25}>
-            <Pane marginTop={20}>
+
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <TextInputField
-                    onChange={e => setFormState({ ...formState, email: e.target.value })}
-                    value={formState.email}
-                    textAlign='left'
-                    color={colors.primary}
-                    //label='Email'
-                    height={40}
-                    name="Your email"
-                    type='email'
-                    placeholder="Your email"
+                    // type="text"
+                    placeholder="Name"
+                    label='Name'
+                    name="Name"
+                    innerRef={register({ required: true, maxLength: 80 })} />
+                <TextInputField
+
+                    label='Email'
+                    name="Email"
+                    innerRef={register({ required: true, pattern: /^\S+@\S+$/i })} />
+
+                <TextInputField
+                    type='tel'
+                    label='Phone Number'
+                    name="Phone Numberl"
+                    innerRef={register({ required: true })}
                 />
                 <Textarea
-                    onChange={e => setFormState({ ...formState, notes: e.target.value })}
-                    value={formState.notes}
-                    textAlign='left'
-                    color={colors.primary}
-                    label='Notes'
-                    height={120}
-                    type='text'
-                    marginTop={10}
-                    name="notes"
-                    placeholder="Provide Entra Notes"
+                    name='Message'
+                    innerRef={register}
+                    placeholder={'Message'}
+
                 />
-                <Checkbox
-                    //isLoading={loading}
-                    //disabled={enabButton}
-                    checked={checked}
-                    onChange={toggleChange}
-                    color={colors.primary}
-                    label='I certify that the information provided above can be use to contact me'
-                    marginTop={10} height={40} marginRight={12}>
-                    Consent
-                </Checkbox>
-                <Button
-                    isLoading={loading}
-                    disabled={enableButton()}
-                    onClick={() => {
-                        submitToVerify()
-                    }} marginBottom={10} height={40} appearance="primary" marginRight={12} iconAfter='log-in'>
-                    Submit
-                </Button>
-            </Pane>
-            <ReCAPTCHA
-                sitekey={RECAPTCHA_SITE_KEY}
-                onChange={recaptchaResponse}
-                marginTop={10}
-            />
+
+
+                <Pane display='flex'
+                    alignItems='center'
+                    justifyContent='space-between'
+                    marginTop={20}
+                >
+
+                    <ReCAPTCHA
+
+                        sitekey={RECAPTCHA_SITE_KEY}
+                        onChange={() => setNotBot(true)}
+                        marginTop={10}
+                    />
+                    <Button
+                        disabled={!notBot}
+                        appearance='primary'
+                        type='submit'
+                        height={40}
+                    >Submit</Button>
+                </Pane>
+            </form>
+
+
         </Card>
+        <div style={{ width: '100%', marginTop: 50 }}>
+            <SocialIcons />
+        </div>
     </Layout>
 }

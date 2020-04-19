@@ -7,7 +7,7 @@ const createProperty: MutationResolvers.CreatePropertyResolver = async (_, { inp
     if (!ctx.userId) {
         throw new AuthenticationError('Token Not Passed')
     }
-    const { description, images, location: { city, state }, title, costType, costValue } = input
+    const { description, images, location: { city, state }, title, costType, costValue, featured } = input
 
 
     const owner = (await ctx.client.user({ id: ctx.userId })).findUserByID
@@ -21,6 +21,7 @@ const createProperty: MutationResolvers.CreatePropertyResolver = async (_, { inp
             images,
             city,
             state,
+            featured,
             title,
             pointCount: 1,
             owner: {

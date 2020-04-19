@@ -11,6 +11,7 @@ query properties($type:CostType!) {
     costValue
     costType
     images
+    description
     owner {
       name
     }
