@@ -9,7 +9,9 @@ export default () => {
         <div
             className='featured-card'
             style={{
-                width: 400,
+                // maxWidth: 400,
+                // minWidth: 400,
+                width: '100%',
                 position: 'relative',
                 // height: 600
                 marginBottom: 100
@@ -44,6 +46,7 @@ export default () => {
             <Card
                 elevation={4}
                 // hoverElevation={4}
+                height={150}
                 position='absolute'
                 top='100%'
                 left='49.5%'
@@ -59,9 +62,9 @@ export default () => {
                 borderLeftColor={colors.grey}
 
             >
-                <Heading fontWeight={700} size={700}>Duplex for sale at Kuje,Fct</Heading>
+                <Heading fontWeight={700} size={700}>Duplex for sale at Kuje, Fct</Heading>
                 <Paragraph size={500} marginTop={10}>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque perspiciatis laudantium blanditiis aliquam, distinctio ullam.
+                    {'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque perspiciatis laudantium blanditiis aliquam, distinctio ullam.'.split('').splice(0, 60).join('') + '...'}
                 </Paragraph>
             </Card>
             <style jsx>

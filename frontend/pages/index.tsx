@@ -4,7 +4,7 @@ import ContentNav, { ContentNavProps } from '../components/ContentNav'
 import { colors } from '../styles'
 import { useState } from 'react'
 import { useRouter, NextRouter } from 'next/router'
-import FeaturedCarousel from '../components/FeaturedCarousel'
+import FeaturedCarousel from '../components/FeaturedGrid'
 import getToken from '../functions/getToken'
 import { GraphQLClient } from 'graphql-request'
 import { getSdk, User } from '../generated/graphql'
@@ -52,6 +52,7 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </Paragraph>
                 <Button 
+                 onClick={() => router.push('/earn')}
                 marginTop='default' 
                 backgroundColor={colors.primary}
                 appearance='primary' 
@@ -160,9 +161,9 @@ const Page = ({user}:InitialProps) => {
             </Pane>
             </Pane>
             <Pane  maxWidth={1200} paddingLeft={10} paddingRight={10} margin='auto'>
-                <Pane  marginLeft={25} marginBottom={30} >
+                <Pane  marginBottom={30} >
                 <Heading  textAlign='left' marginBottom={5} fontWeight={900} size={900}>Featured Property</Heading>
-                <Text color={colors.grey} size={600}>Trusted and beautiful properties in Nigeria</Text>
+                <Text color={colors.grey} textAlign='left' size={600}>Trusted and beautiful properties in Nigeria</Text>
                 </Pane>
                 <FeaturedCarousel/>
              

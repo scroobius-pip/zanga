@@ -75,7 +75,7 @@ export default ({ referrer = '', propertyId = '' }) => {
         }
     }
 
-    return <>
+    return <Pane>
 
         <TextInputField
             value={formState.number}
@@ -153,5 +153,5 @@ export default ({ referrer = '', propertyId = '' }) => {
         >Submit</Button>
 
 
-    </>
+    </Pane>
 }

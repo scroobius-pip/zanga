@@ -1,6 +1,6 @@
 import App from 'next/app'
 import { colors } from '../styles'
-
+import '../components/masonry.css'
 
 class MyApp extends App {
 
