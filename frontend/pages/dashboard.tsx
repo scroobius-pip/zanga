@@ -13,6 +13,7 @@ import { parseProperties } from '../functions/parseProperties'
 import {
     isMobile
 } from 'react-device-detect'
+
 import UserPointCounter, { Props as UserPointCounterProps } from '../components/UserPointCounter'
 import UserPropertyPointTable, { Props as UserPropertyPointTableProps } from '../components/UserPropertyPointTable'
 interface InitialProps {

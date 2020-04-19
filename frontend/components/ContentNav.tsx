@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { Card, Pane, Heading, Paragraph, Button } from 'evergreen-ui'
 import { colors } from '../styles'
+import {
+    isMobile,
+
+} from 'react-device-detect'
 
 const Tab = ({ name, active = false, icon, onClick }) => {
     return <div className='tab-head'
@@ -83,8 +87,9 @@ export default ({ onSelect, tabs }: ContentNavProps) => {
             borderBottomLeftRadius={5}
             borderBottomRightRadius={5}
             // borderTopRightRadius={5}
-            elevation={2}
-            background='white'
+            backgroundColor={'rgba(255, 255, 255, 0.75)'}
+            elevation={0}
+            // background='white'
             position='relative'>
 
             {TabContent}

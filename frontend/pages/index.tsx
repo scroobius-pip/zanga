@@ -11,6 +11,9 @@ import { getSdk, User } from '../generated/graphql'
 import logout from '../functions/logout'
 import UnderlineText from '../components/UnderlineText'
 import FeaturedPropertyCard from '../components/FeaturedPropertyCard'
+import {
+    isMobile
+} from 'react-device-detect'
 
 interface InitialProps {
     user?: Pick<User, 'id' | 'name'>
@@ -23,13 +26,16 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
             title: 'Property',
             icon: '/home.svg',
             Content: <>
-                <Heading size={900}>Find your ideal home.</Heading>
-                <Paragraph size={500} marginTop="default">
+                <Heading fontWeight={700} size={900}>Find your ideal home.</Heading>
+                <Paragraph fontWeight={500} size={500} marginTop="default">
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </Paragraph>
-                <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
+                <div style={{
+                    width:'100%',display:'flex',justifyContent:'flex-end',
+             
+            }}>
 
                 <Button onClick={() => router.push('/properties')} marginTop='default' backgroundColor={colors.primary}  appearance='primary' iconAfter='arrow-right' height={56}>
                     Properties
@@ -46,7 +52,7 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
             icon: '/earn.svg',
             Content: <>
                 <Heading size={900}>Share property & earn commissions.</Heading>
-                <Paragraph size={500} marginTop="default">
+                <Paragraph fontWeight={500} size={500} marginTop="default">
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -69,7 +75,11 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
             icon: '/advertising.svg',
             Content: <>
                 <Heading size={900}>Advertise your property on zanga.</Heading>
-                <Paragraph size={500} marginTop="default">
+                <Heading marginTop={10} size={700}>
+                    Clients we've worked with
+                </Heading>
+                <Paragraph>Images here...</Paragraph>
+                <Paragraph fontWeight={500} size={500} marginTop="default">
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -121,15 +131,27 @@ const Page = ({user}:InitialProps) => {
     const [image, setImage] = useState(tabs[0].image)
 
     return <Layout userName={user?.name} fullWidth>
-        <Pane width={'100%'}  margin='auto' >
+        <Pane width={'100%'}  margin='auto'  >
             <Pane height='90vh' marginTop={-50} position='relative' >
 
            
-          {
+
+            <Pane position='relative' top={50} maxWidth={1000} margin='auto' >
+                <Card maxWidth={600} float='left' position='absolute'>
+                    <ContentNav
+                        tabs={tabs}
+                        onSelect={(index) => {
+                            setImage(tabs[index].image)
+                        }}
+                    />
+
+                </Card>
+            </Pane>
+            {
               tabs.map((t,i)=>{
                   return  <>
                    <img className='tab-image' src={t.image} 
-                  width='100%' height='80%'
+                  width='100%' height={'100%'}
                   
                    style={{ 
                        position: 'absolute',
@@ -148,19 +170,8 @@ const Page = ({user}:InitialProps) => {
                   </>
               })
           }
-            <Pane position='relative' top={50} maxWidth={1000} margin='auto' >
-                <Card maxWidth={600} float='left' position='absolute'>
-                    <ContentNav
-                        tabs={tabs}
-                        onSelect={(index) => {
-                            setImage(tabs[index].image)
-                        }}
-                    />
-
-                </Card>
             </Pane>
-            </Pane>
-            <Pane  maxWidth={1200} paddingLeft={10} paddingRight={10} margin='auto'>
+            <Pane  maxWidth={1200} paddingLeft={10} paddingRight={10} margin='auto' marginTop={100}>
                 <Pane  marginBottom={30} >
                 <Heading  textAlign='left' marginBottom={5} fontWeight={900} size={900}>Featured Property</Heading>
                 <Text color={colors.grey} textAlign='left' size={600}>Trusted and beautiful properties in Nigeria</Text>

@@ -1,20 +1,27 @@
 import Layout from '../components/Layout'
-import { Card, Heading, Pane, TextInputField, Button, toaster, Textarea, Checkbox } from 'evergreen-ui'
+import { Card, Heading, Pane, TextInputField, Button, toaster, Textarea, Checkbox, Paragraph } from 'evergreen-ui'
 import { colors } from '../styles'
 import { useState, useEffect } from 'react'
 // import { GraphQLClient } from 'graphql-request'
-import { getSdk } from '../generated/graphql'
+import { getSdk, User } from '../generated/graphql'
 import login from '../functions/login'
 import redirect from '../functions/redirect'
 import Router from 'next/router'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useForm } from 'react-hook-form';
 import SocialIcons from '../components/SocialIcons'
+import getToken from '../functions/getToken'
+import { GraphQLClient } from 'graphql-request'
+import logout from '../functions/logout'
 
 
 const RECAPTCHA_SITE_KEY = "6LfvXtkUAAAAAAtuGmUkrNzRXxJWil7unLGLqUiK"
 
-export default () => {
+interface InitialProps {
+    user?: Pick<User, 'id' | 'name'>
+}
+
+const Page = ({ user }: InitialProps) => {
 
     const { register, handleSubmit, errors } = useForm()
     const [notBot, setNotBot] = useState(false)
@@ -47,9 +54,9 @@ export default () => {
 
 
 
-    return <Layout fullWidth>
-        <Heading marginBottom={10} textAlign='center' size={900}>Contact Us</Heading>
-
+    return <Layout userName={user?.name} fullWidth>
+        <Heading marginBottom={10} textAlign='center' size={900}>Contact us</Heading>
+        <Paragraph textAlign='center' size={500} marginBottom={10}>Please fill the form, we usually get back within 2 business days</Paragraph>
         <Card marginTop={50} background='tint1' maxWidth={450} elevation={3} margin='auto' padding={25}>
 
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -81,6 +88,7 @@ export default () => {
 
                 <Pane display='flex'
                     alignItems='center'
+                    flexDirection='column'
                     justifyContent='space-between'
                     marginTop={20}
                 >
@@ -96,14 +104,42 @@ export default () => {
                         appearance='primary'
                         type='submit'
                         height={40}
+                        marginTop={10}
                     >Submit</Button>
                 </Pane>
             </form>
 
 
         </Card>
-        <div style={{ width: '100%', marginTop: 50 }}>
+        {/* <div style={{ width: '100%', marginTop: 50 }}>
             <SocialIcons />
-        </div>
+        </div> */}
     </Layout>
 }
+
+Page.getInitialProps = async ({ query, ...ctx }): Promise<InitialProps> => {
+    const token = getToken(ctx)
+    const client = new GraphQLClient('https://zanga-api.now.sh/graphql', {
+        headers: token.length ? {
+            authorization: 'Bearer ' + token
+        } : null
+    })
+    const sdk = getSdk(client)
+
+    return {
+        user: !!token.length ? await (async () => {
+            try {
+
+                return (await sdk.me()).me
+            } catch (err) {
+                logout()
+                return null
+            }
+
+        })() : null
+    }
+
+
+}
+
+export default Page

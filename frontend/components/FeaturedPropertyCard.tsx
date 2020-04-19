@@ -46,7 +46,7 @@ export default () => {
             <Card
                 elevation={4}
                 // hoverElevation={4}
-                height={150}
+                // maxHeight={150}
                 position='absolute'
                 top='100%'
                 left='49.5%'
@@ -63,8 +63,8 @@ export default () => {
 
             >
                 <Heading fontWeight={700} size={700}>Duplex for sale at Kuje, Fct</Heading>
-                <Paragraph size={500} marginTop={10}>
-                    {'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque perspiciatis laudantium blanditiis aliquam, distinctio ullam.'.split('').splice(0, 60).join('') + '...'}
+                <Paragraph textOverflow='ellipsis' whiteSpace='nowrap' overflow='hidden' size={500} marginTop={10}>
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque perspiciatis laudantium blanditiis aliquam, distinctio ullam.
                 </Paragraph>
             </Card>
             <style jsx>

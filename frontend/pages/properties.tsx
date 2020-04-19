@@ -23,9 +23,11 @@ interface InitialProps {
 const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
 
 
-    return <Layout fullWidth userName={user?.name} noNav>
+    return <Layout fullWidth userName={user?.name} >
         <Head>
-            <title>Zanga - Share Realestate and Earn Commissions</title>
+            <title>Zanga - Find Your Ideal Property</title>
+            {/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
+
         </Head>
         <Pane
             height={'100%'}
@@ -35,7 +37,7 @@ const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
                 background='white'
             >
                 <Pane>
-                    <Pane display='flex' justifyContent='space-between'>
+                    {/* <Pane display='flex' justifyContent='space-between'>
                         <Link href='/'>
                             <a href='/'>
 
@@ -52,8 +54,8 @@ const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
                             }
 
                         </Pane>
-                    </Pane>
-                    <Pane marginTop={35}>
+                    </Pane> */}
+                    <Pane >
 
                         <Heading className='f-wght_900' fontWeight={700} size={900}>
                             {'Find your '}

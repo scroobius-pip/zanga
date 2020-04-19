@@ -1,6 +1,6 @@
 import { GridViewCard, ListViewCard, CardProps } from './PropertyCard';
-import { Pane, toaster } from 'evergreen-ui';
-import { useState } from 'react';
+import { Pane, toaster, Spinner } from 'evergreen-ui';
+import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 
 import Router from 'next/router'
@@ -16,6 +16,11 @@ interface Props {
 
 
 export default ({ properties, view, deletable, onDelete, refId, disableCardButton }: Props) => {
+
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        setLoading(false)
+    })
     const PropertyCard = view === 'grid' ? (props) => <Col
         xs={12}
         sm={6}
@@ -27,7 +32,7 @@ export default ({ properties, view, deletable, onDelete, refId, disableCardButto
     </Col> : ListViewCard
 
     const Container = view === 'grid' ? GridContainer : Pane
-    return <Container>
+    return loading ? <Spinner /> : <Container>
         {properties.map((property, index) => {
             return <PropertyCard
                 key={property.id}

@@ -22,7 +22,7 @@ interface InitialProps {
 
 const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
 
-    return <Layout userName={user?.name} noNav>
+    return <Layout userName={user?.name} >
         <Head>
             <title>Zanga - Share Realestate and Earn Commissions</title>
         </Head>
@@ -34,7 +34,7 @@ const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
                 background='white'
             >
                 <Pane>
-                    <Pane display='flex' justifyContent='space-between'>
+                    {/* <Pane display='flex' justifyContent='space-between'>
                         <Link href='/'>
                             <img style={{ cursor: 'pointer' }} src='/zanga-logo.svg' height={40} />
                         </Link>
@@ -48,8 +48,8 @@ const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
                             }
 
                         </Pane>
-                    </Pane>
-                    <Pane marginTop={35}>
+                    </Pane> */}
+                    <Pane >
                         <Heading className='f-wght_900' fontWeight={700} size={900}>
                             <span style={{ color: colors.primary }}>Share</span> Property &
             </Heading>

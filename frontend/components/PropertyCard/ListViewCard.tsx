@@ -9,6 +9,10 @@ const ListViewCard = ({ active, property: { imageUrl, title, location, price, id
     return (
         <a
             href={`/property/${id}`}
+            style={{
+                textDecoration: 'none',
+                outline: 'none',
+            }}
         >
 
             <Card
@@ -42,7 +46,7 @@ const ListViewCard = ({ active, property: { imageUrl, title, location, price, id
                     <Pane flex={5} display='flex' flexDirection='column' padding={10}>
                         <Heading color={colors.grey} size={500}>{title}</Heading>
                         <Pane display='flex' flexDirection='row' alignItems='center' marginTop={5}>
-                            <Icon icon="map-marker" marginRight={5} size={16} />
+                            <Icon icon="map-marker" color={colors.primary} marginRight={5} size={16} />
                             <Text size={500}> {location}</Text>
                         </Pane>
                         <Pane display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
