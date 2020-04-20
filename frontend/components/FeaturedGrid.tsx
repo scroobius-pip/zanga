@@ -4,10 +4,14 @@ import { Pane } from 'evergreen-ui'
 import Masonry from 'react-masonry-css'
 
 const breakpointColumnsObj = {
-    default: 3,
+    default: 1,
     1100: 2,
     700: 1,
-    500: 1
+    500: 1,
+    1200: 3,
+    1800: 3,
+    2000: 3,
+    5000: 3
 }
 
 export default () => {
