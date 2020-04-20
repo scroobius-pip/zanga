@@ -57,9 +57,9 @@ export default () => {
                 zIndex={10}
                 background='white'
                 borderRadius={10}
-                borderLeft
-                borderLeftWidth={5}
-                borderLeftColor={colors.grey}
+            // borderLeft
+            // borderLeftWidth={5}
+            // borderLeftColor={colors.grey}
 
             >
                 <Heading fontWeight={700} size={700}>Duplex for sale at Kuje, Fct</Heading>

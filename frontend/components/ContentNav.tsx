@@ -15,7 +15,7 @@ const Tab = ({ name, active = false, icon, onClick }) => {
             backgroundColor: active && colors.primary,
             color: 'white',
             cursor: 'pointer',
-            maxWidth: 'calc(100% / 4)',
+            maxWidth: 'calc(100% / 5)',
 
         }}>
         <img src={icon} height={20} style={{ filter: active && 'brightness(4)' }} />
@@ -56,7 +56,7 @@ export default ({ onSelect, tabs }: ContentNavProps) => {
             style={{
                 // maxWidth: 400,
                 position: 'relative',
-                // maxWidth: 'calc(100vw)',
+                maxWidth: 'calc(100vw)',
                 // backgroundColor: 'red',
                 whiteSpace: 'nowrap',
                 overflowY: 'auto'

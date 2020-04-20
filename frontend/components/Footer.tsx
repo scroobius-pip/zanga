@@ -58,9 +58,9 @@ export default () => {
                 <ul className='list' style={{ listStyle: 'none' }}>
                     <FooterListItem text='About Us' url='/about-us' />
                     <FooterListItem text='Contact Us' url='/contact-us' />
-                    <FooterListItem text='Terms & Conditions' url='/tc' />
-                    <FooterListItem text='Privacy Policy' url='/privacy-policy' />
-                    <FooterListItem text='Faq' url='/faq' />
+                    <FooterListItem text='Terms & Conditions' url='/legal#terms' />
+                    <FooterListItem text='Privacy Policy' url='/legal#privacy' />
+                    {/* <FooterListItem text='Faq' url='/faq' /> */}
                 </ul>
 
             </Pane>

@@ -24,7 +24,7 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
  return   [
         {
             title: 'Property',
-            icon: '/home.svg',
+            icon: '/home-run.svg',
             Content: <>
                 <Heading fontWeight={700} size={900}>Find your ideal home.</Heading>
                 <Paragraph fontWeight={500} size={500} marginTop="default">
@@ -49,7 +49,7 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
         },
         {
             title: 'Earn',
-            icon: '/earn.svg',
+            icon: '/wallet.svg',
             Content: <>
                 <Heading size={900}>Share property & earn commissions.</Heading>
                 <Paragraph fontWeight={500} size={500} marginTop="default">
@@ -72,7 +72,7 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
     
         {
             title: 'Advertise',
-            icon: '/advertising.svg',
+            icon: '/megaphone.svg',
             Content: <>
                 <Heading size={900}>Advertise your property on zanga.</Heading>
                 <Heading marginTop={10} size={700}>
@@ -97,6 +97,21 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
                 <Heading size={900}>Find a flat mate and split rent</Heading>
                 <Paragraph size={500} marginTop="default">
                     Size 500. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    
+            </Paragraph>
+                <Button marginTop='default' intent='danger'   height={56}>
+                    Coming Soon
+            </Button>
+            </>,
+            image: '/colet.jpg'
+        },
+        {
+            title: 'Mortgage',
+            icon: '/mortgage.svg',
+            Content: <>
+                <Heading size={900}>Mortgage</Heading>
+                <Paragraph size={500} marginTop="default">
+                Affordable Mortgage Financing  consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     
             </Paragraph>
                 <Button marginTop='default' intent='danger'   height={56}>
