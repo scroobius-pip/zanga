@@ -100,7 +100,7 @@ We will not restrict or deny you access to our services because of choices and r
 
 The security of your personal information is important to us. Thus, Myzanga.com has taken reasonable steps to help protect the personal information our users share with us in an effort to prevent loss, misuse, and unauthorized access, disclosure, alteration, and destruction.
 
-We endeavor to protect the personal information submitted to us, both during transmission and once we receive it. No method of transmission over the Internet, or method of electronic storage, is 100% secure. Therefore, we cannot guarantee its absolute security. We urge you to exercise caution when transmitting personal information over the Internet. If you have questions about security on our Web site, you can contact us at [sfdc@Myzanga.com](mailto:sfdc@Myzanga.com)
+We endeavor to protect the personal information submitted to us, both during transmission and once we receive it. No method of transmission over the Internet, or method of electronic storage, is 100% secure. Therefore, we cannot guarantee its absolute security. We urge you to exercise caution when transmitting personal information over the Internet. If you have questions about security on our Web site, you can contact us at [contact@Myzanga.com](mailto:contact@Myzanga.com)
 
 **Links to Third Party Sites**
 
@@ -132,4 +132,4 @@ Myzanga.com reserves the right to amend this Policy at our discretion and at any
 
 Myzanga.com is solely owned and operated by Sales Force Derivative Company Ltd. (SFDC) If you have any questions or comments about this Policy, the ways in which Myzanga.com collects and uses your information described in Policy, your choices and rights regarding such use, or wish to exercise your applicable rights, please do not hesitate to contact us at:
 
-**Email:** [sfdc@myzanga.com](mailto:sfdc@myzanga.com)`
+**Email:** [contact@myzanga.com](mailto:contact@myzanga.com)`

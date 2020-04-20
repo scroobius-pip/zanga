@@ -54,9 +54,9 @@ const Page = ({ user }: InitialProps) => {
 
 
 
-    return <Layout userName={user?.name} fullWidth>
+    return <Layout userName={user?.name} >
         <Heading marginBottom={10} textAlign='center' size={900}>Contact us</Heading>
-        <Paragraph textAlign='center' size={500} marginBottom={10}>Please fill the form, we usually get back within 2 business days</Paragraph>
+        <Paragraph textAlign='center' size={500} marginBottom={10}>Please fill the form or send an email to <a href='mailto:contact@myzanga.com'>contact@myzanga.com</a>, we usually get back within 2 business days</Paragraph>
         <Card marginTop={50} background='tint1' maxWidth={450} elevation={3} margin='auto' padding={25}>
 
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -111,6 +111,7 @@ const Page = ({ user }: InitialProps) => {
 
 
         </Card>
+
         {/* <div style={{ width: '100%', marginTop: 50 }}>
             <SocialIcons />
         </div> */}

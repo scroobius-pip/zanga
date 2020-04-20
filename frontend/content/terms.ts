@@ -52,6 +52,6 @@ All who are involved with and use our Web site must agree with the following add
 - Finally, you also agree to the following: These Terms of Service shall be subject to and construed in accordance with the laws of Federal Republic of Nigeria, without regard to its conflict of laws principles. If any part of these Terms of Service are determined to be invalid or unenforceable pursuant to applicable law including, but not limited to, the warranty disclaimers and liability limitations set forth above, then the invalid or unenforceable provision will be deemed superseded by a valid enforceable provision that most closely matches the intent of the original provision, and the remainder of the Agreement shall continue in effect. A printed version of this Agreement and of any notice given in electronic form shall be admissible in judicial or administrative proceedings based upon or relating to this agreement to the same extent and subject to the same conditions as other business documents and records originally generated and maintained in printed form. All rights not expressly granted herein are reserved to myzanga.com or agents Sales Force Derivative Company Ltd. (SFDC).
 - Myzanga.com is operated in compliance with the laws of the Federal Republic of Nigeria; myzanga.com is solely owned and operated by Sales Force Derivative Company Ltd. With RC No: ……………….
 
-For enquiry kind contact us via email [info@myzanga.com](mailto:info@myzanga.com)
+For enquiry kind contact us via email [contactmyzanga.com](mailto:contactmyzanga.com)
 
 `
