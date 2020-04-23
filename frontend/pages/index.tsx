@@ -14,6 +14,7 @@ import FeaturedPropertyCard from '../components/FeaturedPropertyCard'
 import {
     isMobile
 } from 'react-device-detect'
+import ClientLogos from '../components/ClientLogos'
 
 interface InitialProps {
     user?: Pick<User, 'id' | 'name'>
@@ -186,6 +187,14 @@ const Page = ({user}:InitialProps) => {
               })
           }
             </Pane>
+            <Pane  maxWidth={1200} paddingLeft={10} paddingRight={10} margin='auto' marginTop={50}>
+                <Pane  marginBottom={30} >
+                <Heading  textAlign='left' marginBottom={5} fontWeight={700} size={700}>Our Clients</Heading>
+                </Pane>
+               <ClientLogos/>
+             
+            </Pane>
+
             <Pane  maxWidth={1200} paddingLeft={10} paddingRight={10} margin='auto' marginTop={100}>
                 <Pane  marginBottom={30} >
                 <Heading  textAlign='left' marginBottom={5} fontWeight={900} size={900}>Featured Property</Heading>
