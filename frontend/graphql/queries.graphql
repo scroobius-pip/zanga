@@ -2,6 +2,22 @@ query currentRate {
   currentRate
 }
 
+query featured{
+  featuredProperties{
+      id
+    title
+    city
+    state
+    costValue
+    costType
+    images
+    description
+    owner {
+      name
+    }
+  }
+}
+
 query properties($type:CostType!) {
   properties(type:$type){
     id

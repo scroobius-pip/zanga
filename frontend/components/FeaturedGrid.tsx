@@ -1,38 +1,37 @@
 import FeaturedPropertyCard from './FeaturedPropertyCard'
 import Slider from 'react-styled-carousel-am'
-import { Pane } from 'evergreen-ui'
-import Masonry from 'react-masonry-css'
+import { Pane, Spinner } from 'evergreen-ui'
+import { useEffect, useState } from 'react'
+import { useScreenClass } from 'react-grid-system';
+import { Property } from './PropertyCard';
 
-const breakpointColumnsObj = {
-    default: 1,
-    1100: 2,
-    700: 1,
-    500: 1,
-    1200: 3,
-    1800: 3,
-    2000: 3,
-    5000: 3
+interface Properties {
+    featuredProperties: Property[]
 }
 
-export default () => {
+export default (props: Properties) => {
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        setLoading(false)
+    }, [])
+
+    const Card = ['lg', 'xl'].includes(useScreenClass()) ?
+        FeaturedPropertyCard.Large : FeaturedPropertyCard.Small
+
     return <>
 
+        {loading ? <Spinner /> : <Slider
+            cardsToShow={1}
+            showArrows={false}
+        >
+            {props.featuredProperties.map((property, i) => {
+                return <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+                    <Card {...property} key={i} />
+                </div>
 
-        <Masonry
-            breakpointCols={breakpointColumnsObj}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column">
-
-
-            {
-                ['', '', '', '', '',].map((_, i) => {
-                    return <FeaturedPropertyCard key={i} />
-
-                })
-            }
-
-
-        </Masonry>
+            })}
+        </Slider>}
 
     </>
 

@@ -3,7 +3,7 @@ export { default as GridViewCard } from './GridViewCard'
 
 export interface Property {
     id: string
-    imageUrl: string
+    images: string[]
     title: string
     location: string
     price: string

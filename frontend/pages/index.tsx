@@ -15,9 +15,13 @@ import {
     isMobile
 } from 'react-device-detect'
 import ClientLogos from '../components/ClientLogos'
+import WithUser from '../components/WithUser'
+import { Property } from '../components/PropertyCard'
+import { parseProperties } from '../functions/parseProperties'
 
 interface InitialProps {
     user?: Pick<User, 'id' | 'name'>
+    featuredProperties:Property[]
 }
 
 
@@ -140,7 +144,7 @@ const initTabs = (router:NextRouter): ContentNavProps['tabs']=> {
     ]
 }
 
-const Page = ({user}:InitialProps) => {
+const Page = ({user,featuredProperties}:InitialProps) => {
     
     const router = useRouter()
     const tabs = initTabs(router)
@@ -187,6 +191,16 @@ const Page = ({user}:InitialProps) => {
               })
           }
             </Pane>
+          
+
+            <Pane  maxWidth={1200} paddingLeft={10} paddingRight={10} margin='auto' marginTop={100}>
+                <Pane  marginBottom={30} >
+                <Heading  textAlign='left' marginBottom={5} fontWeight={900} size={900}>Featured Property</Heading>
+                <Text color={colors.grey} textAlign='left' size={600}>Trusted and beautiful properties in Nigeria</Text>
+                </Pane>
+                <FeaturedCarousel featuredProperties={featuredProperties}/>
+             
+            </Pane>
             <Pane  maxWidth={1200} paddingLeft={10} paddingRight={10} margin='auto' marginTop={50}>
                 <Pane  marginBottom={30} >
                 <Heading  textAlign='left' marginBottom={5} fontWeight={700} size={700}>Our Clients</Heading>
@@ -194,44 +208,22 @@ const Page = ({user}:InitialProps) => {
                <ClientLogos/>
              
             </Pane>
-
-            <Pane  maxWidth={1200} paddingLeft={10} paddingRight={10} margin='auto' marginTop={100}>
-                <Pane  marginBottom={30} >
-                <Heading  textAlign='left' marginBottom={5} fontWeight={900} size={900}>Featured Property</Heading>
-                <Text color={colors.grey} textAlign='left' size={600}>Trusted and beautiful properties in Nigeria</Text>
-                </Pane>
-                <FeaturedCarousel/>
-             
-            </Pane>
-
         </Pane>
       
     </Layout>
 }
 
-Page.getInitialProps = async ({ query, ...ctx }): Promise<InitialProps> => {
-    const token = getToken(ctx)
-    const client = new GraphQLClient('https://zanga-api.now.sh/graphql', {
-        headers: token.length ? {
-            authorization: 'Bearer ' + token
-        } : null
-    })
+Page.getInitialProps = async ({query,...ctx}):Promise<InitialProps> =>{
+    const client = new GraphQLClient('https://zanga-api.now.sh/graphql')
     const sdk = getSdk(client)
-
-    return {
-        user: !!token.length ? await (async () => {
-            try {
-
-                return (await sdk.me()).me
-            } catch (err) {
-                logout()
-                return null
-            }
-
-        })() : null
-    }
-
-
+try {
+    const {featuredProperties=[]} = (await sdk.featured())
+    console.log(featuredProperties)
+    return {featuredProperties:parseProperties(featuredProperties)}
+} catch (error) {
+    return {featuredProperties:[]}
+}
+  
 }
 
-export default Page
+export default WithUser(Page)

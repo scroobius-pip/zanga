@@ -250,6 +250,21 @@ export type CurrentRateQuery = (
   & Pick<Query, 'currentRate'>
 );
 
+export type FeaturedQueryVariables = {};
+
+
+export type FeaturedQuery = (
+  { __typename?: 'Query' }
+  & { featuredProperties: Array<Maybe<(
+    { __typename?: 'Property' }
+    & Pick<Property, 'id' | 'title' | 'city' | 'state' | 'costValue' | 'costType' | 'images' | 'description'>
+    & { owner: (
+      { __typename?: 'User' }
+      & Pick<User, 'name'>
+    ) }
+  )>> }
+);
+
 export type PropertiesQueryVariables = {
   type: CostType
 };
@@ -358,6 +373,23 @@ export const CurrentRateDocument = gql`
   currentRate
 }
     `;
+export const FeaturedDocument = gql`
+    query featured {
+  featuredProperties {
+    id
+    title
+    city
+    state
+    costValue
+    costType
+    images
+    description
+    owner {
+      name
+    }
+  }
+}
+    `;
 export const PropertiesDocument = gql`
     query properties($type: CostType!) {
   properties(type: $type) {
@@ -455,6 +487,9 @@ export function getSdk(client: GraphQLClient) {
     },
     currentRate(variables?: CurrentRateQueryVariables): Promise<CurrentRateQuery> {
       return client.request<CurrentRateQuery>(print(CurrentRateDocument), variables);
+    },
+    featured(variables?: FeaturedQueryVariables): Promise<FeaturedQuery> {
+      return client.request<FeaturedQuery>(print(FeaturedDocument), variables);
     },
     properties(variables: PropertiesQueryVariables): Promise<PropertiesQuery> {
       return client.request<PropertiesQuery>(print(PropertiesDocument), variables);

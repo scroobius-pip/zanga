@@ -91,7 +91,7 @@ const Page = ({ properties: initialProperties,
     }
 
     const agentTabs: TabContainerProps['tabs'] = [{
-        body: <PropertiesContainer view='grid' deletable onDelete={deleteProperty} properties={properties} />,
+        body: <PropertiesContainer view='list' deletable onDelete={deleteProperty} properties={properties} />,
 
         title: 'Properties'
     },

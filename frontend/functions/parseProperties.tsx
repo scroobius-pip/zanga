@@ -6,7 +6,7 @@ export const parseProperties = (properties: PropertiesQuery['properties']): Prop
         return {
             title: p.title,
             id: p.id,
-            imageUrl: p.images[0],
+            images: p.images,
             location: `${p.state},${p.city}`,
             price: p.costType === CostType.Rent ? `₦${price}/yr` : `₦${price}`,
             description: p.description

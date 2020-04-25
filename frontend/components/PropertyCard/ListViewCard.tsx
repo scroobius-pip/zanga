@@ -5,15 +5,9 @@ import Router from 'next/router'
 import copyPropertyLink from '../../functions/copyPropertyLink'
 import { CardProps } from './'
 
-const ListViewCard = ({ active, property: { imageUrl, title, location, price, id, description }, onClick, onDelete, refId, index }: CardProps) => {
+const ListViewCard = ({ active, property: { images, title, location, price, id, description }, onClick, onDelete, refId, index }: CardProps) => {
     return (
-        // <a
-        //     href={`/property/${id}`}
-        //     style={{
-        //         textDecoration: 'none',
-        //         outline: 'none',
-        //     }}
-        // >
+
 
         <Card
             display='flex'
@@ -41,7 +35,7 @@ const ListViewCard = ({ active, property: { imageUrl, title, location, price, id
         >
 
                 <Pane flex={2} style={{ margin: '-15px 0px -15px -15px', }}>
-                    <img style={{ objectFit: 'cover', height: '100%' }} width={'100%'} src={imageUrl} />
+                    <img style={{ objectFit: 'cover', height: '100%' }} width={'100%'} src={images[0]} />
                 </Pane>
                 <Pane flex={5} display='flex' flexDirection='column' padding={10}>
                     <Heading color={colors.grey} size={500}>{title}</Heading>

@@ -5,7 +5,7 @@ import Router from 'next/router'
 import copyPropertyLink from '../../functions/copyPropertyLink'
 
 const GridViewCard = ({ active, property:
-    { imageUrl, title, location, price, id, description, featured },
+    { images, title, location, price, id, description, featured },
     onClick,
     onDelete,
     disableButton,
@@ -39,7 +39,7 @@ const GridViewCard = ({ active, property:
                     objectFit: 'cover',
                     borderTopLeftRadius: 5,
                     borderTopRightRadius: 5
-                }} src={imageUrl} />
+                }} src={images[0]} />
             </Pane>
             <Pane padding={20} >
                 <Heading padding={2} color={colors.grey} size={500}>{title}</Heading>
