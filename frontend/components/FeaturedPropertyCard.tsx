@@ -22,6 +22,7 @@ const Small = ({ description, id, images, location, price, title }: Property) =>
                 height='100%'
                 style={{
                     borderRadius: 10,
+                    maxHeight: 200
                     // borderBottomLeftRadius: 0,
                     // borderBottomRightRadius: 0
                 }}
@@ -96,6 +97,8 @@ const Small = ({ description, id, images, location, price, title }: Property) =>
             background='white'
             borderRadius={10}
             elevation={2}
+            maxHeight={500}
+            height='100%'
         >
             <Heading fontWeight={700} size={600}>{title}</Heading>
             <Pane display='flex' alignSelf='center' justifyContent='center' marginTop={10} flexDirection='row' alignItems='center' >
@@ -103,7 +106,7 @@ const Small = ({ description, id, images, location, price, title }: Property) =>
                 <Text size={600} fontWeight={500}>{location}</Text>
             </Pane>
             <Paragraph size={500}>
-                {description}
+                {description.split('').splice(0, 300).join('')}
             </Paragraph>
             <Heading padding={2} size={700}>{price}</Heading>
         </Card>

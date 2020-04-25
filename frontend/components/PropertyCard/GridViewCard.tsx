@@ -49,8 +49,8 @@ const GridViewCard = ({ active, property:
                     {featured && <Pane style={{ backgroundColor: '#FFC82D', padding: 5, borderRadius: 2 }}>
                         <Text size={500} style={{ fontWeight: '600' }} color='white'>FEATURED</Text>
                     </Pane>}
-                    {description && <Paragraph>
-                        {description.split('').splice(0, 30).join('') + '...'}
+                    {!!description && <Paragraph>
+                        {description.split('').splice(0, 100).join('') + '...'}
                     </Paragraph>}
                     {!disableButton && < Pane >
                         <Tooltip content={onDelete ? 'Delete Property' : 'Share Property'}>

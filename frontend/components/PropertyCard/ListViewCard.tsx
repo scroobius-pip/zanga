@@ -73,7 +73,7 @@ const ListViewCard = ({ active, property: { images, title, location, price, id, 
 
                     <Paragraph
                     >
-                        {description}
+                        {description.split('').splice(1, 100).join('') + '...'}
                     </Paragraph>
 
                 </Pane>
