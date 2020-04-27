@@ -1,10 +1,7 @@
 import { useState } from 'react'
 import { Card, Pane, Heading, Paragraph, Button } from 'evergreen-ui'
 import { colors } from '../styles'
-import {
-    isMobile,
-
-} from 'react-device-detect'
+import { useScreenClass, } from 'react-grid-system'
 
 const Tab = ({ name, active = false, icon, onClick }) => {
     return <div className='tab-head'
@@ -49,6 +46,9 @@ export interface ContentNavProps {
 export default ({ onSelect, tabs }: ContentNavProps) => {
 
     const [selected, setSelected] = useState(0)
+    const screenClass = useScreenClass()
+    const isMobile = ['xs', 'sm'].includes(screenClass)
+
     const TabContent = tabs[selected].Content
 
     return <div style={{ width: '100%' }}>
@@ -87,7 +87,7 @@ export default ({ onSelect, tabs }: ContentNavProps) => {
             borderBottomLeftRadius={5}
             borderBottomRightRadius={5}
             // borderTopRightRadius={5}
-            backgroundColor={'rgba(255, 255, 255, 0.65)'}
+            backgroundColor={`rgba(255, 255, 255, ${isMobile ? 0.65 : 0.85})`}
             elevation={0}
             // background='white'
             position='relative'>

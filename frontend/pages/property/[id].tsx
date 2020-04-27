@@ -74,7 +74,7 @@ const Page = ({ property, user, referrerId }: InitialProps) => {
                     <Heading size={600} textAlign='center'>
                         Property Description
                 </Heading>
-                    <Paragraph marginTop={20} size={500} textAlign='center'>
+                    <Paragraph marginTop={20} whiteSpace='pre-wrap' size={500} textAlign='center'>
                         {property.description}
                     </Paragraph>
                 </Card>
