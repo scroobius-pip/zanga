@@ -66,8 +66,8 @@ const Page = ({ rentProperties, saleProperties, user }: InitialProps) => {
                     <Pane>
                         <Pane>
                             <Paragraph fontWeight={500} size={500} marginTop="default">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe ut possimus illo voluptatum, consectetur quae.
-                        </Paragraph>
+                                All property listed come from trusted real estate agencies nationwide.
+                            </Paragraph>
                             {/* <Paragraph size={400} >
                             You'll be contacted once it's sold
                         </Paragraph> */}
