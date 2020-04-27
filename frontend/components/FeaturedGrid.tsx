@@ -23,7 +23,9 @@ export default (props: Properties) => {
 
         {loading ? <Spinner /> : <Slider
             cardsToShow={1}
+            autoSlide={4000}
             showArrows={false}
+
         >
             {props.featuredProperties.map((property, i) => {
                 return <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
