@@ -22,6 +22,10 @@ const Tab = ({ name, active = false, icon, onClick }) => {
             .tab-head:first-child{
                 border-top-left-radius:5px;
             }
+
+            .tab-head:last-child {
+                border-top-right-radius:5px;
+            }
            
             .tab-head, .tab-head > * {
                 transition: all 0.3s ease;
@@ -87,7 +91,9 @@ export default ({ onSelect, tabs }: ContentNavProps) => {
             borderBottomLeftRadius={5}
             borderBottomRightRadius={5}
             // borderTopRightRadius={5}
-            backgroundColor={`rgba(255, 255, 255, ${isMobile ? 0.65 : 0.85})`}
+            overflowY='auto'
+            maxHeight={'70vh'}
+            backgroundColor={`rgba(255, 255, 255, ${isMobile ? 0.70 : 0.85})`}
             elevation={0}
             // background='white'
             position='relative'>
