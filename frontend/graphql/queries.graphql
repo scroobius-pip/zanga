@@ -73,6 +73,7 @@ query dashboard{
             id
             title
             city
+            description
             state
             costValue
             costType

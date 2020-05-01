@@ -320,7 +320,7 @@ export type DashboardQuery = (
     & Pick<User, 'id' | 'email' | 'phone' | 'name' | 'type'>
     & { properties: Array<(
       { __typename?: 'Property' }
-      & Pick<Property, 'id' | 'title' | 'city' | 'state' | 'costValue' | 'costType' | 'images'>
+      & Pick<Property, 'id' | 'title' | 'city' | 'description' | 'state' | 'costValue' | 'costType' | 'images'>
       & { owner: (
         { __typename?: 'User' }
         & Pick<User, 'name'>
@@ -447,6 +447,7 @@ export const DashboardDocument = gql`
       id
       title
       city
+      description
       state
       costValue
       costType
