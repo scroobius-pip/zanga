@@ -53,7 +53,7 @@ const initTabs = (router: NextRouter): ContentNavProps['tabs'] => {
                 </a> */}
                 </div>
             </>,
-            image: '/property.jpg'
+            image: 'https://ik.imagekit.io/myzanga/property_o444TeODtMI.jpg'
         },
         {
             title: 'Earn',
@@ -77,7 +77,7 @@ const initTabs = (router: NextRouter): ContentNavProps['tabs'] => {
                     Earn
             </Button>
             </>,
-            image: '/earn.jpg'
+            image: 'https://ik.imagekit.io/myzanga/earn_dgkkIMeCX.jpg'
         },
 
         {
@@ -97,7 +97,7 @@ const initTabs = (router: NextRouter): ContentNavProps['tabs'] => {
                     Contact us
                 </Button>
             </>,
-            image: '/advertising.jpg'
+            image: 'https://ik.imagekit.io/myzanga/advertise__EBIVlKO4.jpg'
         },
         {
             title: 'Colet',
@@ -115,7 +115,7 @@ const initTabs = (router: NextRouter): ContentNavProps['tabs'] => {
                     Coming Soon
             </Button>
             </>,
-            image: '/colet.jpg'
+            image: 'https://ik.imagekit.io/myzanga/colet_jXI9ipMeo.jpg'
         },
         {
             title: 'Mortgage',
@@ -133,7 +133,7 @@ const initTabs = (router: NextRouter): ContentNavProps['tabs'] => {
                     Coming Soon
             </Button>
             </>,
-            image: '/colet.jpg'
+            image: '/colet.jpghttps://ik.imagekit.io/myzanga/advertising_ZmC1JzsP9.jpg'
         },
         // {
         //     title: 'Mortgage',
