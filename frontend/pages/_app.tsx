@@ -3,6 +3,7 @@ import { colors } from '../styles'
 import '../components/masonry.css'
 import PageNProgress from 'next-styled-nprogress'
 import Head from 'next/head'
+import 'react-upload-gallery/dist/style.css'
 
 class MyApp extends App {
 
@@ -41,7 +42,7 @@ const googleAnalyticsCode = {
     `
 }
 
-export default MyApp
 
-    // export default withNProgress(1000)(MyApp)
+
+export default MyApp
 

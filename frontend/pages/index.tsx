@@ -32,14 +32,14 @@ const initTabs = (router: NextRouter): ContentNavProps['tabs'] => {
             icon: '/home-run.svg',
             Content: <>
                 <Heading fontWeight={700} size={900}>Find your ideal home.</Heading>
-                <Paragraph size={500} marginTop="default">
+                <Heading size={600} fontWeight={400} marginTop="default">
                     <ReactMarkdown
                         className='content'
                         source={properties}
 
                     />
 
-                </Paragraph>
+                </Heading>
                 <div style={{
                     width: '100%', display: 'flex', justifyContent: 'flex-end',
 
@@ -60,13 +60,13 @@ const initTabs = (router: NextRouter): ContentNavProps['tabs'] => {
             icon: '/wallet.svg',
             Content: <>
                 <Heading fontWeight={700} size={900}>Share property & earn commissions.</Heading>
-                <Paragraph size={500} marginTop="default">
+                <Heading size={600} fontWeight={400} marginTop="default">
                     <ReactMarkdown
                         className='content'
                         source={earn}
 
                     />
-                </Paragraph>
+                </Heading>
                 <Button
                     onClick={() => router.push('/earn')}
                     marginTop='default'
@@ -86,13 +86,13 @@ const initTabs = (router: NextRouter): ContentNavProps['tabs'] => {
             Content: <>
                 <Heading fontWeight={700} size={900}>Advertise your property on zanga.</Heading>
 
-                <Paragraph size={500} marginTop="default">
+                <Heading size={600} fontWeight={400} marginTop="default">
                     <ReactMarkdown
                         className='content'
                         source={advertise}
 
                     />
-                </Paragraph>
+                </Heading>
                 <Button onClick={() => router.push('/contact-us')} marginTop='default' backgroundColor={colors.primary} iconAfter='chat' height={56}>
                     Contact us
                 </Button>
@@ -104,13 +104,13 @@ const initTabs = (router: NextRouter): ContentNavProps['tabs'] => {
             icon: '/colet.svg',
             Content: <>
                 <Heading fontWeight={700} size={900}>Find Roommates and split rent</Heading>
-                <Paragraph size={500} marginTop="default">
+                <Heading size={600} fontWeight={400} marginTop="default">
                     <ReactMarkdown
                         className='content'
                         source={colet}
 
                     />
-                </Paragraph>
+                </Heading>
                 <Button marginTop='default' intent='danger' height={56}>
                     Coming Soon
             </Button>
@@ -122,18 +122,18 @@ const initTabs = (router: NextRouter): ContentNavProps['tabs'] => {
             icon: '/mortgage.svg',
             Content: <>
                 <Heading size={900}>Mortgage</Heading>
-                <Paragraph size={500} marginTop="default">
+                <Heading size={600} fontWeight={400} marginTop="default">
                     <ReactMarkdown
                         className='content'
                         source={mortgage}
 
                     />
-                </Paragraph>
+                </Heading>
                 <Button marginTop='default' intent='danger' height={56}>
                     Coming Soon
             </Button>
             </>,
-            image: '/colet.jpghttps://ik.imagekit.io/myzanga/advertising_ZmC1JzsP9.jpg'
+            image: 'https://ik.imagekit.io/myzanga/advertising_ZmC1JzsP9.jpg'
         },
         // {
         //     title: 'Mortgage',
@@ -185,7 +185,7 @@ const Page = ({ user, featuredProperties }: InitialProps) => {
 
                                 style={{
                                     position: 'absolute',
-                                    zIndex: - 10 * (i + 1),
+                                    zIndex: - 20 * (i + 1),
                                     backgroundAttachment: 'cover',
                                     opacity: t.image === image ? 1 : 0,
                                     objectFit: 'cover'

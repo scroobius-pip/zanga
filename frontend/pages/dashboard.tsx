@@ -16,6 +16,16 @@ import {
 
 import UserPointCounter, { Props as UserPointCounterProps } from '../components/UserPointCounter'
 import UserPropertyPointTable, { Props as UserPropertyPointTableProps } from '../components/UserPropertyPointTable'
+import ImageKit from 'imagekit-javascript'
+
+const imagekit = new ImageKit({
+    publicKey: "public_fLIG6j3NBbHyQujCF+a3YOjpCrs=",
+    urlEndpoint: "https://ik.imagekit.io/myzanga",
+    authenticationEndpoint: "https://y-nu.now.sh/server.js",
+})
+
+
+
 interface InitialProps {
     properties: Property[]
     userName: string
@@ -36,6 +46,25 @@ const Page = ({ properties: initialProperties,
     const [addFormVisible, setAddFormVisible] = useState(false)
     const [properties, setProperties] = useState(initialProperties)
 
+    const imagekitUpload = (file: File): Promise<{ url: string }> => {
+        return new Promise((resolve, reject) => {
+            imagekit.upload({
+                file,
+                fileName: file.name,
+                tags: [userName],
+                folder: userName
+
+            }, (err, result: { url: string }) => {
+                err ? reject('Unable to upload image') : resolve(result)
+            })
+        })
+    }
+
+    const uploadImages = async (files: File[]): Promise<string[]> => {
+        const ImageUploadPromise = files.map(imagekitUpload)
+        return (await Promise.all(ImageUploadPromise)).map(p => p.url)
+    }
+
     const addProperty = async (fields: AddPropertyFormState) => {
         try {
             console.log('token' + token)
@@ -47,12 +76,13 @@ const Page = ({ properties: initialProperties,
 
 
             const sdk = getSdk(client)
+            const imageUrls = await uploadImages(fields.imageFiles)
             const { createProperty: result } = await sdk.addProperty({
                 input: {
                     costType: CostType[fields.costType],
                     costValue: fields.costValue,
                     description: fields.description,
-                    images: fields.images,
+                    images: imageUrls,
                     location: fields.location,
                     title: fields.title,
                     featured: fields.featured

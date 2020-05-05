@@ -1,9 +1,11 @@
-import { Heading, Pane, TextInputField, SelectMenu, Button, Select, Textarea, FilePicker, toaster, TagInput, Switch } from 'evergreen-ui'
+import { Heading, Pane, TextInputField,Text, SelectMenu, Button, Select, Textarea, FilePicker, toaster, TagInput, Switch } from 'evergreen-ui'
 import { colors } from '../styles'
 import { useState, useEffect } from 'react'
 import states from './states'
-// import AWS from 'aws-sdk'
-// const Upload = require('s3-uploader')
+import ImageSelector from './ImageSelector'
+
+
+
 export interface AddPropertyFormState {
     title: string
     location: {
@@ -12,8 +14,8 @@ export interface AddPropertyFormState {
     }
     costValue: number
     costType: 'Rent' | 'Sale'
-    images: string[]
-    // imageFiles:string[]
+    // images: string[]
+    imageFiles: File[]
     featured: boolean
     description: string
 }
@@ -27,7 +29,8 @@ export default ({ submit }: Props) => {
         costType: 'Sale',
         costValue: 0,
         description: '',
-        images: [''],
+
+        imageFiles: [],
         location: {
             city: '',
             state: ''
@@ -45,9 +48,9 @@ export default ({ submit }: Props) => {
     }, [JSON.stringify(formState)])
 
     const isValid = () => {
-        const { costType, costValue, description, images, location: { city, state }, title } = formState
+        const { costType, costValue, description, imageFiles, location: { city, state }, title } = formState
 
-        return !!(costType.length && description.length && images.length && city.length && state.length && title.length)
+        return !!(costType.length && description.length && imageFiles.length && city.length && state.length && title.length)
 
     }
 
@@ -157,18 +160,6 @@ export default ({ submit }: Props) => {
                 />
             </Pane>
             <Pane>
-                <Heading marginBottom={10} alignItems='center' size={600}>Images</Heading>
-                <TagInput
-                    width='100%'
-                    inputProps={{ placeholder: 'Add Image Urls' }}
-                    values={formState.images}
-                    onChange={values => {
-                        setFormState({ ...formState, images: values.filter(v => !!v.length) })
-                    }}
-                />
-
-            </Pane>
-            <Pane>
                 <Heading marginTop={10} marginBottom={10} alignItems='center' size={600}>Featured</Heading>
                 <Switch
                     height={24}
@@ -176,6 +167,27 @@ export default ({ submit }: Props) => {
                     onChange={e => setFormState({ ...formState, featured: e.target.checked })}
                 />
             </Pane>
+            <Pane>
+                <Heading marginBottom={10} alignItems='center' size={600}>Images</Heading>
+                <Text>First image would be the main image</Text>
+                {/* <TagInput
+                    width='100%'
+                    inputProps={{ placeholder: 'Add Image Urls' }}
+                    values={formState.images}
+                    onChange={values => {
+                        setFormState({ ...formState, images: values.filter(v => !!v.length) })
+                    }}
+                /> */}
+
+                <ImageSelector
+                    onChange={(images) => {
+                        console.log(images)
+                        setFormState({ ...formState, imageFiles: images.map(i => i.file) })
+                    }}
+                />
+            </Pane>
+
+
             <Button float='right' isLoading={loading} onClick={onSubmit} disabled={!valid} iconAfter='add' marginTop={10} height={40} appearance="primary" marginRight={12} >
                 Create Property
                 </Button>
