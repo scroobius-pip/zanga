@@ -2,14 +2,12 @@
 # Current Stack
 1. Node.js
 2. Apollo Graphql Server for api serverless functions with zeit.now.sh
-3. Mongodb for database
-4. Docker for containerization
-5. Next.js for react server side rendering
-6. Twilio for notifications
-7. Prisma.io as an ORM for the mongodb database
-8. JWT Tokens for stateless authentication and authorization
-9. Typescript for javascript static type checking
-10. zeit.co for serverless hosting.
+3. Docker for containerization
+4 Next.js for react server side rendering
+5. Twilio for notifications
+6. JWT Tokens for stateless authentication and authorization
+7. Typescript for javascript static type checking
+8. zeit.co for serverless hosting.
 
 This codebase is divided into two:
 /api (for backend logic)
